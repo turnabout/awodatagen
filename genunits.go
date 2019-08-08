@@ -118,19 +118,10 @@ var unitAnimations = map[int]string {
 func init() {
 	// Initialize unitsImgData slice
 	unitsImgData = make([][][][]unitImg, len(unitTypes))
-
-	for i := range unitsImgData {
-		unitsImgData[i] = make([][][]unitImg, len(unitVariations))
-
-		for j := range unitsImgData[i] {
-			unitsImgData[i][j] = make([][]unitImg, len(unitAnimations))
-		}
-	}
 }
 
 // Generate units' spritesheet & visuals data
 func generateUnits() {
-	// fmt.Printf("%v\n", unitsImgData)
 	gatherUnitImgData()
 
 	fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].h)
@@ -161,8 +152,15 @@ func gatherUnitImgData() {
 				break
 			}
 
-			// Loop every unit animation & gather data from its images
+			// Add array for this variation to unitsImgData
+			unitsImgData[unitKey] = append(unitsImgData[unitKey], [][]unitImg{})
+
+			// Loop every variation animation
 			for animKey := range sortedAnimKeys {
+				// Add array for this animation to unitsImgData
+				unitsImgData[unitKey][varKey] = append(unitsImgData[unitKey][varKey], []unitImg{})
+
+				// Gather data from this animation's images
 				gatherAnimationData(unitKey, varKey, animKey, varDirPath + unitAnimations[animKey] + "/")
 			}
 		}
