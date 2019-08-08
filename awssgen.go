@@ -3,14 +3,19 @@ package main
 
 import (
 	"image"
-	"image/draw"
 	"image/png"
 	_ "image/png"
 	"log"
 	"os"
 	"path"
 	"runtime"
+	"sort"
 )
+
+// Object used to store all of the game's visual data
+type visualsData struct {
+	units [][]unitFrame
+}
 
 // Default name for the resulting spritesheet output
 const ssOutputDefaultName string = "spritesheet.png"
@@ -18,8 +23,11 @@ const ssOutputDefaultName string = "spritesheet.png"
 // Environment variable holding the path where the sprite sheet should be output
 const ssOutputEnvVar string = "AWO_SPRITESHEET"
 
+// Directory containing spritesheet images
+const ssImagesDirName string = "/raw_inputs"
+
 // The base path of awssgen
-var dirPath string = getDirPath()
+var baseDirPath string = getDirPath()
 
 // Grab this directory's full path
 func getDirPath() string {
@@ -34,9 +42,13 @@ func getDirPath() string {
 }
 
 func main() {
+	generateUnits()
+
+
+	/*
 	// Grab some existing images
-	img1 := getImage(dirPath + "/raw_inputs/units/AntiAir/0/1.png")
-	img2 := getImage(dirPath + "/raw_inputs/units/AntiAir/0/2.png")
+	img1 := getImage(baseDirPath + "/raw_inputs/units/AntiAir/0/1.png")
+	img2 := getImage(baseDirPath + "/raw_inputs/units/AntiAir/0/2.png")
 
 	// Create output image
 	outputImg := image.NewRGBA(image.Rectangle{
@@ -63,10 +75,11 @@ func main() {
 
 	if outputPath, envExists = os.LookupEnv(ssOutputEnvVar); !envExists {
 		// Environment variable for spritesheet output doesn't exist, output it in this directory directly
-		outputPath = dirPath + "/" + ssOutputDefaultName
+		outputPath = baseDirPath + "/" + ssOutputDefaultName
 	}
 
 	writeImage(outputPath, outputImg)
+	*/
 }
 
 // Gets the image stored at the given path
@@ -99,4 +112,18 @@ func writeImage(path string, outputImg image.Image) {
 	if png.Encode(out, outputImg) != nil {
 		log.Fatal(err)
 	}
+}
+
+// Get a slice of sorted keys from the given map
+func getMapSortedKeys(m map[int]string) []int {
+	sortedKeys := make([]int, 0)
+
+	// Add all keys from the map
+	for k := range m {
+		sortedKeys = append(sortedKeys, k)
+	}
+
+	sort.Ints(sortedKeys)
+
+	return sortedKeys
 }
