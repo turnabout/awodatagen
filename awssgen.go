@@ -7,8 +7,6 @@ import (
 	_ "image/png"
 	"log"
 	"os"
-	"path"
-	"runtime"
 	"sort"
 )
 
@@ -17,33 +15,8 @@ type visualsData struct {
 	units [][]unitFrame
 }
 
-// Default name for the resulting spritesheet output
-const ssOutputDefaultName string = "spritesheet.png"
-
-// Environment variable holding the path where the sprite sheet should be output
-const ssOutputEnvVar string = "AWO_SPRITESHEET"
-
-// Directory containing spritesheet images
-const ssImagesDirName string = "/raw_inputs"
-
-// The base path of awssgen
-var baseDirPath string = getDirPath()
-
-// Grab this directory's full path
-func getDirPath() string {
-	// Grab awssgen's directory path
-	_, filename, _, ok := runtime.Caller(0)
-
-	if !ok {
-		panic("No caller information")
-	}
-
-	return path.Dir(filename)
-}
-
 func main() {
 	generateUnits()
-
 
 	/*
 	// Grab some existing images

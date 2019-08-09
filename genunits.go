@@ -1,3 +1,4 @@
+// Generates units' sprite sheet & visual data
 package main
 
 import (
@@ -7,9 +8,6 @@ import (
 	"log"
 	"os"
 )
-
-// Directory containing units' images
-const unitsDirName string = "/units"
 
 // Unit types "enum"
 type unitType uint8
@@ -132,7 +130,7 @@ func generateUnits() {
 // Gathers data on every single image, filling out "unitsImgData"
 func gatherUnitImgData() {
 	// Get path of base directory containing unit images
-	var unitsDirPath string = baseDirPath + ssImagesDirName + unitsDirName + "/"
+	var unitsDirPath string = baseDirPath + imageInputsDirName + unitsDirName + "/"
 
 	// Get sorted keys for every unit map
 	sortedUnitKeys := getMapSortedKeys(unitTypes)
