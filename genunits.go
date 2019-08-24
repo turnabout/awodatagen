@@ -9,52 +9,6 @@ import (
     "os"
 )
 
-// Unit types "enum"
-type unitType uint8
-
-const (
-    Infantry unitType = iota
-    Mech
-    Recon
-    Tank
-    MdTank
-    NeoTank
-    APC
-    Artillery
-    Rockets
-    Missiles
-    AntiAir
-    Battleship
-    Cruiser
-    Lander
-    Sub
-    Fighter
-    Bomber
-    BattleCopter
-    TransportCopter
-)
-
-// Unit variations "enum"
-type unitVariation uint8
-
-const (
-    OS unitVariation = iota
-    BM
-    GE
-    YC
-    BH
-)
-
-// Unit animations "enum"
-type unitAnimation uint8
-
-const (
-    Idle unitAnimation = iota
-    Right
-    Up
-    Down
-)
-
 // Used to store a unit's frame's visual data within the game's sprite sheet
 type unitFrame struct {
     x, y, w, h int
