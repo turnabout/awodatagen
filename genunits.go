@@ -2,23 +2,31 @@
 package main
 
 import (
-    "fmt"
     "image"
     "io/ioutil"
     "log"
     "os"
 )
 
+// Callback function for loopUnitsImgData
+type UnitImgDataLoopFunc func(unitKey int, varKey int, animKey int)
+
 // Used to store a unit's frame's visual data within the game's sprite sheet
 type unitFrame struct {
     x, y, w, h int
 }
 
-// Used to store a unit's animation image data (image/width/height)
+// A unit's animation image data (image/width/height)
 type unitImg struct {
     img image.Image
     w int
     h int
+}
+
+// Data detailing a row of sprite images in a sprite sheet
+type rowData struct {
+    height int // Height in pixels
+    amount int // Amount of images in the row
 }
 
 // Data on every single unit image
@@ -75,10 +83,53 @@ func init() {
 // Generate units' spritesheet & visuals data
 func generateUnits() {
     gatherUnitImgData()
+    gatherRowsData()
 
-    fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].h)
-    fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].h)
-    fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].h)
+    // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].h)
+    // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].h)
+    // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].h)
+}
+
+// Gather data on every row of images in the sprite sheet
+func gatherRowsData() {
+    var rows[]rowData
+    var rowWidth, rowHeight, rowFramesAmount int
+
+    // Loop every animation in previously gathered unit image data
+    cb := func(unitKey int, varKey int, animKey int) {
+
+        // Loop every animation frame
+        for frameIndex := range unitsImgData[unitKey][varKey][animKey] {
+            frame := unitsImgData[unitKey][varKey][animKey][frameIndex]
+
+            // Check if row complete, store & reset row values if it is
+            if rowWidth+ frame.w > unitsSSWidth {
+                rows = append(rows, rowData{height: rowHeight, amount: rowFramesAmount})
+                rowWidth, rowHeight, rowFramesAmount = 0, 0, 0
+            }
+
+            // Update current row values
+            rowFramesAmount++
+            rowWidth += frame.w
+
+            if frame.h > rowHeight {
+                rowHeight = frame.h
+            }
+        }
+    }
+
+    loopStoredUnitAnimations(cb)
+}
+
+// Loop every unit animation stored in 'unitsImgData'
+func loopStoredUnitAnimations(callback UnitImgDataLoopFunc) {
+    for unitKey := range unitsImgData {
+        for varKey := range unitsImgData[unitKey] {
+            for animKey := range unitsImgData[unitKey][varKey] {
+                callback(unitKey, varKey, animKey)
+            }
+        }
+    }
 }
 
 // Gathers data on every single image, filling out "unitsImgData"
