@@ -3,6 +3,7 @@ package main
 
 import (
     "image"
+    "image/draw"
     "io/ioutil"
     "log"
     "os"
@@ -27,13 +28,31 @@ type unitImg struct {
 type rowData struct {
     height int // Height in pixels
     amount int // Amount of images in the row
+    y      int // Row's Y coordinate
 }
 
 // Data on every single unit image
-// Index 1: Unit Type
-// Index 2: Variation
-// Index 3: Animation
+// Dimension 1: Unit Type
+// Dimension 2: Variation
+// Dimension 3: Animation
+// Dimension 4: Animation Frames
 var unitsImgData[][][][]unitImg
+
+// Origin frame data (raw sprite sheet)
+// Dimensions: Same as unitsImgData
+var unitsOriginVisualData[][][][]unitFrame
+
+// Destination frame data (final, in-game used sprite sheet)
+// Dimension 1: Unit Type
+// Dimension 2: Animation
+// Dimension 3: Animation Frames
+var unitsDestVisualData[][][]unitFrame
+
+// Data on every row in the sprite sheet (row height/row frames amount)
+var rowsData[]rowData
+
+// Sprite sheet image
+var ssImg *image.RGBA
 
 // Every unit type names as indexes, and their corresponding numbered values
 var unitTypes = map[int]string {
@@ -76,24 +95,33 @@ var unitAnimations = map[int]string {
 }
 
 func init() {
-    // Initialize unitsImgData slice
+    // Initialize visual data slices
     unitsImgData = make([][][][]unitImg, len(unitTypes))
+    unitsOriginVisualData = make([][][][]unitFrame, len(unitTypes))
+    unitsDestVisualData = make([][][]unitFrame, len(unitTypes))
 }
 
 // Generate units' spritesheet & visuals data
 func generateUnits() {
     gatherUnitImgData()
-    gatherRowsData()
+    ssHeight := gatherRowsData()
+
+    // Prepare sprite sheet image
+    ssImg = image.NewRGBA(image.Rectangle{
+        Min: image.Point{X: 0, Y: 0},
+        Max: image.Point{X: unitsSSWidth, Y: ssHeight},
+    })
+
+    processSpriteSheet()
 
     // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][0].h)
     // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][1].h)
     // fmt.Printf("%d %d\n", unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].w, unitsImgData[int(Infantry)][int(OS)][int(Idle)][2].h)
 }
 
-// Gather data on every row of images in the sprite sheet
-func gatherRowsData() {
-    var rows[]rowData
-    var rowWidth, rowHeight, rowFramesAmount int
+// Gather data on every row of images in the sprite sheet. Returns full height of all rows put together
+func gatherRowsData() int {
+    var rowWidth, rowHeight, rowFramesAmount, rowY int // Current row values
 
     // Loop every animation in previously gathered unit image data
     cb := func(unitKey int, varKey int, animKey int) {
@@ -104,7 +132,8 @@ func gatherRowsData() {
 
             // Check if row complete, store & reset row values if it is
             if rowWidth+ frame.w > unitsSSWidth {
-                rows = append(rows, rowData{height: rowHeight, amount: rowFramesAmount})
+                rowsData = append(rowsData, rowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+                rowY += rowHeight
                 rowWidth, rowHeight, rowFramesAmount = 0, 0, 0
             }
 
@@ -115,6 +144,52 @@ func gatherRowsData() {
             if frame.h > rowHeight {
                 rowHeight = frame.h
             }
+        }
+    }
+
+    loopStoredUnitAnimations(cb)
+    rowsData = append(rowsData, rowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+
+    return rowY + rowHeight
+}
+
+// Process units' origin, gathering visual data & drawing the sprite sheet
+func processSpriteSheet() {
+    var currentFrameIndex int // Index of next frame to add in current row
+    var currentFrameX int     // Index of next frame to add's X
+    var currentRowIndex int   // Index of the current row we're processing
+
+    cb := func(unitKey int, varKey int, animKey int) {
+
+        // Loop every animation frame
+        for frameIndex := range unitsImgData[unitKey][varKey][animKey] {
+
+            // Jump to next row if we've reached the end
+            if currentFrameIndex >= rowsData[currentRowIndex].amount {
+                currentRowIndex++
+                currentFrameX = 0
+                currentFrameIndex = 0
+            }
+
+            frame := unitsImgData[unitKey][varKey][animKey][frameIndex]
+            rect := frame.img.Bounds()
+
+            // Get difference in height between this frame & this row
+            rowHeightDiff := rowsData[currentRowIndex].height - frame.h
+
+            // Move image to the its x/y coordinates
+            rect.Min.X += currentFrameX
+            rect.Max.X += currentFrameX
+
+            rect.Min.Y += rowsData[currentRowIndex].y + rowHeightDiff
+            rect.Max.Y += rowsData[currentRowIndex].y + rowHeightDiff
+
+            // Draw image on sprite sheet
+            draw.Draw(ssImg, rect, frame.img, image.Point{X: 0, Y: 0}, draw.Src)
+
+            // Update current row values
+            currentFrameIndex++
+            currentFrameX += frame.w
         }
     }
 
