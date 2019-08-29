@@ -13,19 +13,19 @@ import (
 type UnitImgDataLoopFunc func(unitKey int, varKey int, animKey int)
 
 // Used to store a unit's frame's visual data within the game's sprite sheet
-type unitFrame struct {
+type UnitFrame struct {
     x, y, w, h int
 }
 
 // A unit's animation image data (image/width/height)
-type unitImg struct {
+type UnitImg struct {
     img image.Image
     w int
     h int
 }
 
 // Data detailing a row of sprite images in a sprite sheet
-type rowData struct {
+type RowData struct {
     height int // Height in pixels
     amount int // Amount of images in the row
     y      int // Row's Y coordinate
@@ -36,17 +36,17 @@ type rowData struct {
 // Dimension 2: Variation
 // Dimension 3: Animation
 // Dimension 4: Animation Frames
-var unitsImgData[][][][]unitImg
+var unitsImgData[][][][]UnitImg
 
 // Origin frame data (raw sprite sheet)
 // Dimensions: Same as unitsImgData
-var unitsOriginVisualData[][][][]unitFrame
+var unitsOriginVisualData[][][][]UnitFrame
 
 // Destination frame data (final, in-game used sprite sheet)
 // Dimension 1: Unit Type
 // Dimension 2: Animation
 // Dimension 3: Animation Frames
-var unitsDestVisualData[][][]unitFrame
+var unitsDestVisualData[][][]UnitFrame
 
 // Sprite sheet image
 var unitsSSImg *image.RGBA
@@ -93,9 +93,9 @@ var unitAnimations = map[int]string {
 
 func init() {
     // Initialize visual data slices
-    unitsImgData = make([][][][]unitImg, len(unitTypes))
-    unitsOriginVisualData = make([][][][]unitFrame, len(unitTypes))
-    unitsDestVisualData = make([][][]unitFrame, len(unitTypes))
+    unitsImgData = make([][][][]UnitImg, len(unitTypes))
+    unitsOriginVisualData = make([][][][]UnitFrame, len(unitTypes))
+    unitsDestVisualData = make([][][]UnitFrame, len(unitTypes))
 }
 
 // Generate units' sprite sheet & visuals data
@@ -114,8 +114,8 @@ func generateUnits() {
 
 // Gather data on every row of images in the sprite sheet (rows height/frames amount).
 // Returns full height of all rows put together.
-func gatherRowsData() (*[]rowData, int) {
-    var rowsData[]rowData
+func gatherRowsData() (*[]RowData, int) {
+    var rowsData[]RowData
     var rowWidth, rowHeight, rowFramesAmount, rowY int // Current row values
 
     // Loop every animation in previously gathered unit image data
@@ -127,7 +127,7 @@ func gatherRowsData() (*[]rowData, int) {
 
             // Check if row complete, store & reset row values if it is
             if rowWidth+ frame.w > unitsSSWidth {
-                rowsData = append(rowsData, rowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+                rowsData = append(rowsData, RowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
                 rowY += rowHeight
                 rowWidth, rowHeight, rowFramesAmount = 0, 0, 0
             }
@@ -143,13 +143,13 @@ func gatherRowsData() (*[]rowData, int) {
     }
 
     loopStoredUnitAnimations(cb)
-    rowsData = append(rowsData, rowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+    rowsData = append(rowsData, RowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
 
     return  &rowsData, rowY + rowHeight
 }
 
 // Process units' origin, gathering visual data & drawing the sprite sheet
-func processSpriteSheet(rowsData *[]rowData) {
+func processSpriteSheet(rowsData *[]RowData) {
     var currentFrameIndex int // Index of next frame to add in current row
     var currentFrameX int     // Index of next frame to add's X
     var currentRowIndex int   // Index of the current row we're processing
@@ -226,12 +226,12 @@ func gatherUnitImgData() {
             }
 
             // Add array for this variation to unitsImgData
-            unitsImgData[unitKey] = append(unitsImgData[unitKey], [][]unitImg{})
+            unitsImgData[unitKey] = append(unitsImgData[unitKey], [][]UnitImg{})
 
             // Loop every variation animation
             for animKey := range sortedAnimKeys {
                 // Add array for this animation to unitsImgData
-                unitsImgData[unitKey][varKey] = append(unitsImgData[unitKey][varKey], []unitImg{})
+                unitsImgData[unitKey][varKey] = append(unitsImgData[unitKey][varKey], []UnitImg{})
 
                 // Gather data from this animation's images
                 gatherAnimationData(unitKey, varKey, animKey, varDirPath + unitAnimations[animKey] + "/")
@@ -255,7 +255,7 @@ func gatherAnimationData(unitKey int, varKey int, animKey int, animDir string) {
 
         unitsImgData[unitKey][varKey][animKey] = append(
             unitsImgData[unitKey][varKey][animKey],
-            unitImg {
+            UnitImg{
                 img: imageObj,
                 w: imageObj.Bounds().Max.X,
                 h: imageObj.Bounds().Max.Y,

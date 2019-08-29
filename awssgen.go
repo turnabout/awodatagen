@@ -13,7 +13,7 @@ import (
 
 // Object used to store all of the game's visual data
 type visualsData struct {
-    units [][]unitFrame
+    units [][]UnitFrame
 }
 
 func main() {
