@@ -12,23 +12,18 @@ import (
 // Callback function for loopUnitsImgData
 type UnitImgDataLoopFunc func(unitKey int, varKey int, animKey int)
 
-// Used to store a unit's frame's visual data within the game's sprite sheet
-type UnitFrame struct {
-    x, y, w, h int
-}
-
-// A unit's animation image data (image/width/height)
+// A unit's animation image data (image/width/Height)
 type UnitImg struct {
-    img image.Image
-    w int
-    h int
+    Image  image.Image
+    Width  int
+    Height int
 }
 
 // Data detailing a row of sprite images in a sprite sheet
 type RowData struct {
-    height int // Height in pixels
-    amount int // Amount of images in the row
-    y      int // Row's Y coordinate
+    Height int // Height in pixels
+    Amount int // Amount of images in the row
+    Y      int // Row's Y coordinate
 }
 
 // Data on every single unit image
@@ -40,13 +35,13 @@ var unitsImgData[][][][]UnitImg
 
 // Origin frame data (raw sprite sheet)
 // Dimensions: Same as unitsImgData
-var unitsOriginVisualData[][][][]UnitFrame
+var unitsOriginVisualData[][][][]Frame
 
 // Destination frame data (final, in-game used sprite sheet)
 // Dimension 1: Unit Type
 // Dimension 2: Animation
 // Dimension 3: Animation Frames
-var unitsDestVisualData[][][]UnitFrame
+var unitsDestVisualData[][][]Frame
 
 // Sprite sheet image
 var unitsSSImg *image.RGBA
@@ -94,13 +89,13 @@ var unitAnimations = map[int]string {
 func init() {
     // Initialize visual data slices
     unitsImgData = make([][][][]UnitImg, len(unitTypes))
-    unitsOriginVisualData = make([][][][]UnitFrame, len(unitTypes))
-    unitsDestVisualData = make([][][]UnitFrame, len(unitTypes))
+    unitsOriginVisualData = make([][][][]Frame, len(unitTypes))
+    unitsDestVisualData = make([][][]Frame, len(unitTypes))
 }
 
 // Generate units' sprite sheet & visuals data
 func generateUnits() {
-    gatherUnitImgData()
+    gatherUnitsImgData()
     rowData, ssHeight := gatherRowsData()
 
     // Prepare sprite sheet image
@@ -112,8 +107,8 @@ func generateUnits() {
     processSpriteSheet(rowData)
 }
 
-// Gather data on every row of images in the sprite sheet (rows height/frames amount).
-// Returns full height of all rows put together.
+// Gather data on every row of images in the sprite sheet (rows Height/frames Amount).
+// Returns full Height of all rows put together.
 func gatherRowsData() (*[]RowData, int) {
     var rowsData[]RowData
     var rowWidth, rowHeight, rowFramesAmount, rowY int // Current row values
@@ -126,24 +121,24 @@ func gatherRowsData() (*[]RowData, int) {
             frame := unitsImgData[unitKey][varKey][animKey][frameIndex]
 
             // Check if row complete, store & reset row values if it is
-            if rowWidth+ frame.w > unitsSSWidth {
-                rowsData = append(rowsData, RowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+            if rowWidth+ frame.Width > unitsSSWidth {
+                rowsData = append(rowsData, RowData{Height: rowHeight, Amount: rowFramesAmount, Y: rowY})
                 rowY += rowHeight
                 rowWidth, rowHeight, rowFramesAmount = 0, 0, 0
             }
 
             // Update current row values
             rowFramesAmount++
-            rowWidth += frame.w
+            rowWidth += frame.Width
 
-            if frame.h > rowHeight {
-                rowHeight = frame.h
+            if frame.Height > rowHeight {
+                rowHeight = frame.Height
             }
         }
     }
 
     loopStoredUnitAnimations(cb)
-    rowsData = append(rowsData, RowData{height: rowHeight, amount: rowFramesAmount, y: rowY})
+    rowsData = append(rowsData, RowData{Height: rowHeight, Amount: rowFramesAmount, Y: rowY})
 
     return  &rowsData, rowY + rowHeight
 }
@@ -155,36 +150,49 @@ func processSpriteSheet(rowsData *[]RowData) {
     var currentRowIndex int   // Index of the current row we're processing
 
     cb := func(unitKey int, varKey int, animKey int) {
+        // Add this unit's variation array if it doesn't already exist
+        if len(unitsOriginVisualData[unitKey]) < varKey + 1 {
+            unitsOriginVisualData[unitKey] = append(unitsOriginVisualData[unitKey], [][]Frame{})
+        }
+
+        // Add this unit's animation array
+        unitsOriginVisualData[unitKey][varKey] = append(unitsOriginVisualData[unitKey][varKey], []Frame{})
 
         // Loop every animation frame
         for frameIndex := range unitsImgData[unitKey][varKey][animKey] {
 
             // Jump to next row if we've reached the end
-            if currentFrameIndex >= (*rowsData)[currentRowIndex].amount {
+            if currentFrameIndex >= (*rowsData)[currentRowIndex].Amount {
                 currentRowIndex++
                 currentFrameX = 0
                 currentFrameIndex = 0
             }
 
             frame := unitsImgData[unitKey][varKey][animKey][frameIndex]
-            rect := frame.img.Bounds()
+            rect := frame.Image.Bounds()
 
-            // Get difference in height between this frame & this row
-            rowHeightDiff := (*rowsData)[currentRowIndex].height - frame.h
+            // Get difference in Height between this frame & this row
+            rowHeightDiff := (*rowsData)[currentRowIndex].Height - frame.Height
 
-            // Move image to the its x/y coordinates
+            // Move image to the its X/Y coordinates
             rect.Min.X += currentFrameX
             rect.Max.X += currentFrameX
 
-            rect.Min.Y += (*rowsData)[currentRowIndex].y + rowHeightDiff
-            rect.Max.Y += (*rowsData)[currentRowIndex].y + rowHeightDiff
+            rect.Min.Y += (*rowsData)[currentRowIndex].Y + rowHeightDiff
+            rect.Max.Y += (*rowsData)[currentRowIndex].Y + rowHeightDiff
 
             // Draw image on sprite sheet
-            draw.Draw(unitsSSImg, rect, frame.img, image.Point{X: 0, Y: 0}, draw.Src)
+            draw.Draw(unitsSSImg, rect, frame.Image, image.Point{X: 0, Y: 0}, draw.Src)
+
+            // Record origin data
+            unitsOriginVisualData[unitKey][varKey][animKey] = append(
+                unitsOriginVisualData[unitKey][varKey][animKey],
+                Frame{X: currentFrameX, Y: rect.Min.Y, Width: frame.Width, Height: frame.Height},
+            )
 
             // Update current row values
             currentFrameIndex++
-            currentFrameX += frame.w
+            currentFrameX += frame.Width
         }
     }
 
@@ -203,7 +211,7 @@ func loopStoredUnitAnimations(callback UnitImgDataLoopFunc) {
 }
 
 // Gathers data on every single image, filling out "unitsImgData"
-func gatherUnitImgData() {
+func gatherUnitsImgData() {
     // Get path of base directory containing unit images
     var unitsDirPath string = baseDirPath + imageInputsDirName + unitsDirName + "/"
 
@@ -256,9 +264,9 @@ func gatherAnimationData(unitKey int, varKey int, animKey int, animDir string) {
         unitsImgData[unitKey][varKey][animKey] = append(
             unitsImgData[unitKey][varKey][animKey],
             UnitImg{
-                img: imageObj,
-                w: imageObj.Bounds().Max.X,
-                h: imageObj.Bounds().Max.Y,
+                Image:  imageObj,
+                Width:  imageObj.Bounds().Max.X,
+                Height: imageObj.Bounds().Max.Y,
             },
         )
     }

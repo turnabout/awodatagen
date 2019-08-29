@@ -12,6 +12,12 @@ const ssOutputDefaultName string = "spritesheet.png"
 // Environment variable holding the path where the sprite sheet should be output
 const ssOutputEnvVar string = "AWO_SPRITESHEET"
 
+// Default name for the resulting spritesheet output
+const jsonOutputDefaultName string = "visuals.json"
+
+// Environment variable holding the path where the sprite sheet should be output
+const jsonOutputEnvVar string = "AWO_JSON"
+
 // Base directory containing all spritesheet images
 const imageInputsDirName string = "/raw_inputs"
 

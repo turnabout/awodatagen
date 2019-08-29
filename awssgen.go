@@ -2,70 +2,86 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "image"
     "image/png"
     _ "image/png"
+    "io/ioutil"
     "log"
     "os"
     "sort"
 )
 
-// Object used to store all of the game's visual data
-type visualsData struct {
-    units [][]UnitFrame
-}
-
 func main() {
     generateUnits()
+    outputJSON()
+    outputSpriteSheet()
+}
 
-    /*
-    // Grab some existing images
-    img1 := getImage(baseDirPath + "/raw_inputs/units/AntiAir/0/1.png")
-    img2 := getImage(baseDirPath + "/raw_inputs/units/AntiAir/0/2.png")
+// Output the visuals data JSON
+func outputJSON() {
 
-    // Create output image
-    outputImg := image.NewRGBA(image.Rectangle{
-        Min: image.Point{X: 0, Y: 0},
-        Max: image.Point{X: 255, Y: 255},
-    })
-
-    // Grab rectangle for both images
-    img1Rect := img1.Bounds()
-    img2Rect := img2.Bounds()
-
-    // Move image 2 to the right by 16 pixels
-    img2Rect.Min.X += 16
-    img2Rect.Max.X += 16
-
-    // Draw the two images into the output image
-    draw.Draw(outputImg, img1Rect, img1, image.Point{X: 0, Y: 0}, draw.Src)
-    draw.Draw(outputImg, img2Rect, img2, image.Point{X: 0, Y: 0}, draw.Src)
-    */
-
-    // Export the output image
-    // Use either the AWO spritesheet environment variable path or this directory as a default
-    var outputPath string
-    var envExists bool
-
-    if outputPath, envExists = os.LookupEnv(ssOutputEnvVar); !envExists {
-        // Environment variable for spritesheet output doesn't exist, output it in this directory directly
-        outputPath = baseDirPath + "/" + ssOutputDefaultName
+    // Populate visual data structure
+    units := UnitsData{
+        Origin: unitsOriginVisualData,
+        Dest: unitsDestVisualData,
     }
 
-    writeImage(outputPath, unitsSSImg)
+    visualData := VisualData{
+        Units: units,
+    }
+
+    // data, err := json.Marshal(visualData)
+    data, err := json.MarshalIndent(visualData, "", "\t")
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Use either the AWO JSON environment variable path or this directory as a default
+    var jsonOutputPath string
+    var envExists bool
+
+    if jsonOutputPath, envExists = os.LookupEnv(jsonOutputEnvVar); !envExists {
+        // Environment variable doesn't exist, output in this directory directly
+        jsonOutputPath = baseDirPath + "/" + jsonOutputDefaultName
+    }
+
+    err = ioutil.WriteFile(jsonOutputPath, data, 0644)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Printf("Output %s\n", jsonOutputPath)
+}
+
+// Output the game sprite sheet
+func outputSpriteSheet() {
+    // Use either the AWO sprite sheet environment variable path or this directory as a default
+    var ssOutputPath string
+    var envExists bool
+
+    if ssOutputPath, envExists = os.LookupEnv(ssOutputEnvVar); !envExists {
+        // Environment variable doesn't exist, output in this directory directly
+        ssOutputPath = baseDirPath + "/" + ssOutputDefaultName
+    }
+
+    writeImage(ssOutputPath, unitsSSImg)
+    fmt.Printf("Output %s\n", ssOutputPath)
 }
 
 // Gets the image stored at the given path
 func getImage(path string) image.Image {
-    // Load img file
+    // Load Image file
     imgFile, err := os.Open(path)
 
     if err != nil {
         log.Fatal(err)
     }
 
-    // Decode img
+    // Decode Image
     img, _, err := image.Decode(imgFile)
 
     if err != nil {
@@ -86,8 +102,6 @@ func writeImage(path string, outputImg image.Image) {
     if png.Encode(out, outputImg) != nil {
         log.Fatal(err)
     }
-
-    fmt.Printf("Written %s\n", path)
 }
 
 // Get a slice of sorted keys from the given map

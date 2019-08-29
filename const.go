@@ -1,10 +1,28 @@
 package main
 
+// Visual data JSON structure
+type VisualData struct {
+    Units UnitsData `json:"units"`
+}
+
+type UnitsData struct {
+    Origin [][][][]Frame `json:"origin"`
+    Dest   [][][]Frame   `json:"dest"`
+}
+
+// Used to store a frame's visual data within the game's sprite sheet
+type Frame struct {
+    X int      `json:"x"`
+    Y int      `json:"y"`
+    Width int  `json:"w"`
+    Height int `json:"h"`
+}
+
 // Unit types type/enumeration
-type unitType uint8
+type UnitType uint8
 
 const (
-    Infantry unitType = iota
+    Infantry UnitType = iota
     Mech
     Recon
     Tank
@@ -26,10 +44,10 @@ const (
 )
 
 // Unit variations type/enumeration
-type unitVariation uint8
+type UnitVariation uint8
 
 const (
-    OS unitVariation = iota
+    OS UnitVariation = iota
     BM
     GE
     YC
@@ -37,10 +55,10 @@ const (
 )
 
 // Unit animations type/enumeration
-type unitAnimation uint8
+type UnitAnimation uint8
 
 const (
-    Idle unitAnimation = iota
+    Idle UnitAnimation = iota
     Right
     Up
     Down
