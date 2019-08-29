@@ -62,4 +62,6 @@ const (
     Right
     Up
     Down
+    Left
+    Done
 )
