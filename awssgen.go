@@ -2,6 +2,7 @@
 package main
 
 import (
+    "fmt"
     "image"
     "image/png"
     _ "image/png"
@@ -40,6 +41,7 @@ func main() {
     // Draw the two images into the output image
     draw.Draw(outputImg, img1Rect, img1, image.Point{X: 0, Y: 0}, draw.Src)
     draw.Draw(outputImg, img2Rect, img2, image.Point{X: 0, Y: 0}, draw.Src)
+    */
 
     // Export the output image
     // Use either the AWO spritesheet environment variable path or this directory as a default
@@ -51,8 +53,7 @@ func main() {
         outputPath = baseDirPath + "/" + ssOutputDefaultName
     }
 
-    writeImage(outputPath, outputImg)
-    */
+    writeImage(outputPath, unitsSSImg)
 }
 
 // Gets the image stored at the given path
@@ -85,6 +86,8 @@ func writeImage(path string, outputImg image.Image) {
     if png.Encode(out, outputImg) != nil {
         log.Fatal(err)
     }
+
+    fmt.Printf("Written %s\n", path)
 }
 
 // Get a slice of sorted keys from the given map
