@@ -248,11 +248,11 @@ func gatherUnitsImgData() {
     var unitsDirPath string = baseDirPath + imageInputsDirName + unitsDirName + "/"
 
     // Loop Units
-    for unitType := FirstUnitType; unitType < UnitTypeAmount; unitType++ {
+    for unitType := FirstUnitType; unitType <= LastUnitType; unitType++ {
         unitDirPath := unitsDirPath + unitType.String() + "/"
 
         // Loop Variations of this Unit
-        for unitVar := FirstUnitVariation; unitVar < UnitVariationAmount; unitVar++ {
+        for unitVar := FirstUnitVariation; unitVar <= LastUnitVariation; unitVar++ {
             varDirPath := unitDirPath + unitVar.String() + "/"
 
             // Ignore this variation if it does not exist on this unit
@@ -264,7 +264,7 @@ func gatherUnitsImgData() {
             unitsImgData[unitType] = append(unitsImgData[unitType], [][]FrameImage{})
 
             // Loop Animations of this Variation
-            for anim := FirstUnitAnimation; anim < UnitAnimationAmount; anim++ {
+            for anim := FirstUnitAnimation; anim <= LastUnitAnimation; anim++ {
                 unitsImgData[unitType][unitVar] = append(unitsImgData[unitType][unitVar], []FrameImage{})
                 gatherAnimationData(unitType, unitVar, anim, varDirPath + anim.String() + "/")
             }

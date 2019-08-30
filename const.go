@@ -55,10 +55,11 @@ const (
     Bomber
     BattleCopter
     TransportCopter
-    UnitTypeAmount
 )
 
 const FirstUnitType = Infantry
+const LastUnitType = TransportCopter
+const UnitTypeAmount = LastUnitType + 1
 
 func (u UnitType) String() string {
     return [...]string{
@@ -93,10 +94,11 @@ const (
     GE
     YC
     BH
-    UnitVariationAmount
 )
 
 const FirstUnitVariation = OS
+const LastUnitVariation = BH
+const UnitVariationAmount = LastUnitVariation + 1
 
 func (v UnitVariation) String() string {
     return [...]string{"OS", "BM", "GE", "YC", "BH"}[v]
@@ -110,12 +112,13 @@ const (
     Right
     Up
     Down
-    UnitAnimationAmount // "Left" and "Done" don't count as base animations as they're generated in-game
     Left
     Done
 )
 
 const FirstUnitAnimation = Idle
+const LastUnitAnimation = Down // "Left" and "Done" don't count as base animations as they're generated in-game
+const UnitAnimationAmount = LastUnitAnimation + 1
 
 func (a UnitAnimation) String() string {
     return [...]string{"Idle", "Right", "Up", "Down", "Left", "Done"}[a]
