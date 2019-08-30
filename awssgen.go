@@ -10,7 +10,6 @@ import (
     "io/ioutil"
     "log"
     "os"
-    "sort"
 )
 
 func main() {
@@ -102,18 +101,4 @@ func writeImage(path string, outputImg image.Image) {
     if png.Encode(out, outputImg) != nil {
         log.Fatal(err)
     }
-}
-
-// Get a slice of sorted keys from the given map
-func getMapSortedKeys(m map[int]string) []int {
-    sortedKeys := make([]int, 0)
-
-    // Add all keys from the map
-    for k := range m {
-        sortedKeys = append(sortedKeys, k)
-    }
-
-    sort.Ints(sortedKeys)
-
-    return sortedKeys
 }

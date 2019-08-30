@@ -1,5 +1,7 @@
 package main
 
+import "image"
+
 // Visual data JSON structure
 type VisualData struct {
     Units UnitsData `json:"units"`
@@ -18,7 +20,7 @@ type Frame struct {
     Height int `json:"h"`
 }
 
-// Unit types type/enumeration
+// Unit Types
 type UnitType uint8
 
 const (
@@ -41,9 +43,36 @@ const (
     Bomber
     BattleCopter
     TransportCopter
+    UnitTypeAmount
 )
 
-// Unit variations type/enumeration
+const FirstUnitType = Infantry
+
+func (u UnitType) String() string {
+    return [...]string{
+        "Infantry",
+        "Mech",
+        "Recon",
+        "Tank",
+        "MdTank",
+        "NeoTank",
+        "APC",
+        "Artillery",
+        "Rockets",
+        "Missiles",
+        "AntiAir",
+        "Battleship",
+        "Cruiser",
+        "Lander",
+        "Sub",
+        "Fighter",
+        "Bomber",
+        "BattleCopter",
+        "TransportCopter",
+    }[u]
+}
+
+// Unit Variations
 type UnitVariation uint8
 
 const (
@@ -52,9 +81,16 @@ const (
     GE
     YC
     BH
+    UnitVariationAmount
 )
 
-// Unit animations type/enumeration
+const FirstUnitVariation = OS
+
+func (v UnitVariation) String() string {
+    return [...]string{"OS", "BM", "GE", "YC", "BH"}[v]
+}
+
+// Unit Animations
 type UnitAnimation uint8
 
 const (
@@ -62,6 +98,27 @@ const (
     Right
     Up
     Down
+    UnitAnimationAmount // "Left" and "Done" don't count as base animations as they're generated in-game
     Left
     Done
 )
+
+const FirstUnitAnimation = Idle
+
+func (a UnitAnimation) String() string {
+    return [...]string{"Idle", "Right", "Up", "Down", "Left", "Done"}[a]
+}
+
+// A frame's image data (image/width/Height)
+type FrameImage struct {
+    Image  image.Image
+    Width  int
+    Height int
+}
+
+// Data detailing a row of sprite images in a sprite sheet
+type RowData struct {
+    Height int // Height in pixels
+    Amount int // Amount of images in the row
+    Y      int // Row's Y coordinate
+}

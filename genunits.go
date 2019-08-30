@@ -12,26 +12,12 @@ import (
 // Callback function for loopUnitsImgData
 type UnitImgDataLoopFunc func(unitKey int, varKey int, animKey int)
 
-// A unit's animation image data (image/width/Height)
-type UnitImg struct {
-    Image  image.Image
-    Width  int
-    Height int
-}
-
-// Data detailing a row of sprite images in a sprite sheet
-type RowData struct {
-    Height int // Height in pixels
-    Amount int // Amount of images in the row
-    Y      int // Row's Y coordinate
-}
-
 // Data on every single unit image
 // Dimension 1: Unit Type
 // Dimension 2: Variation
 // Dimension 3: Animation
 // Dimension 4: Animation Frames
-var unitsImgData[][][][]UnitImg
+var unitsImgData[][][][]FrameImage
 
 // Origin frame data (raw sprite sheet)
 // Dimensions: Same as unitsImgData
@@ -43,54 +29,14 @@ var unitsOriginVisualData[][][][]Frame
 // Dimension 3: Animation Frames
 var unitsDestVisualData[][][]Frame
 
-// Sprite sheet image
+// Units' sprite sheet image
 var unitsSSImg *image.RGBA
-
-// Every unit type names as indexes, and their corresponding numbered values
-var unitTypes = map[int]string {
-    int(Infantry):        "Infantry",
-    int(Mech):            "Mech",
-    int(Recon):           "Recon",
-    int(Tank):            "Tank",
-    int(MdTank):          "MdTank",
-    int(NeoTank):         "NeoTank",
-    int(APC):             "APC",
-    int(Artillery):       "Artillery",
-    int(Rockets):         "Rockets",
-    int(Missiles):        "Missiles",
-    int(AntiAir):         "AntiAir",
-    int(Battleship):      "Battleship",
-    int(Cruiser):         "Cruiser",
-    int(Lander):          "Lander",
-    int(Sub):             "Sub",
-    int(Fighter):         "Fighter",
-    int(Bomber):          "Bomber",
-    int(BattleCopter):    "BattleCopter",
-    int(TransportCopter): "TransportCopter",
-}
-
-// Every unit variation names as indexes, and their corresponding numbered values
-var unitVariations = map[int]string {
-    int(OS): "OS",
-    int(BM): "BM",
-    int(GE): "GE",
-    int(YC): "YC",
-    int(BH): "BH",
-}
-
-// Every unit animation names as indexes, and their corresponding numbered values
-var unitAnimations = map[int]string {
-    int(Idle):  "Idle",
-    int(Right): "Right",
-    int(Up):    "Up",
-    int(Down):  "Down",
-}
 
 func init() {
     // Initialize visual data slices
-    unitsImgData = make([][][][]UnitImg, len(unitTypes))
-    unitsOriginVisualData = make([][][][]Frame, len(unitTypes))
-    unitsDestVisualData = make([][][]Frame, len(unitTypes))
+    unitsImgData = make([][][][]FrameImage, UnitTypeAmount)
+    unitsOriginVisualData = make([][][][]Frame, UnitTypeAmount)
+    unitsDestVisualData = make([][][]Frame, UnitTypeAmount)
 }
 
 // Generate units' sprite sheet & visuals data
@@ -289,18 +235,13 @@ func gatherUnitsImgData() {
     // Get path of base directory containing unit images
     var unitsDirPath string = baseDirPath + imageInputsDirName + unitsDirName + "/"
 
-    // Get sorted keys for every unit map
-    sortedUnitKeys := getMapSortedKeys(unitTypes)
-    sortedVarKeys := getMapSortedKeys(unitVariations)
-    sortedAnimKeys := getMapSortedKeys(unitAnimations)
+    // Loop Units
+    for unitType := FirstUnitType; unitType < UnitTypeAmount; unitType++ {
+        unitDirPath := unitsDirPath + unitType.String() + "/"
 
-    // Loop every unit in order of values from unitTypes
-    for unitKey := range sortedUnitKeys {
-        var unitDirPath string = unitsDirPath + unitTypes[unitKey] + "/"
-
-        // Loop every unit variation in order of values from unitVariations
-        for varKey := range sortedVarKeys {
-            var varDirPath string = unitDirPath + unitVariations[varKey] + "/"
+        // Loop Variations of this Unit
+        for unitVar := FirstUnitVariation; unitVar < UnitVariationAmount; unitVar++ {
+            varDirPath := unitDirPath + unitVar.String() + "/"
 
             // Ignore this variation if it does not exist on this unit
             if _, err := os.Stat(varDirPath); os.IsNotExist(err) {
@@ -308,22 +249,19 @@ func gatherUnitsImgData() {
             }
 
             // Add array for this variation to unitsImgData
-            unitsImgData[unitKey] = append(unitsImgData[unitKey], [][]UnitImg{})
+            unitsImgData[unitType] = append(unitsImgData[unitType], [][]FrameImage{})
 
-            // Loop every variation animation
-            for animKey := range sortedAnimKeys {
-                // Add array for this animation to unitsImgData
-                unitsImgData[unitKey][varKey] = append(unitsImgData[unitKey][varKey], []UnitImg{})
-
-                // Gather data from this animation's images
-                gatherAnimationData(unitKey, varKey, animKey, varDirPath + unitAnimations[animKey] + "/")
+            // Loop Animations of this Variation
+            for anim := FirstUnitAnimation; anim < UnitAnimationAmount; anim++ {
+                unitsImgData[unitType][unitVar] = append(unitsImgData[unitType][unitVar], []FrameImage{})
+                gatherAnimationData(unitType, unitVar, anim, varDirPath + anim.String() + "/")
             }
         }
     }
 }
 
 // Process a unit animation's directory, gathering all of its images' data for unitsImgData
-func gatherAnimationData(unitKey int, varKey int, animKey int, animDir string) {
+func gatherAnimationData(unitKey UnitType, varKey UnitVariation, animKey UnitAnimation, animDir string) {
     // Loop imageNames
     files, err := ioutil.ReadDir(animDir)
 
@@ -337,7 +275,7 @@ func gatherAnimationData(unitKey int, varKey int, animKey int, animDir string) {
 
         unitsImgData[unitKey][varKey][animKey] = append(
             unitsImgData[unitKey][varKey][animKey],
-            UnitImg{
+            FrameImage{
                 Image:  imageObj,
                 Width:  imageObj.Bounds().Max.X,
                 Height: imageObj.Bounds().Max.Y,
