@@ -12,25 +12,17 @@ import (
     "os"
 )
 
+var visualData = VisualData{SSMetaData: ssMetaData{}}
+
 func main() {
     generateUnits()
+
     outputJSON()
     outputSpriteSheet()
 }
 
 // Output the visuals data JSON
 func outputJSON() {
-
-    // Populate visual data structure
-    units := UnitsData{
-        Origin: unitsOriginVisualData,
-        Dest: unitsDestVisualData,
-    }
-
-    visualData := VisualData{
-        Units: units,
-    }
-
     // data, err := json.Marshal(visualData)
     data, err := json.MarshalIndent(visualData, "", "\t")
 

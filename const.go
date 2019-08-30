@@ -5,11 +5,23 @@ import "image"
 // Visual data JSON structure
 type VisualData struct {
     Units UnitsData `json:"units"`
+    SSMetaData ssMetaData `json:"ssMetaData"`
 }
 
 type UnitsData struct {
     Origin [][][][]Frame `json:"origin"`
     Dest   [][][]Frame   `json:"dest"`
+    X int `json:"x"`
+    Y int `json:"Y"`
+    Width int `json:"width"`
+    Height int `json:"height"`
+    FullWidth int `json:"fullWidth"`
+    FullHeight int `json:"fullHeight"`
+}
+
+type ssMetaData struct {
+    Width int `json:"width"`
+    Height int `json:"height"`
 }
 
 // Used to store a frame's visual data within the game's sprite sheet

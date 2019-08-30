@@ -44,18 +44,30 @@ func generateUnits() {
     gatherUnitsImgData()
 
     // Process origin visual data & sprite sheet
-    rowsData, ssHeight := gatherRowsData(false)
+    rowsData, unitsSSHeight := gatherRowsData(false)
 
     unitsSSImg = image.NewRGBA(image.Rectangle{
         Min: image.Point{X: 0, Y: 0},
-        Max: image.Point{X: unitsSSWidth, Y: ssHeight},
+        Max: image.Point{X: unitsSSWidth, Y: unitsSSHeight},
     })
 
     processOutput(rowsData, false)
 
     // Process destination visual data
-    destRowsData, _ := gatherRowsData(true)
+    destRowsData, unitsFullSSHeight := gatherRowsData(true)
     processOutput(destRowsData, true)
+
+    // Attach results to global visual data
+    visualData.Units = UnitsData{
+        Origin: unitsOriginVisualData,
+        Dest: unitsDestVisualData,
+        X: 0,
+        Y: 0,
+        Width: unitsSSWidth,
+        Height: unitsSSHeight,
+        FullWidth: unitsSSWidth,
+        FullHeight: unitsFullSSHeight,
+    }
 }
 
 // Gather data on every row of images in the sprite sheet (rows Height/frames Amount).
