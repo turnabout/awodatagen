@@ -16,6 +16,7 @@ var visualData = VisualData{SSMetaData: ssMetaData{}}
 
 func main() {
     generateUnits()
+    generateTiles()
 
     outputJSON()
     outputSpriteSheet()
