@@ -1,14 +1,5 @@
 package main
 
-import "image"
-
-// A frame's image data (image/width/Height)
-type FrameImage struct {
-    Image  image.Image
-    Width  int
-    Height int
-}
-
 // Data detailing a row of sprite images in a sprite sheet
 type RowData struct {
     Height int // Height in pixels

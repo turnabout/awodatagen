@@ -12,18 +12,23 @@ import (
     "os"
 )
 
-var visualData = VisualData{SSMetaData: ssMetaData{}}
 
 func main() {
-    generateUnits()
-    generateTiles()
+    visualData := VisualData{SSMetaData: ssMetaData{}}
 
-    outputJSON()
-    outputSpriteSheet()
+    // Process Units
+    unitsSS, unitsData := generateUnitsData()
+    visualData.Units = unitsData
+
+    // Process Tiles
+    // generateTilesData()
+
+    outputSpriteSheet(unitsSS)
+    outputJSON(&visualData)
 }
 
 // Output the visuals data JSON
-func outputJSON() {
+func outputJSON(visualData *VisualData) {
     // data, err := json.Marshal(visualData)
     data, err := json.MarshalIndent(visualData, "", "\t")
 
@@ -50,7 +55,7 @@ func outputJSON() {
 }
 
 // Output the game sprite sheet
-func outputSpriteSheet() {
+func outputSpriteSheet(ss *image.RGBA) {
     // Use either the AWO sprite sheet environment variable path or this directory as a default
     var ssOutputPath string
     var envExists bool
@@ -60,7 +65,7 @@ func outputSpriteSheet() {
         ssOutputPath = baseDirPath + "/" + ssOutputDefaultName
     }
 
-    writeImage(ssOutputPath, unitsSSImg)
+    writeImage(ssOutputPath, ss)
     fmt.Printf("Output %s\n", ssOutputPath)
 }
 

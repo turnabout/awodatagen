@@ -95,7 +95,7 @@ func init() {
 }
 
 // Generate Tiles visual data JSON & sprite sheet
-func generateTiles() {
+func generateTilesData() {
     gatherTilesImgData()
 
     for tile, tileMap := range tilesImgData {
