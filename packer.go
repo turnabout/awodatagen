@@ -14,7 +14,8 @@ type FrameImage struct {
     Width  int
     Height int
     MetaData FrameImageMetaData
-    Fit Node
+    X int
+    Y int
 }
 
 // Which Type/Var/Animation/Animation Index this Frame Image belongs to
@@ -27,13 +28,15 @@ type FrameImageMetaData struct {
 
 func (f FrameImage) String() string {
     return fmt.Sprintf(
-        "%s, %s, %s: %d x %d (%d)",
+        "%s, %s, %s [%d]: %d x %d (%d) (%d, %d)",
         UnitType(f.MetaData.Type).String(),
         UnitVariation(f.MetaData.Variation).String(),
         UnitAnimation(f.MetaData.Animation).String(),
+        f.MetaData.Index,
         f.Width,
         f.Height,
         f.Width * f.Height,
+        f.X, f.Y,
     )
 }
 
@@ -53,31 +56,51 @@ type Node struct {
     Right *Node
 }
 
-// Pack the given Frame Images into the given dimensions, filling out a sprite sheet and returning it
-func pack(frames *[]FrameImage, width int, height int) *image.RGBA {
-    root := Node{X: 0, Y: 0, Width: width, Height: height}
+// Pack Frame Images into an expanding surface, attaching Nodes specifying coordinates to every FrameImage in the list,
+// and returning it along with the packed surface's width and height
+func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
 
-    spriteSheet := image.NewRGBA(image.Rectangle{
-        Min: image.Point{X: 0, Y: 0},
-        Max: image.Point{X: width, Y: height},
-    })
+    // Max encountered X/Y (surface width/height)
+    var xMax, yMax int
+
+    var frames = *framesArg
 
     // Sort the frames in descending order of size
-    sort.Sort(SizeSorter(*frames))
+    sort.Sort(SizeSorter(frames))
 
-    for _, frame := range *frames {
-        if node, ok := findNode(&root, frame.Width, frame.Height); ok {
+    root := Node{X: 0, Y: 0, Width: (frames)[0].Width, Height: (frames)[0].Height}
+
+    for index, frame := range frames {
+        node, ok := findNode(&root, frame.Width, frame.Height)
+
+        if ok {
+            // Fits within a found node, place it here and split the node
             node = splitNode(node, frame.Width, frame.Height)
-
-            // Add image to sprite sheet at node's coordinates
-            drawFrame(&frame, node, spriteSheet)
-            fmt.Printf("%s\nGoing to: (%d, %d)\n\n", frame, node.X, node.Y)
         } else {
-            fmt.Printf("Skipped %s\n", frame)
+            // Doesn't fit within any found node, grow the node in either direction and return it
+            node, ok = growNode(&root, frame.Width, frame.Height)
+
+            if !ok {
+                fmt.Printf("Failed to fit Frame #%d\n", index)
+                continue
+            }
+        }
+
+        // Assign Node's coordinates to this Image Frame
+        frames[index].X = node.X
+        frames[index].Y = node.Y
+
+        // Update X/Y max encountered values
+        if xMax < node.X + frame.Width {
+            xMax = node.X + frame.Width
+        }
+
+        if yMax < node.Y + frame.Height {
+            yMax = node.Y + frame.Height
         }
     }
 
-    return spriteSheet
+    return &frames, xMax, yMax
 }
 
 // Find the next unused node in which the given dimensions fit
@@ -121,17 +144,102 @@ func splitNode(node *Node, width, height int) *Node {
     return node
 }
 
-// Draw a Frame Image in the given Node, onto the given sprite sheet
-func drawFrame(frame *FrameImage, node *Node, ss *image.RGBA) {
+// Grow the root node to fit a Frame Image of the given dimensions
+func growNode(root *Node, width, height int) (*Node, bool) {
+    canGrowDown := width <= root.Width
+    canGrowRight := height <= root.Height
 
+    // Attempt to keep a square-like shape by growing in the appropriate direction
+    shouldGrowRight := canGrowRight && (root.Height >= (root.Width + width))
+    shouldGrowDown := canGrowDown && (root.Width >= (root.Height + height))
+
+    if shouldGrowRight {
+        return growRight(root, width, height)
+    } else if shouldGrowDown {
+        return growDown(root, width, height)
+    } else if canGrowRight {
+        return growRight(root, width, height)
+    } else if canGrowDown {
+        return growDown(root, width, height)
+    }
+
+    return nil, false // Shouldn't happen if all Frame Images are sorted from largest to smallest
+}
+
+func growRight(root *Node, width, height int) (*Node, bool) {
+    rootCopy := *root
+
+    *root = Node{
+        Used: true,
+        X: 0,
+        Y: 0,
+        Width: rootCopy.Width + width,
+        Height: rootCopy.Height,
+        Down: &rootCopy,
+        Right: &Node{
+            X: rootCopy.Width,
+            Y: 0,
+            Width: width,
+            Height: rootCopy.Height,
+        },
+    }
+
+    if node, ok := findNode(root, width, height); ok {
+        return splitNode(node, width, height), true
+    } else {
+        return nil, false
+    }
+}
+
+func growDown(root *Node, width, height int) (*Node, bool) {
+    rootCopy := *root
+
+    *root = Node{
+        Used: true,
+        X: 0,
+        Y: 0,
+        Width: rootCopy.Width,
+        Height: rootCopy.Height + height,
+        Down: &Node{
+            X: 0,
+            Y: rootCopy.Height,
+            Width: rootCopy.Width,
+            Height: height,
+        },
+        Right: &rootCopy,
+    }
+
+    if node, ok := findNode(root, width, height); ok {
+        return splitNode(node, width, height), true
+    } else {
+        return nil, false
+    }
+}
+
+// Draw previously packed frames onto a sprite sheet
+func drawPackedFrames(frames *[]FrameImage, width, height int) *image.RGBA {
+    spriteSheet := image.NewRGBA(image.Rectangle{
+        Min: image.Point{X: 0, Y: 0},
+        Max: image.Point{X: width, Y: height},
+    })
+
+    for _, frame := range *frames {
+        drawFrame(&frame, spriteSheet)
+    }
+
+    return spriteSheet
+}
+
+// Draw a Frame Image in the given Node, onto the given sprite sheet
+func drawFrame(frame *FrameImage, ss *image.RGBA) {
     // Move image to the node's X/Y coordinates
     rect := frame.Image.Bounds()
 
-    rect.Min.X += node.X
-    rect.Max.X += node.X
+    rect.Min.X += frame.X
+    rect.Max.X += frame.X
 
-    rect.Min.Y += node.Y
-    rect.Max.Y += node.Y
+    rect.Min.Y += frame.Y
+    rect.Max.Y += frame.Y
 
     // Draw frame image onto the sprite sheet
     draw.Draw(ss, rect, frame.Image, image.Point{X: 0, Y: 0}, draw.Src)

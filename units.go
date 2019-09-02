@@ -19,17 +19,24 @@ func generateUnitsData() (*image.RGBA, UnitsData) {
     // Unit Type -> Animation -> Animation Frame
     unitsDestVisualData := make([][][]Frame, UnitTypeAmount)
 
-    // Get all units' image data, sort them in descending order of area size
-    unitFrameImages := gatherUnitsFrameImages()
-    unitsSS := pack(unitFrameImages, 500, 500)
+    // Generate origin data (sprite sheet & visual data)
+    frameImgs := gatherUnitsFrameImages()
+    packedFrameImgs, originWidth, originHeight := pack(frameImgs)
 
-    return unitsSS, UnitsData{
+
+    // TODO: Generate visual data
+
+    spriteSheet := drawPackedFrames(packedFrameImgs, originWidth, originHeight)
+
+    // TODO: Generate destination data
+
+    return spriteSheet, UnitsData{
         Origin: unitsOriginVisualData,
         Dest: unitsDestVisualData,
         X: 0,
         Y: 0,
-        Width: 0,      // TODO
-        Height: 0,     // TODO
+        Width: originWidth,
+        Height: originHeight,
         FullWidth: 0,  // TODO
         FullHeight: 0, // TODO
     }
