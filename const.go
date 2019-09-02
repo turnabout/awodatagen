@@ -1,12 +1,5 @@
 package main
 
-// Data detailing a row of sprite images in a sprite sheet
-type RowData struct {
-    Height int // Height in pixels
-    Amount int // Amount of images in the row
-    Y      int // Row's Y coordinate
-}
-
 // Visual data JSON structure
 type VisualData struct {
     Units UnitsData `json:"units"`
@@ -141,6 +134,8 @@ const (
 const FirstUnitAnimation = Idle
 const LastUnitAnimation = Down // "Left" and "Done" don't count as base animations as they're generated in-game
 const UnitAnimationAmount = LastUnitAnimation + 1
+const UnitAnimationFullAmount = Done + 1 // Full amount of unit animations, including in-game generated ones
+const UnitAnimationMaxFrames = 5 // Max amount of Frames a unit animation can have
 
 func (a UnitAnimation) String() string {
     return [...]string{"Idle", "Right", "Up", "Down", "Left", "Done"}[a]
