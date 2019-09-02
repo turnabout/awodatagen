@@ -17,7 +17,7 @@ func main() {
     visualData := VisualData{SSMetaData: ssMetaData{}}
 
     // Process Units
-    unitsSS, unitsData := generateUnitsData()
+    unitsSS, unitsData := generateUnitsData(0, 0)
     visualData.Units = unitsData
 
     // Process Tiles
@@ -29,8 +29,8 @@ func main() {
 
 // Output the visuals data JSON
 func outputJSON(visualData *VisualData) {
-    // data, err := json.Marshal(visualData)
-    data, err := json.MarshalIndent(visualData, "", "\t")
+    data, err := json.Marshal(visualData)
+    // data, err := json.MarshalIndent(visualData, "", "\t")
 
     if err != nil {
         log.Fatal(err)

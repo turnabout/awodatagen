@@ -30,10 +30,6 @@ const tilesDirName string = "/tiles"
 // Directory containing property images
 const propertiesDirName string = "/properties"
 
-// Width (in pixels) taken up by units/tiles on sprite sheet
-const unitsSSWidth int = 170
-const tilesSSWidth int = 200
-
 // The base path of this project
 var baseDirPath string = getDirPath()
 

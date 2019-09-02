@@ -8,29 +8,28 @@ import (
     "os"
 )
 
-// Generate units' sprite sheet & visuals data
-func generateUnitsData() (*image.RGBA, UnitsData) {
-
-    // Destination visual data (final, in-game sprite sheet generated for each army)
-    // Unit Type -> Animation -> Animation Frame
-    destVData := make([][][]Frame, UnitTypeAmount)
+// Generate units' sprite sheet & visuals data.
+// X/Y specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
+func generateUnitsData(x, y int) (*image.RGBA, UnitsData) {
 
     // Generate origin data (sprite sheet & visual data)
     frameImgs := gatherUnitsFrameImages()
     packedFrameImgs, originWidth, originHeight := pack(frameImgs)
     spriteSheet := drawPackedFrames(packedFrameImgs, originWidth, originHeight)
 
-    // TODO: Generate destination data
+    // Generate destination data (visual data used to generate in-game sprite sheets)
+    destFrameImgs := prepareUnitsDestFrameImages(frameImgs)
+    packedDestFrameImgs, gameWidth, gameHeight := pack(destFrameImgs)
 
     return spriteSheet, UnitsData{
         Origin: *generateOriginVData(packedFrameImgs),
-        Dest: destVData,
-        X: 0,
-        Y: 0,
+        Dest: *generateDestVData(packedDestFrameImgs),
+        X: x,
+        Y: y,
         Width: originWidth,
         Height: originHeight,
-        FullWidth: 0,  // TODO
-        FullHeight: 0, // TODO
+        GameWidth: gameWidth,
+        GameHeight: gameHeight,
     }
 }
 
@@ -91,10 +90,10 @@ func gatherAnimFrameImages(uType UnitType, uVar UnitVariation, uAnim UnitAnimati
 
 // Generate the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
 func generateOriginVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
+
     // Unit Type -> Variation -> Animation -> Animation Frames
     originVData := make([][][][]Frame, UnitTypeAmount)
 
-    // Generate visual data
     for _, frameImg := range *packedFrameImgs {
         unitType := frameImg.MetaData.Type
         unitVar := frameImg.MetaData.Variation
@@ -138,4 +137,77 @@ func generateOriginVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
     }
 
     return &originVData
+}
+
+// Generate the destination visual data (visual data for final, in-game sprite sheet generated for each army) using
+// packed Frame Images
+func generateDestVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
+
+    // Unit Type -> Animation -> Animation Frame
+    destVData := make([][][]Frame, UnitTypeAmount)
+
+    // Initialize all Animation slices
+    for unitType := range destVData {
+        destVData[unitType] = make([][]Frame, UnitAnimationFullAmount)
+    }
+
+    // Process every Frame Image, storing them into destination visual data
+    for _, frameImg := range *packedFrameImgs {
+        unitType := UnitType(frameImg.MetaData.Type)
+        unitAnim := UnitAnimation(frameImg.MetaData.Animation)
+        unitFrame := frameImg.MetaData.Index
+
+        // Get amount of missing Frames up until the Frame we're processing
+        missingFrames := (unitFrame + 1) - len(destVData[unitType][unitAnim])
+
+        // Check if this Frame Image belongs to an Animation that is mirrored and was already previously stored.
+        // If it was, it means we need to process a mirrored (extra) animation.
+        // Update the Animation to be the one it's mirroring, and get the amount of missing frames that Animation.
+        if (unitAnim == Idle || unitAnim == Right) && missingFrames < 1 && destVData[unitType][unitAnim][unitFrame].Width > 0 {
+            unitAnim += UnitExtraAnimationConvert
+            missingFrames = (unitFrame + 1) - len(destVData[unitType][unitAnim])
+        }
+
+        // Add missing Frame(s)
+        if missingFrames > 0 {
+            for i := 0; i < missingFrames; i++ {
+                destVData[unitType][unitAnim] = append(destVData[unitType][unitAnim], Frame{})
+            }
+        }
+
+        // Store data
+        destVData[unitType][unitAnim][unitFrame] = Frame{
+            X: frameImg.X,
+            Y: frameImg.Y,
+            Width: frameImg.Width,
+            Height: frameImg.Height,
+        }
+    }
+
+    return &destVData
+}
+
+// Take Frame Images and prepare them for destination visual data processing, removing Frame Images for extra variations
+// and adding Frame Images for extra Animations
+func prepareUnitsDestFrameImages(frameImgs *[]FrameImage) *[]FrameImage {
+    var resFrameImgs []FrameImage
+
+    // Filter out Frame Images belonging to Variations other than the first
+    for _, frameImg := range *frameImgs {
+        unitAnim := UnitAnimation(frameImg.MetaData.Animation)
+
+        // Ignore Unit Variations other than the first
+        if UnitVariation(frameImg.MetaData.Variation) > FirstUnitVariation {
+            continue
+        }
+
+        resFrameImgs = append(resFrameImgs, frameImg)
+
+        // If this Frame Image belongs to an Animation that is mirrored, add it a second time
+        if unitAnim == Idle || unitAnim == Right {
+            resFrameImgs = append(resFrameImgs, frameImg)
+        }
+    }
+
+    return &resFrameImgs
 }
