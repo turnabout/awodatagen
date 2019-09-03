@@ -47,6 +47,13 @@ func (f SizeSorter) Len() int           { return len(f) }
 func (f SizeSorter) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 func (f SizeSorter) Less(i, j int) bool { return (f[i].Width * f[i].Height) > (f[j].Width * f[j].Height) }
 
+// Sorts Frame Images by Meta Data Type
+type TypeSorter []FrameImage
+
+func (f TypeSorter) Len() int           { return len(f) }
+func (f TypeSorter) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
+func (f TypeSorter) Less(i, j int) bool { return f[i].MetaData.Type > f[j].MetaData.Type }
+
 // Represents a slot inside the sprite sheet that can be taken up.
 // Can be split up into and linked to further nodes, one underneath it and another to its right
 type Node struct {

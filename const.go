@@ -2,8 +2,8 @@ package main
 
 // Visual data JSON structure
 type VisualData struct {
-    Units UnitsData `json:"units"`
-    Tiles TilesData `json:"tiles"`
+    Units *UnitsData `json:"units"`
+    Tiles *TilesData `json:"tiles"`
     SSMetaData ssMetaData `json:"ssMetaData"`
 }
 
@@ -16,6 +16,7 @@ type UnitsData struct {
     Height int `json:"height"`
     GameWidth int `json:"gameWidth"`
     GameHeight int `json:"gameHeight"`
+    frameImg FrameImage
 }
 
 type TilesData struct {
@@ -25,6 +26,7 @@ type TilesData struct {
     Y int `json:"Y"`
     Width int `json:"width"`
     Height int `json:"height"`
+    frameImg FrameImage
 }
 
 type TileData struct {
@@ -363,3 +365,15 @@ func (v TileVariation) String() string {
         "=",
     }[v]
 }
+
+// Visual Data IDs for keeping an order on generated sprite sheets
+type VisualDataID uint8
+
+const(
+    VisualDataUnits VisualDataID = iota
+    VisualDataTiles
+    VisualDataProperties
+)
+
+const FirstVisualDataID = VisualDataUnits
+const LastVisualDataID = VisualDataTiles

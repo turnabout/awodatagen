@@ -1,7 +1,6 @@
 package main
 
 import (
-    "image"
     "io/ioutil"
     "log"
     "os"
@@ -80,21 +79,22 @@ var tileVarsReverseStrings = map[string]TileVariation{
 }
 
 // Generate Tiles visual data JSON & sprite sheet
-func generateTilesData(x, y int) (*image.RGBA, *TilesData) {
-
-    // Generate Frame Images data
-    frameImgs := gatherTilesFrameImages()
+func generateTilesData() *TilesData {
 
     // Generate Tiles' sprite sheet & visual data
     packedFrameImgs, width, height := pack(gatherTilesFrameImages())
 
-    return drawPackedFrames(packedFrameImgs, width, height), &TilesData{
-        Tiles: *generateTilesVData(frameImgs),
+    return &TilesData{
+        Tiles: *generateTilesVData(packedFrameImgs),
         ClockData: 0, // TODO
-        X: x,
-        Y: y,
         Width: width,
         Height: height,
+        frameImg: FrameImage{
+            Image: drawPackedFrames(packedFrameImgs, width, height),
+            Width: width,
+            Height: height,
+            MetaData: FrameImageMetaData{Type: uint8(VisualDataTiles)},
+        },
     }
 }
 
@@ -126,7 +126,7 @@ func gatherTilesFrameImages() *[]FrameImage {
 
 // Gather image data from a single level tile (variations are single images) and attach to given Frame Images
 func gatherSingleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir string, files []os.FileInfo) {
-    for index, file := range files {
+    for _, file := range files {
         // Get the Tile Variation corresponding to this image file
         tileVar := tileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
 
@@ -140,7 +140,7 @@ func gatherSingleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir 
             MetaData: FrameImageMetaData{
                 Type: uint8(tile),
                 Variation: uint8(tileVar),
-                Index: index,
+                Index: 0,
             },
         })
     }
@@ -188,6 +188,38 @@ func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
     // Initialize Variations on every TileData
     for tileType := range tilesVData {
         tilesVData[tileType].Variations = make(map[string][]Frame)
+    }
+
+    // Process Frame Images
+    for _, frameImg := range *packedFrameImgs {
+        tileType := TileType(frameImg.MetaData.Type)
+        tileVar := TileVariation(frameImg.MetaData.Variation)
+        tileFrame := frameImg.MetaData.Index
+
+        // Get the accumulated Animation slice of this Tile Type's given Variation, or initialize it
+        var animSlice []Frame
+        var ok bool
+
+        if animSlice, ok = tilesVData[tileType].Variations[tileVar.String()]; !ok {
+            animSlice = make([]Frame, 0)
+        }
+
+        // Add any Frames missing up until the one we're adding
+        if missingFrames := (tileFrame + 1) - len(animSlice); missingFrames > 0 {
+            for i := 0; i < missingFrames; i++ {
+                animSlice = append(animSlice, Frame{})
+            }
+        }
+
+        // Add the Frame data to the animation slice, and record it to the visual data
+        animSlice[tileFrame] = Frame{
+            X: frameImg.X,
+            Y: frameImg.Y,
+            Width: frameImg.Width,
+            Height: frameImg.Height,
+        }
+
+        tilesVData[tileType].Variations[tileVar.String()] = animSlice
     }
 
     return &tilesVData

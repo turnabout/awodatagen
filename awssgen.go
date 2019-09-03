@@ -10,23 +10,41 @@ import (
     "io/ioutil"
     "log"
     "os"
+    "sort"
 )
 
 
 func main() {
-    visualData := VisualData{SSMetaData: ssMetaData{}}
+    var vData = VisualData{
+        Units: generateUnitsData(),
+        Tiles: generateTilesData(),
+        SSMetaData: ssMetaData{},
+    }
 
-    // Process Units
-    _, unitsData := generateUnitsData(0, 0)
-    visualData.Units = unitsData
+    outputSpriteSheet(joinSpriteSheets(&vData))
+    outputJSON(&vData)
+}
 
-    // Process Tiles
-    tilesSS, tilesData := generateTilesData(unitsData.Width, 0)
-    visualData.Tiles = *tilesData
+// Join all sprite sheets together, update their metadata in the Visual Data and return the final, raw sprite sheet
+func joinSpriteSheets(vData *VisualData) *image.RGBA {
+    var packedFrames *[]FrameImage
 
-    // Put all sprite sheets together to make the entire raw sprite sheet TODO
-    outputSpriteSheet(tilesSS)
-    outputJSON(&visualData)
+    // Pack all the sprite sheets together to make one
+    packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height = pack(&[]FrameImage{
+        vData.Units.frameImg,
+        vData.Tiles.frameImg,
+    })
+
+    // Update sprite sheet meta data on each visual data object, after sorting the packed frames
+    sort.Sort(SizeSorter(*packedFrames))
+
+    vData.Units.X = (*packedFrames)[VisualDataUnits].X
+    vData.Units.Y = (*packedFrames)[VisualDataUnits].Y
+    vData.Tiles.X = (*packedFrames)[VisualDataTiles].X
+    vData.Tiles.Y = (*packedFrames)[VisualDataTiles].Y
+
+    // Return the final sprite sheet
+    return drawPackedFrames(packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height)
 }
 
 // Output the visuals data JSON

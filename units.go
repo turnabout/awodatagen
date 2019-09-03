@@ -2,7 +2,6 @@
 package main
 
 import (
-    "image"
     "io/ioutil"
     "log"
     "os"
@@ -10,7 +9,7 @@ import (
 
 // Generate units' sprite sheet & visuals data.
 // X/Y specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
-func generateUnitsData(x, y int) (*image.RGBA, UnitsData) {
+func generateUnitsData()  *UnitsData {
 
     // Generate origin data (data for the raw sprite sheet)
     frameImgs := gatherUnitsFrameImages()
@@ -20,15 +19,19 @@ func generateUnitsData(x, y int) (*image.RGBA, UnitsData) {
     destFrameImgs := prepareUnitsDestFrameImages(frameImgs)
     packedDestFrameImgs, gameWidth, gameHeight := pack(destFrameImgs)
 
-    return drawPackedFrames(packedFrameImgs, originWidth, originHeight), UnitsData{
+    return &UnitsData{
         Origin: *generateOriginVData(packedFrameImgs),
         Dest: *generateDestVData(packedDestFrameImgs),
-        X: x,
-        Y: y,
         Width: originWidth,
         Height: originHeight,
         GameWidth: gameWidth,
         GameHeight: gameHeight,
+        frameImg: FrameImage{
+            Image: drawPackedFrames(packedFrameImgs, originWidth, originHeight),
+            Width: originWidth,
+            Height: originHeight,
+            MetaData: FrameImageMetaData{Type: uint8(VisualDataUnits)},
+        },
     }
 }
 
