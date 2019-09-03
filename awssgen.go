@@ -21,16 +21,18 @@ func main() {
     visualData.Units = unitsData
 
     // Process Tiles
-    // generateTilesData()
+    _, tilesData := generateTilesData(unitsData.Width, 0)
+    visualData.Tiles = *tilesData
 
+    // Put all sprite sheets together to make the entire raw sprite sheet TODO
     outputSpriteSheet(unitsSS)
     outputJSON(&visualData)
 }
 
 // Output the visuals data JSON
 func outputJSON(visualData *VisualData) {
-    data, err := json.Marshal(visualData)
-    // data, err := json.MarshalIndent(visualData, "", "\t")
+    // data, err := json.Marshal(visualData)
+    data, err := json.MarshalIndent(visualData, "", "\t")
 
     if err != nil {
         log.Fatal(err)

@@ -25,8 +25,6 @@ type TilesData struct {
     Y int `json:"Y"`
     Width int `json:"width"`
     Height int `json:"height"`
-    GameWidth int `json:"gameWidth"`
-    GameHeight int `json:"gameHeight"`
 }
 
 type TileData struct {
@@ -168,9 +166,11 @@ const(
 
 const FirstBasicTileType = Plain
 const LastBasicTileType = LandPiece
+const BasicTileAmount = LastBasicTileType + 1
 
 const FirstPropertyTileType = HQ
 const LastPropertyTileType = Port
+const PropertyTileAmount = (LastPropertyTileType + 1) - BasicTileAmount
 
 func (t TileType) String() string {
     return [...]string{

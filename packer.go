@@ -28,10 +28,10 @@ type FrameImageMetaData struct {
 
 func (f FrameImage) String() string {
     return fmt.Sprintf(
-        "%s, %s, %s [%d]: %d x %d (%d) (%d, %d)",
-        UnitType(f.MetaData.Type).String(),
-        UnitVariation(f.MetaData.Variation).String(),
-        UnitAnimation(f.MetaData.Animation).String(),
+        "%s, %s, [%d]: %dx%d (%d) (%d, %d)",
+        TileType(f.MetaData.Type).String(),
+        TileVariation(f.MetaData.Variation).String(),
+        // UnitAnimation(f.MetaData.Animation).String(),
         f.MetaData.Index,
         f.Width,
         f.Height,

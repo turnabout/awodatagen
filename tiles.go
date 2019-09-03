@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
     "image"
     "io/ioutil"
     "log"
@@ -9,16 +8,6 @@ import (
     "path"
     "strings"
 )
-
-// Image data on every single tile frame
-// Dimensions: Tile Type -> Tile Variation -> Tile Variation Frames
-var tilesImgData []map[string][]FrameImage
-
-// Tiles visual data to be exported in final JSON
-var tilesVisualData []TileData
-
-// Tiles' sprite sheet image
-var tilesSSImg *image.RGBA
 
 // Map for looking up a Tile Variation using its corresponding full string
 var tileVarsReverseStrings = map[string]TileVariation{
@@ -90,23 +79,29 @@ var tileVarsReverseStrings = map[string]TileVariation{
     "Used": Used,
 }
 
-func init() {
-    tilesImgData = make([]map[string][]FrameImage, LastBasicTileType + 1)
-}
-
 // Generate Tiles visual data JSON & sprite sheet
-func generateTilesData() {
-    gatherTilesImgData()
+func generateTilesData(x, y int) (*image.RGBA, *TilesData) {
 
-    for tile, tileMap := range tilesImgData {
-        fmt.Printf("%s\n", TileType(tile).String())
-        fmt.Printf("%#v\n", tileMap)
+    // Generate Frame Images data
+    frameImgs := gatherTilesFrameImages()
+
+    // Generate Tiles' sprite sheet & visual data
+    // pack(frameImgs)
+
+    return nil, &TilesData{
+        Tiles: *generateTilesVData(frameImgs),
+        ClockData: 0, // TODO
+        X: x,
+        Y: y,
+        Width: 0, // TODO
+        Height: 0, // TODO
     }
 }
 
 // Gathers data on every single image, filling out "tilesImgData"
-func gatherTilesImgData() {
-    // Base directory containing tile images
+func gatherTilesFrameImages() *[]FrameImage {
+    var frameImgs []FrameImage
+
     tilesDir := baseDirPath + imageInputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
@@ -120,41 +115,39 @@ func gatherTilesImgData() {
 
         // Check if 1 or 2-level tile
         if files[0].IsDir() {
-            gatherDoubleLvlTileImgData(tile, tileDir, files)
+            gatherDoubleLvlTileImgData(&frameImgs, tile, tileDir, files)
         } else {
-            gatherSingleLvlTileImgData(tile, tileDir, files)
+            gatherSingleLvlTileImgData(&frameImgs, tile, tileDir, files)
         }
     }
+
+    return &frameImgs
 }
 
-// Gather image data from a single level tile (variations are single images)
-func gatherSingleLvlTileImgData(tile TileType, tileDir string, files []os.FileInfo) {
-    // Image data for all variations of this tile
-    tileVars := make(map[string][]FrameImage)
-
-    for _, file := range files {
+// Gather image data from a single level tile (variations are single images) and attach to given Frame Images
+func gatherSingleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir string, files []os.FileInfo) {
+    for index, file := range files {
         // Get the Tile Variation corresponding to this image file
         tileVar := tileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
 
         // Add this file's image data to its corresponding tile variation
         imageObj := getImage(tileDir + file.Name())
 
-        tileVars[tileVar.String()] = append(tileVars[tileVar.String()], FrameImage{
-            Image:  imageObj,
+        *frameImgs = append(*frameImgs, FrameImage{
+            Image: imageObj,
             Width:  imageObj.Bounds().Max.X,
             Height: imageObj.Bounds().Max.Y,
+            MetaData: FrameImageMetaData{
+                Type: uint8(tile),
+                Variation: uint8(tileVar),
+                Index: index,
+            },
         })
     }
-
-    // Attach all gathered tile variations image data to tilesImgData
-    tilesImgData[tile] = tileVars
 }
 
-// Gather image data from a double level tile (variations are directories of images)
-func gatherDoubleLvlTileImgData(tile TileType, tileDir string, dirs []os.FileInfo) {
-    // Image data for all variations of this tile
-    tileVars := make(map[string][]FrameImage)
-
+// Gather image data from a double level tile (variations are directories of images) and attach to given Frame Images
+func gatherDoubleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir string, dirs []os.FileInfo) {
     // Loop every variation directory
     for _, dir := range dirs {
         // Get the Tile Variation corresponding to this image file
@@ -168,18 +161,29 @@ func gatherDoubleLvlTileImgData(tile TileType, tileDir string, dirs []os.FileInf
         }
 
         // Loop every frame image of this variation
-        for _, varFile := range varFiles {
+        for index, varFile := range varFiles {
             // Add this file's image data to its corresponding tile variation
             imageObj := getImage(varDir + varFile.Name())
 
-            tileVars[tileVar.String()] = append(tileVars[tileVar.String()], FrameImage{
-                Image:  imageObj,
+            *frameImgs = append(*frameImgs, FrameImage{
+                Image: imageObj,
                 Width:  imageObj.Bounds().Max.X,
                 Height: imageObj.Bounds().Max.Y,
+                MetaData: FrameImageMetaData{
+                    Type: uint8(tile),
+                    Variation: uint8(tileVar),
+                    Index: index,
+                },
             })
         }
     }
+}
 
-    // Attach all gathered tile variations image data to tilesImgData
-    tilesImgData[tile] = tileVars
+// Generate visual data for Tiles
+func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
+
+    // Tile Type -> Tile Variation -> Tile Variation Frames
+    tilesVData := make([]TileData, BasicTileAmount)
+
+    return &tilesVData
 }
