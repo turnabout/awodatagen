@@ -13,7 +13,6 @@ import (
     "sort"
 )
 
-
 func main() {
     var vData = VisualData{
         Units: generateUnitsData(),

@@ -4,28 +4,59 @@ package main
 type VisualData struct {
     Units *UnitsData `json:"units"`
     Tiles *TilesData `json:"tiles"`
+    Properties *PropertiesData `json:"properties"`
     SSMetaData ssMetaData `json:"ssMetaData"`
+
+    AnimationSubClocks int `json:"animationSubClocks"` // TODO
+    Stages int `json:"stages"` // TODO
 }
 
 type UnitsData struct {
     Origin [][][][]Frame `json:"origin"`
     Dest   [][][]Frame   `json:"dest"`
+
     X int `json:"x"`
     Y int `json:"y"`
     Width int `json:"width"`
     Height int `json:"height"`
     GameWidth int `json:"gameWidth"`
     GameHeight int `json:"gameHeight"`
+
+    BasePalette int `json:"basePalette"` // TODO
+    Palettes int `json:"palettes"` // TODO
+    DoneAnimationOperations int `json:"doneAnimOps"` // TODO
+
     frameImg FrameImage
 }
 
 type TilesData struct {
     Tiles []TileData `json:"tiles"`
     ClockData int `json:"cData"` // TODO
+
     X int `json:"x"`
     Y int `json:"Y"`
     Width int `json:"width"`
     Height int `json:"height"`
+
+    BasePalette int `json:"basePalette"` // TODO
+    Palettes int `json:"palettes"` // TODO
+    FogOps int `json:"fogOps"` // TODO
+
+    frameImg FrameImage
+}
+
+type PropertiesData struct {
+    Origin [][]Frame `json:"origin"`
+    Dest []Frame `json:"dest"`
+
+    X int `json:"x"`
+    Y int `json:"Y"`
+    Width int `json:"width"`
+    Height int `json:"height"`
+
+    Palettes int `json:"palettes"` // TODO
+    PropLightOnColor int `json:"propLightOnColor"` // TODO
+
     frameImg FrameImage
 }
 
@@ -159,20 +190,20 @@ const(
     Silo
     BaseSmoke
     LandPiece
-    HQ
-    City
-    Base
-    Airport
-    Port
+    // HQ
+    // City
+    // Base
+    // Airport
+    // Port
 )
 
 const FirstBasicTileType = Plain
 const LastBasicTileType = LandPiece
 const BasicTileAmount = LastBasicTileType + 1
 
-const FirstPropertyTileType = HQ
-const LastPropertyTileType = Port
-const PropertyTileAmount = (LastPropertyTileType + 1) - BasicTileAmount
+// const FirstPropertyTileType = HQ
+// const LastPropertyTileType = Port
+// const PropertyTileAmount = (LastPropertyTileType + 1) - BasicTileAmount
 
 func (t TileType) String() string {
     return [...]string{
@@ -377,3 +408,18 @@ const(
 
 const FirstVisualDataID = VisualDataUnits
 const LastVisualDataID = VisualDataTiles
+
+// Property Types
+type PropertyType uint8
+
+const(
+    HQ PropertyType = iota
+    City
+    Base
+    Airport
+    Port
+)
+
+const FirstPropertyType = HQ
+const LastPropertyType = Port
+const PropertyTileAmount = LastPropertyType + 1
