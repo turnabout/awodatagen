@@ -86,15 +86,15 @@ func generateTilesData(x, y int) (*image.RGBA, *TilesData) {
     frameImgs := gatherTilesFrameImages()
 
     // Generate Tiles' sprite sheet & visual data
-    // pack(frameImgs)
+    packedFrameImgs, width, height := pack(gatherTilesFrameImages())
 
-    return nil, &TilesData{
+    return drawPackedFrames(packedFrameImgs, width, height), &TilesData{
         Tiles: *generateTilesVData(frameImgs),
         ClockData: 0, // TODO
         X: x,
         Y: y,
-        Width: 0, // TODO
-        Height: 0, // TODO
+        Width: width,
+        Height: height,
     }
 }
 
@@ -184,6 +184,11 @@ func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
     tilesVData := make([]TileData, BasicTileAmount)
+
+    // Initialize Variations on every TileData
+    for tileType := range tilesVData {
+        tilesVData[tileType].Variations = make(map[string][]Frame)
+    }
 
     return &tilesVData
 }

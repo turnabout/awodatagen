@@ -27,6 +27,9 @@ const unitsDirName string = "/units"
 // Directory containing tile images
 const tilesDirName string = "/tiles"
 
+// Size of a regular Tile
+const regularTileDimension int = 16
+
 // Directory containing property images
 const propertiesDirName string = "/properties"
 

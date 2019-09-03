@@ -17,15 +17,15 @@ func main() {
     visualData := VisualData{SSMetaData: ssMetaData{}}
 
     // Process Units
-    unitsSS, unitsData := generateUnitsData(0, 0)
+    _, unitsData := generateUnitsData(0, 0)
     visualData.Units = unitsData
 
     // Process Tiles
-    _, tilesData := generateTilesData(unitsData.Width, 0)
+    tilesSS, tilesData := generateTilesData(unitsData.Width, 0)
     visualData.Tiles = *tilesData
 
     // Put all sprite sheets together to make the entire raw sprite sheet TODO
-    outputSpriteSheet(unitsSS)
+    outputSpriteSheet(tilesSS)
     outputJSON(&visualData)
 }
 

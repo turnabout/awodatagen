@@ -12,16 +12,15 @@ import (
 // X/Y specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
 func generateUnitsData(x, y int) (*image.RGBA, UnitsData) {
 
-    // Generate origin data (sprite sheet & visual data)
+    // Generate origin data (data for the raw sprite sheet)
     frameImgs := gatherUnitsFrameImages()
     packedFrameImgs, originWidth, originHeight := pack(frameImgs)
-    spriteSheet := drawPackedFrames(packedFrameImgs, originWidth, originHeight)
 
     // Generate destination data (visual data used to generate in-game sprite sheets)
     destFrameImgs := prepareUnitsDestFrameImages(frameImgs)
     packedDestFrameImgs, gameWidth, gameHeight := pack(destFrameImgs)
 
-    return spriteSheet, UnitsData{
+    return drawPackedFrames(packedFrameImgs, originWidth, originHeight), UnitsData{
         Origin: *generateOriginVData(packedFrameImgs),
         Dest: *generateDestVData(packedDestFrameImgs),
         X: x,
