@@ -34,7 +34,7 @@ type TilesData struct {
     ClockData int `json:"cData"` // TODO
 
     X int `json:"x"`
-    Y int `json:"Y"`
+    Y int `json:"y"`
     Width int `json:"width"`
     Height int `json:"height"`
 
@@ -51,7 +51,7 @@ type PropertiesData struct {
     FogDest map[string][]Frame `json:"fogDest"`
 
     X int `json:"x"`
-    Y int `json:"Y"`
+    Y int `json:"y"`
     Width int `json:"width"`
     Height int `json:"height"`
 
