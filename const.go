@@ -75,8 +75,8 @@ type ssMetaData struct {
 type Frame struct {
     X int      `json:"x"`
     Y int      `json:"y"`
-    Width int  `json:"w"`
-    Height int `json:"h"`
+    Width int  `json:"w,omitempty"`
+    Height int `json:"h,omitempty"`
 }
 
 // Unit Types

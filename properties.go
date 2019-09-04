@@ -98,7 +98,6 @@ func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
         originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,
-            Width: frameImg.Width,
             Height: frameImg.Height,
         }
     }

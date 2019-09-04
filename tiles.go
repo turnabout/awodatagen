@@ -212,13 +212,21 @@ func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
         }
 
         // Add the Frame data to the animation slice, and record it to the visual data
-        animSlice[tileFrame] = Frame{
+        frame := Frame{
             X: frameImg.X,
             Y: frameImg.Y,
-            Width: frameImg.Width,
-            Height: frameImg.Height,
         }
 
+        // To save space in the JSON file, omit adding Width/Height if they're the regular Tile sizes
+        if frameImg.Width != regularTileDimension {
+            frame.Width = frameImg.Width
+        }
+
+        if frameImg.Height != regularTileDimension {
+            frame.Height = frameImg.Height
+        }
+
+        animSlice[tileFrame] = frame
         tilesVData[tileType].Variations[tileVar.String()] = animSlice
     }
 
