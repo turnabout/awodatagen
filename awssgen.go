@@ -17,6 +17,7 @@ func main() {
     var vData = VisualData{
         Units: generateUnitsData(),
         Tiles: generateTilesData(),
+        Properties: generatePropertiesData(),
         SSMetaData: ssMetaData{},
     }
 
@@ -32,6 +33,7 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height = pack(&[]FrameImage{
         vData.Units.frameImg,
         vData.Tiles.frameImg,
+        vData.Properties.frameImg,
     })
 
     // Update sprite sheet meta data on each visual data object, after sorting the packed frames
@@ -41,6 +43,8 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     vData.Units.Y = (*packedFrames)[VisualDataUnits].Y
     vData.Tiles.X = (*packedFrames)[VisualDataTiles].X
     vData.Tiles.Y = (*packedFrames)[VisualDataTiles].Y
+    vData.Properties.X = (*packedFrames)[VisualDataProperties].X
+    vData.Properties.Y = (*packedFrames)[VisualDataProperties].Y
 
     // Return the final sprite sheet
     return drawPackedFrames(packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height)

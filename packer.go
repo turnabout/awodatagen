@@ -28,10 +28,10 @@ type FrameImageMetaData struct {
 
 func (f FrameImage) String() string {
     return fmt.Sprintf(
-        "%s, %s, [%d]: %dx%d (%d) (%d, %d)",
-        TileType(f.MetaData.Type).String(),
-        TileVariation(f.MetaData.Variation).String(),
-        // UnitAnimation(f.MetaData.Animation).String(),
+        "%s, %s, %s, [%d]: %dx%d (%d) (%d, %d)",
+        PropertyType(f.MetaData.Type).String(),
+        PropertyWeatherVariation(f.MetaData.Variation).String(),
+        UnitVariation(f.MetaData.Animation).String(),
         f.MetaData.Index,
         f.Width,
         f.Height,
@@ -70,7 +70,12 @@ func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
     // Max encountered X/Y (surface width/height)
     var xMax, yMax int
 
-    var frames = *framesArg
+    if len(*framesArg) < 1 {
+        return &[]FrameImage{}, 0, 0
+    }
+
+    frames := make([]FrameImage, len(*framesArg))
+    copy(frames, *framesArg)
 
     // Sort the frames in descending order of size
     sort.Sort(SizeSorter(frames))

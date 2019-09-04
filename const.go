@@ -46,8 +46,9 @@ type TilesData struct {
 }
 
 type PropertiesData struct {
-    Origin [][]Frame `json:"origin"`
-    Dest []Frame `json:"dest"`
+    Origin [][][]Frame `json:"origin"`
+    Dest map[string][]Frame `json:"dest"`
+    FogDest map[string][]Frame `json:"fogDest"`
 
     X int `json:"x"`
     Y int `json:"Y"`
@@ -420,6 +421,35 @@ const(
     Port
 )
 
+func (p PropertyType) String() string {
+    return [...]string{
+        "HQ",
+        "City",
+        "Base",
+        "Airport",
+        "Port",
+    }[p]
+}
+
 const FirstPropertyType = HQ
 const LastPropertyType = Port
 const PropertyTileAmount = LastPropertyType + 1
+
+// Property Weather Variations
+type PropertyWeatherVariation uint8
+
+const(
+    Clear PropertyWeatherVariation = iota
+    Snow
+)
+
+func (p PropertyWeatherVariation) String() string {
+    return [...]string{
+        "Clear",
+        "Snow",
+    }[p]
+}
+
+const FirstPropertyWeatherVariation = Clear
+const LastPropertyWeatherVariation = Snow
+const PropertyWeatherVariationAmount = Snow + 1
