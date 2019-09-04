@@ -47,13 +47,15 @@ type TilesData struct {
 
 type PropertiesData struct {
     Origin [][][]Frame `json:"origin"`
-    Dest map[string][]Frame `json:"dest"`
-    FogDest map[string][]Frame `json:"fogDest"`
+    Dest [][][]Frame `json:"dest"`
+    FogDest [][]Frame `json:"fogDest"`
 
     X int `json:"x"`
     Y int `json:"y"`
     Width int `json:"width"`
     Height int `json:"height"`
+    DestWidth int `json:"destWidth"`
+    DestHeight int `json:"destWeight"`
 
     Palettes int `json:"palettes"` // TODO
     PropLightOnColor int `json:"propLightOnColor"` // TODO
