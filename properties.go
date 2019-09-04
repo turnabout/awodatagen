@@ -68,13 +68,40 @@ func gatherPropsFrameImages() *[]FrameImage {
     return &frameImgs
 }
 
-
 // Generate the visual data for Properties' origin
 func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
     // Weather Variation -> Property Type -> Unit Variation
-    originVData := make([][][]Frame, UnitTypeAmount)
+    originVData := make([][][]Frame, PropertyWeatherVariationAmount)
 
+    // Initialize Property Type arrays
+    for weatherVar := range originVData {
+        originVData[weatherVar] = make([][]Frame, PropertyTypeAmount)
+
+        // Initialize Unit Variation arrays
+        for propType := range originVData[weatherVar] {
+            var unitVarAmount int
+
+            // HQ Properties have all Unit Variations, while other properties only have one
+            if PropertyType(propType) == HQ {
+                unitVarAmount = int(UnitVariationAmount)
+            } else {
+                unitVarAmount = 1
+            }
+
+            originVData[weatherVar][propType] = make([]Frame, unitVarAmount)
+        }
+    }
+
+    // Fill out Origin visual data
+    for _, frameImg := range *packedFrameImgs {
+        originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
+            X: frameImg.X,
+            Y: frameImg.Y,
+            Width: frameImg.Width,
+            Height: frameImg.Height,
+        }
+    }
 
     return &originVData
 }

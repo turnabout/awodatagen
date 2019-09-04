@@ -19,6 +19,7 @@ type FrameImage struct {
 }
 
 // Which Type/Var/Animation/Animation Index this Frame Image belongs to
+// TODO: Rename/reorganize
 type FrameImageMetaData struct {
     Type uint8
     Variation uint8

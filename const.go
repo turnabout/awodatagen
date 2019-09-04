@@ -433,7 +433,7 @@ func (p PropertyType) String() string {
 
 const FirstPropertyType = HQ
 const LastPropertyType = Port
-const PropertyTileAmount = LastPropertyType + 1
+const PropertyTypeAmount = LastPropertyType + 1
 
 // Property Weather Variations
 type PropertyWeatherVariation uint8
