@@ -130,30 +130,15 @@ func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 }
 
 // Generate the visual data for Properties' destination
-func generatePropsDestVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
+func generatePropsDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
 
-    // Property Type -> Unit Variation -> Animation Frames
-    destVData := make([][][]Frame, PropertyTypeAmount)
-
-    // Initialize property type arrays
-    for propType := range destVData {
-
-        var unitVarAmount int
-
-        // HQ Properties have all Unit Variations, while other properties only have one
-        if PropertyType(propType) == HQ {
-            unitVarAmount = int(UnitVariationAmount)
-        } else {
-            unitVarAmount = 1
-        }
-
-        destVData[propType] = make([][]Frame, unitVarAmount)
-    }
+    // Property Type -> Animation Frames
+    destVData := make([][]Frame, PropertyTypeAmount)
 
     // Fill out Destination visual data
     for _, frameImg := range *packedFrameImgs {
-        destVData[frameImg.MetaData.Type][frameImg.MetaData.Animation] = append(
-            destVData[frameImg.MetaData.Type][frameImg.MetaData.Animation],
+        destVData[frameImg.MetaData.Type] = append(
+            destVData[frameImg.MetaData.Type],
             Frame{
                 X: frameImg.X,
                 Y: frameImg.Y,

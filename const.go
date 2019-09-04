@@ -47,7 +47,7 @@ type TilesData struct {
 
 type PropertiesData struct {
     Origin [][][]Frame `json:"origin"`
-    Dest [][][]Frame `json:"dest"`
+    Dest [][]Frame `json:"dest"`
     FogDest [][]Frame `json:"fogDest"`
 
     X int `json:"x"`
