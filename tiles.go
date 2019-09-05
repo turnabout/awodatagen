@@ -104,7 +104,7 @@ func getTilesData() *TilesData {
 func getTilesSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
-    tilesDir := baseDirPath + imageInputsDirName + tilesDirName + "/"
+    tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
     for tile := FirstBasicTileType; tile <= LastBasicTileType; tile++ {

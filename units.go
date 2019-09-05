@@ -39,7 +39,7 @@ func getUnitsData()  *UnitsData {
 func getUnitsSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
-    unitsDir := baseDirPath + imageInputsDirName + unitsDirName + "/"
+    unitsDir := baseDirPath + inputsDirName + unitsDirName + "/"
 
     // Loop Units
     for unitType := FirstUnitType; unitType <= LastUnitType; unitType++ {

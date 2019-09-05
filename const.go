@@ -59,8 +59,8 @@ type PropertiesData struct {
     FogDstWidth  int `json:"fogDstWidth"`
     FogDstHeight int `json:"fogDstHeight"`
 
-    Palettes int `json:"palettes"` // TODO
-    PropLightOnColor int `json:"propLightOnColor"` // TODO
+    Palettes           []map[string]RGB `json:"palettes"`
+    PropsLightsOnColor RGB              `json:"propLightOnColor"` // Color for properties' "lights on" version
 
     frameImg FrameImage
 }
@@ -457,3 +457,6 @@ func (p PropertyWeatherVariation) String() string {
 const FirstPropertyWeatherVariation = Clear
 const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
+
+// Array representing an RGB pixel value
+type RGB [3]uint8

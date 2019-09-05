@@ -10,6 +10,7 @@ import (
     "io/ioutil"
     "log"
     "os"
+    "regexp"
     "sort"
 )
 
@@ -120,6 +121,23 @@ func writeImage(path string, outputImg image.Image) {
     }
 
     if png.Encode(out, outputImg) != nil {
+        log.Fatal(err)
+    }
+}
+
+// Attach the JSON data at the given file path and stores the result in the value pointed to by v
+func attachJSONData(jsonPath string , v interface{}) {
+    data, err := ioutil.ReadFile(jsonPath)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Make Regexp used to remove comments
+    re := regexp.MustCompile(`//.*`)
+
+    // Unmarshal and store the result
+    if err := json.Unmarshal(re.ReplaceAll(data, []byte("")), v); err != nil {
         log.Fatal(err)
     }
 }

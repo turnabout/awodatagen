@@ -19,7 +19,7 @@ func generatePropertiesData() *PropertiesData {
     fogFrameImgs := getPropsFogDstFrameImgs(srcFrameImgs)
     packedFogFrameImgs, fogWidth, fogHeight := pack(fogFrameImgs)
 
-    return &PropertiesData{
+    vData := PropertiesData{
         Src:    *getPropsSrcVData(packedSrcFrameImgs),
         Dst:    *getPropsDstVData(packedDstFrameImgs),
         FogDst: *getPropsFogDstVData(packedFogFrameImgs),
@@ -38,13 +38,17 @@ func generatePropertiesData() *PropertiesData {
             MetaData: FrameImageMetaData{Type: uint8(VisualDataProperties)},
         },
     }
+
+    attachExtraPropsVData(&vData)
+
+    return &vData
 }
 
 // Gather Frame Images for Properties' source
 func getPropsSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
-    propsDir := baseDirPath + imageInputsDirName + propertiesDirName + "/"
+    propsDir := baseDirPath + inputsDirName + propertiesDirName + "/"
 
     // Loop Weather Variations
     for weatherVar := FirstPropertyWeatherVariation; weatherVar <= LastPropertyWeatherVariation; weatherVar++ {
@@ -201,4 +205,12 @@ func getPropsFogDstVData(packedFrameImgs *[]FrameImage) *[][]Frame {
     }
 
     return &destVData
+}
+
+// Attach extra visual data stored away in JSON files
+func attachExtraPropsVData(vData *PropertiesData) {
+    basePropsDir := baseDirPath + inputsDirName + propertiesDirName
+
+    attachJSONData(basePropsDir + palettesFileName, &vData.Palettes)
+    attachJSONData(basePropsDir + propsLightsOnColor, &vData.PropsLightsOnColor)
 }
