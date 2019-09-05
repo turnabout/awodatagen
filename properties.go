@@ -1,3 +1,4 @@
+// Generates Properties' visual data
 package main
 
 import (

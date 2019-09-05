@@ -1,3 +1,4 @@
+// Generates Tiles' visual data
 package main
 
 import (

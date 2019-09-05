@@ -1,4 +1,4 @@
-// Generates units' sprite sheet & visual data
+// Generates Units' visual data
 package main
 
 import (
