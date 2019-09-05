@@ -9,7 +9,7 @@ func main() {
     var vData = VisualData{
         Units:      getUnitsData(),
         Tiles:      getTilesData(),
-        Properties: generatePropertiesData(),
+        Properties: getPropertiesData(),
         SSMetaData: ssMetaData{},
     }
 

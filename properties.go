@@ -6,7 +6,7 @@ import (
 )
 
 // Generate properties' sprite sheet & visual data
-func generatePropertiesData() *PropertiesData {
+func getPropertiesData() *PropertiesData {
 
     // Get source frame images
     srcFrameImgs := getPropsSrcFrameImgs()
