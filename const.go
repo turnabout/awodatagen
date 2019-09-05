@@ -12,15 +12,15 @@ type VisualData struct {
 }
 
 type UnitsData struct {
-    Origin [][][][]Frame `json:"origin"`
-    Dest   [][][]Frame   `json:"dest"`
+    Src [][][][]Frame `json:"src"`
+    Dst [][][]Frame   `json:"dst"`
 
-    X int `json:"x"`
-    Y int `json:"y"`
-    Width int `json:"width"`
-    Height int `json:"height"`
-    GameWidth int `json:"gameWidth"`
-    GameHeight int `json:"gameHeight"`
+    SrcX      int `json:"srcX"`
+    SrcY      int `json:"srcY"`
+    SrcWidth  int `json:"srcWidth"`
+    SrcHeight int `json:"srcHeight"`
+    DstWidth  int `json:"dstWidth"`
+    DstHeight int `json:"dstHeight"`
 
     BasePalette int `json:"basePalette"` // TODO
     Palettes int `json:"palettes"` // TODO
@@ -30,13 +30,13 @@ type UnitsData struct {
 }
 
 type TilesData struct {
-    Tiles []TileData `json:"tiles"`
-    ClockData int `json:"cData"` // TODO
+    Src       []TileData `json:"src"`
+    ClockData int        `json:"cData"` // TODO
 
-    X int `json:"x"`
-    Y int `json:"y"`
-    Width int `json:"width"`
-    Height int `json:"height"`
+    SrcX      int `json:"srcX"`
+    SrcY      int `json:"srcY"`
+    SrcWidth  int `json:"srcWidth"`
+    SrcHeight int `json:"srcHeight"`
 
     BasePalette int `json:"basePalette"` // TODO
     Palettes int `json:"palettes"` // TODO
@@ -46,18 +46,18 @@ type TilesData struct {
 }
 
 type PropertiesData struct {
-    Origin [][][]Frame `json:"origin"`
-    Dest [][]Frame `json:"dest"`
-    FogDest [][]Frame `json:"fogDest"`
+    Src    [][][]Frame `json:"src"`
+    Dst    [][]Frame   `json:"dst"`
+    FogDst [][]Frame   `json:"fogDst"`
 
-    X int `json:"x"`
-    Y int `json:"y"`
-    Width int `json:"width"`
-    Height int `json:"height"`
-    DestWidth int `json:"destWidth"`
-    DestHeight int `json:"destWeight"`
-    FogWidth int `json:"fogWidth"`
-    FogHeight int `json:"fogWeight"`
+    SrcX         int `json:"srcX"`
+    SrcY         int `json:"srcY"`
+    SrcWidth     int `json:"srcWidth"`
+    SrcHeight    int `json:"srcHeight"`
+    DstWidth     int `json:"dstWidth"`
+    DstHeight    int `json:"dstHeight"`
+    FogDstWidth  int `json:"fogDstWidth"`
+    FogDstHeight int `json:"fogDstHeight"`
 
     Palettes int `json:"palettes"` // TODO
     PropLightOnColor int `json:"propLightOnColor"` // TODO
@@ -356,8 +356,8 @@ func (v TileVariation) String() string {
         "U",
         "V",
         "W",
-        "X",
-        "Y",
+        "SrcX",
+        "SrcY",
         "Z",
         "a",
         "b",

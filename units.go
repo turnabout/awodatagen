@@ -8,35 +8,35 @@ import (
 )
 
 // Generate units' sprite sheet & visuals data.
-// X/Y specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
-func generateUnitsData()  *UnitsData {
+// SrcX/SrcY specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
+func getUnitsData()  *UnitsData {
 
-    // Generate origin data (data for the raw sprite sheet)
-    frameImgs := gatherUnitsFrameImages()
-    packedFrameImgs, originWidth, originHeight := pack(frameImgs)
+    // Get source frame images (for the raw sprite sheet)
+    srcFrameImgs := getUnitsSrcFrameImgs()
+    packedSrcFrameImgs, srcWidth, srcHeight := pack(srcFrameImgs)
 
-    // Generate destination data (visual data used to generate in-game sprite sheets)
-    destFrameImgs := prepareUnitsDestFrameImages(frameImgs)
-    packedDestFrameImgs, gameWidth, gameHeight := pack(destFrameImgs)
+    // Get destination frame images (for sprite sheets generated in-game)
+    dstFrameImgs := getUnitsDstFrameImgs(srcFrameImgs)
+    packedDstFrameImgs, dstWidth, dstHeight := pack(dstFrameImgs)
 
     return &UnitsData{
-        Origin: *generateOriginVData(packedFrameImgs),
-        Dest: *generateDestVData(packedDestFrameImgs),
-        Width: originWidth,
-        Height: originHeight,
-        GameWidth: gameWidth,
-        GameHeight: gameHeight,
+        Src:       *getUnitsSrcVData(packedSrcFrameImgs),
+        Dst:       *getUnitsDstVData(packedDstFrameImgs),
+        SrcWidth:  srcWidth,
+        SrcHeight: srcHeight,
+        DstWidth:  dstWidth,
+        DstHeight: dstHeight,
         frameImg: FrameImage{
-            Image: drawPackedFrames(packedFrameImgs, originWidth, originHeight),
-            Width: originWidth,
-            Height: originHeight,
+            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
+            Width:    srcWidth,
+            Height:   srcHeight,
             MetaData: FrameImageMetaData{Type: uint8(VisualDataUnits)},
         },
     }
 }
 
-// Gathers Frame Images from every single Unit image
-func gatherUnitsFrameImages() *[]FrameImage {
+// Gets Frame Images from every single Unit image
+func getUnitsSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
     unitsDir := baseDirPath + imageInputsDirName + unitsDirName + "/"
@@ -56,7 +56,7 @@ func gatherUnitsFrameImages() *[]FrameImage {
 
             // Loop Animations
             for anim := FirstUnitAnimation; anim <= LastUnitAnimation; anim++ {
-                gatherAnimFrameImages(unitType, unitVar, anim, varDir + anim.String() + "/", &frameImgs)
+                getAnimFrameImgs(unitType, unitVar, anim, varDir + anim.String() + "/", &frameImgs)
             }
         }
     }
@@ -64,8 +64,8 @@ func gatherUnitsFrameImages() *[]FrameImage {
     return &frameImgs
 }
 
-// Gather all Frame Images from the given Unit Animation
-func gatherAnimFrameImages(uType UnitType, uVar UnitVariation, uAnim UnitAnimation, animDir string, frameImgs *[]FrameImage) {
+// Get all Frame Images from the given Unit Animation
+func getAnimFrameImgs(uType UnitType, uVar UnitVariation, uAnim UnitAnimation, animDir string, frameImgs *[]FrameImage) {
     imgFiles, err := ioutil.ReadDir(animDir)
 
     if err != nil {
@@ -91,7 +91,7 @@ func gatherAnimFrameImages(uType UnitType, uVar UnitVariation, uAnim UnitAnimati
 }
 
 // Generate the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func generateOriginVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
+func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
 
     // Unit Type -> Variation -> Animation -> Animation Frames
     originVData := make([][][][]Frame, UnitTypeAmount)
@@ -143,7 +143,7 @@ func generateOriginVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
 
 // Generate the destination visual data (visual data for final, in-game sprite sheet generated for each army) using
 // packed Frame Images
-func generateDestVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
+func getUnitsDstVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
     // Unit Type -> Animation -> Animation Frame
     destVData := make([][][]Frame, UnitTypeAmount)
@@ -191,7 +191,7 @@ func generateDestVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
 // Take Frame Images and prepare them for destination visual data processing, removing Frame Images for extra variations
 // and adding Frame Images for extra Animations
-func prepareUnitsDestFrameImages(frameImgs *[]FrameImage) *[]FrameImage {
+func getUnitsDstFrameImgs(frameImgs *[]FrameImage) *[]FrameImage {
     var resFrameImgs []FrameImage
 
     // Filter out Frame Images belonging to Variations other than the first

@@ -78,28 +78,30 @@ var tileVarsReverseStrings = map[string]TileVariation{
     "Used": Used,
 }
 
-// Generate Tiles visual data JSON & sprite sheet
-func generateTilesData() *TilesData {
+// Generate Src visual data JSON & sprite sheet
+func getTilesData() *TilesData {
 
-    // Generate Tiles' sprite sheet & visual data
-    packedFrameImgs, width, height := pack(gatherTilesFrameImages())
+    // Get source frame images
+    packedSrcFrameImgs, srcWidth, srcHeight := pack(getTilesSrcFrameImgs())
 
     return &TilesData{
-        Tiles: *generateTilesVData(packedFrameImgs),
+        Src:       *getTilesSrcVData(packedSrcFrameImgs),
         ClockData: 0, // TODO
-        Width: width,
-        Height: height,
+
+        SrcWidth:  srcWidth,
+        SrcHeight: srcHeight,
+
         frameImg: FrameImage{
-            Image: drawPackedFrames(packedFrameImgs, width, height),
-            Width: width,
-            Height: height,
+            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
+            Width:    srcWidth,
+            Height:   srcHeight,
             MetaData: FrameImageMetaData{Type: uint8(VisualDataTiles)},
         },
     }
 }
 
 // Gathers data on every single image, filling out "tilesImgData"
-func gatherTilesFrameImages() *[]FrameImage {
+func getTilesSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
     tilesDir := baseDirPath + imageInputsDirName + tilesDirName + "/"
@@ -115,17 +117,17 @@ func gatherTilesFrameImages() *[]FrameImage {
 
         // Check if 1 or 2-level tile
         if files[0].IsDir() {
-            gatherDoubleLvlTileImgData(&frameImgs, tile, tileDir, files)
+            gatherDoubleLvlTileFrameImgs(&frameImgs, tile, tileDir, files)
         } else {
-            gatherSingleLvlTileImgData(&frameImgs, tile, tileDir, files)
+            gatherSingleLvlTileFrameImgs(&frameImgs, tile, tileDir, files)
         }
     }
 
     return &frameImgs
 }
 
-// Gather image data from a single level tile (variations are single images) and attach to given Frame Images
-func gatherSingleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir string, files []os.FileInfo) {
+// Gather frame images from a single level tile (variations are single images) and attach to given Frame Images
+func gatherSingleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDir string, files []os.FileInfo) {
     for _, file := range files {
         // Get the Tile Variation corresponding to this image file
         tileVar := tileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
@@ -146,8 +148,8 @@ func gatherSingleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir 
     }
 }
 
-// Gather image data from a double level tile (variations are directories of images) and attach to given Frame Images
-func gatherDoubleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir string, dirs []os.FileInfo) {
+// Gather frame images from a double level tile (variations are directories of images) and attach to given Frame Images
+func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDir string, dirs []os.FileInfo) {
     // Loop every variation directory
     for _, dir := range dirs {
         // Get the Tile Variation corresponding to this image file
@@ -179,8 +181,8 @@ func gatherDoubleLvlTileImgData(frameImgs *[]FrameImage, tile TileType, tileDir 
     }
 }
 
-// Generate visual data for Tiles
-func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
+// Generate visual data for Src
+func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
     tilesVData := make([]TileData, BasicTileAmount)
@@ -217,7 +219,7 @@ func generateTilesVData(packedFrameImgs *[]FrameImage) *[]TileData {
             Y: frameImg.Y,
         }
 
-        // To save space in the JSON file, omit adding Width/Height if they're the regular Tile sizes
+        // To save space in the JSON file, omit adding SrcWidth/SrcHeight if they're the regular Tile sizes
         if frameImg.Width != regularTileDimension {
             frame.Width = frameImg.Width
         }

@@ -7,41 +7,41 @@ import (
 // Generate properties' sprite sheet & visual data
 func generatePropertiesData() *PropertiesData {
 
-    // Generate origin data
-    originFrameImgs := gatherPropsFrameImages()
-    packedFrameImgs, originWidth, originHeight := pack(originFrameImgs)
+    // Get source frame images
+    srcFrameImgs := getPropsSrcFrameImgs()
+    packedSrcFrameImgs, srcWidth, srcHeight := pack(srcFrameImgs)
 
-    // Generate destination data
-    destFrameImgs := gatherPropsDestFrameImages(originFrameImgs)
-    packedDestFrameImgs, destWidth, destHeight := pack(destFrameImgs)
+    // Get destination frame images
+    dstFrameImgs := getPropsDstFrameImgs(srcFrameImgs)
+    packedDstFrameImgs, dstWidth, dstHeight := pack(dstFrameImgs)
 
-    // Generate fog destination data
-    fogFrameImgs := gatherPropsFogDestFrameImages(originFrameImgs)
+    // Get fog destination frame images
+    fogFrameImgs := getPropsFogDstFrameImgs(srcFrameImgs)
     packedFogFrameImgs, fogWidth, fogHeight := pack(fogFrameImgs)
 
     return &PropertiesData{
-        Origin: *generatePropsOriginVData(packedFrameImgs),
-        Dest: *generatePropsDestVData(packedDestFrameImgs),
-        FogDest: *generatePropsFogDestVData(packedFogFrameImgs),
+        Src:    *getPropsSrcVData(packedSrcFrameImgs),
+        Dst:    *getPropsDstVData(packedDstFrameImgs),
+        FogDst: *getPropsFogDstVData(packedFogFrameImgs),
 
-        Width: originWidth,
-        Height: originHeight,
-        DestWidth: destWidth,
-        DestHeight: destHeight,
-        FogWidth: fogWidth,
-        FogHeight: fogHeight,
+        SrcWidth:     srcWidth,
+        SrcHeight:    srcHeight,
+        DstWidth:     dstWidth,
+        DstHeight:    dstHeight,
+        FogDstWidth:  fogWidth,
+        FogDstHeight: fogHeight,
 
         frameImg: FrameImage{
-            Image: drawPackedFrames(packedFrameImgs, originWidth, originHeight),
-            Width: originWidth,
-            Height: originHeight,
+            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
+            Width:    srcWidth,
+            Height:   srcHeight,
             MetaData: FrameImageMetaData{Type: uint8(VisualDataProperties)},
         },
     }
 }
 
-// Gather Frame Images for Properties' origin
-func gatherPropsFrameImages() *[]FrameImage {
+// Gather Frame Images for Properties' source
+func getPropsSrcFrameImgs() *[]FrameImage {
     var frameImgs []FrameImage
 
     propsDir := baseDirPath + imageInputsDirName + propertiesDirName + "/"
@@ -83,7 +83,7 @@ func gatherPropsFrameImages() *[]FrameImage {
 }
 
 // Gather Frame Images for Properties' destination
-func gatherPropsDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage {
+func getPropsDstFrameImgs(originFrameImgs *[]FrameImage) *[]FrameImage {
     var frameImgs []FrameImage
 
     // Only keep the first weather variation & first unit variation
@@ -99,7 +99,7 @@ func gatherPropsDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage {
 }
 
 // Gather Frame Images for Properties' fog destination
-func gatherPropsFogDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage {
+func getPropsFogDstFrameImgs(originFrameImgs *[]FrameImage) *[]FrameImage {
     var frameImgs[]FrameImage
 
     // Only keep the first weather variation
@@ -114,7 +114,7 @@ func gatherPropsFogDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage 
 }
 
 // Generate the visual data for Properties' origin
-func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
+func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
     // Weather Variation -> Property Type -> Unit Variation
     originVData := make([][][]Frame, PropertyWeatherVariationAmount)
@@ -138,7 +138,7 @@ func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
         }
     }
 
-    // Fill out Origin visual data
+    // Fill out Src visual data
     for _, frameImg := range *packedFrameImgs {
         originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
             X: frameImg.X,
@@ -151,7 +151,7 @@ func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 }
 
 // Generate the visual data for Properties' destination
-func generatePropsDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
+func getPropsDstVData(packedFrameImgs *[]FrameImage) *[][]Frame {
 
     // Property Type -> Animation Frames
     destVData := make([][]Frame, PropertyTypeAmount)
@@ -172,7 +172,7 @@ func generatePropsDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
 }
 
 // Generate the visual data for fog Properties' destination
-func generatePropsFogDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
+func getPropsFogDstVData(packedFrameImgs *[]FrameImage) *[][]Frame {
 
     // Property Type -> Unit Variation
     destVData := make([][]Frame, PropertyTypeAmount)
