@@ -56,6 +56,8 @@ type PropertiesData struct {
     Height int `json:"height"`
     DestWidth int `json:"destWidth"`
     DestHeight int `json:"destWeight"`
+    FogWidth int `json:"fogWidth"`
+    FogHeight int `json:"fogWeight"`
 
     Palettes int `json:"palettes"` // TODO
     PropLightOnColor int `json:"propLightOnColor"` // TODO

@@ -15,15 +15,21 @@ func generatePropertiesData() *PropertiesData {
     destFrameImgs := gatherPropsDestFrameImages(originFrameImgs)
     packedDestFrameImgs, destWidth, destHeight := pack(destFrameImgs)
 
+    // Generate fog destination data
+    fogFrameImgs := gatherPropsFogDestFrameImages(originFrameImgs)
+    packedFogFrameImgs, fogWidth, fogHeight := pack(fogFrameImgs)
+
     return &PropertiesData{
         Origin: *generatePropsOriginVData(packedFrameImgs),
         Dest: *generatePropsDestVData(packedDestFrameImgs),
-        FogDest: nil,
+        FogDest: *generatePropsFogDestVData(packedFogFrameImgs),
 
         Width: originWidth,
         Height: originHeight,
         DestWidth: destWidth,
         DestHeight: destHeight,
+        FogWidth: fogWidth,
+        FogHeight: fogHeight,
 
         frameImg: FrameImage{
             Image: drawPackedFrames(packedFrameImgs, originWidth, originHeight),
@@ -92,6 +98,21 @@ func gatherPropsDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage {
     return &frameImgs
 }
 
+// Gather Frame Images for Properties' fog destination
+func gatherPropsFogDestFrameImages(originFrameImgs *[]FrameImage) *[]FrameImage {
+    var frameImgs[]FrameImage
+
+    // Only keep the first weather variation
+    for _, originFrameImg := range *originFrameImgs {
+        if PropertyWeatherVariation(originFrameImg.MetaData.Variation) == FirstPropertyWeatherVariation {
+            frameImgs = append(frameImgs, originFrameImg)
+            frameImgs = append(frameImgs, originFrameImg)
+        }
+    }
+
+    return &frameImgs
+}
+
 // Generate the visual data for Properties' origin
 func generatePropsOriginVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
@@ -143,7 +164,40 @@ func generatePropsDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
                 X: frameImg.X,
                 Y: frameImg.Y,
                 Height: frameImg.Height,
-            })
+            },
+        )
+    }
+
+    return &destVData
+}
+
+// Generate the visual data for fog Properties' destination
+func generatePropsFogDestVData(packedFrameImgs *[]FrameImage) *[][]Frame {
+
+    // Property Type -> Unit Variation
+    destVData := make([][]Frame, PropertyTypeAmount)
+
+    // Fill out Destination visual data
+    for _, frameImg := range *packedFrameImgs {
+        propType := PropertyType(frameImg.MetaData.Type)
+        unitVar := UnitVariation(frameImg.MetaData.Animation)
+
+        // Get amount of missing Frames up until the Frame we're processing
+        missingFrames := (int(unitVar) + 1) - len(destVData[propType])
+
+        // Add missing Frame(s)
+        if missingFrames > 0 {
+            for i := 0; i < missingFrames; i++ {
+                destVData[propType] = append(destVData[propType], Frame{})
+            }
+        }
+
+        // Record this frame
+        destVData[propType][unitVar] = Frame{
+            X: frameImg.X,
+            Y: frameImg.Y,
+            Height: frameImg.Height,
+        }
     }
 
     return &destVData
