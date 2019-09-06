@@ -23,6 +23,7 @@ const inputsDirName     = "/inputs"
 const unitsDirName      = "/units"
 const tilesDirName      = "/tiles"
 const propertiesDirName = "/properties"
+const additionalDirName = "/additional"
 
 // Name of extra data files
 const palettesFileName       = "/palettes.json"
@@ -30,6 +31,8 @@ const basePaletteFileName    = "/basePalette.json"
 const propsLightsRGBFileName = "/lightsRGB.json"
 const fogOpsFileName         = "/fogOps.json"
 const baseDoneOpsFileName    = "/baseDoneOps.json"
+const stagesFileName         = "/stages.json"
+const subClocksFileName      = "/animationSubClocks.json"
 
 // Size of a regular Tile
 const regularTileDimension int = 16

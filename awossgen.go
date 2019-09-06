@@ -11,6 +11,7 @@ func main() {
         SSMetaData: ssMetaData{},
     }
 
+    attachAdditionalVData(&vData)
     outputSpriteSheet(joinSpriteSheets(&vData))
     outputJSON(&vData)
 }

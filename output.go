@@ -109,3 +109,11 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     // Return the final sprite sheet
     return drawPackedFrames(packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height)
 }
+
+// Gather additional visual data and attach to the main visual data object
+func attachAdditionalVData(vData *VisualData) {
+    addDir := baseDirPath + inputsDirName + additionalDirName
+
+    attachJSONData(addDir + stagesFileName, &vData.Stages)
+    attachJSONData(addDir + subClocksFileName, &vData.AnimationSubClocks)
+}

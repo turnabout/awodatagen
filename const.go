@@ -2,13 +2,13 @@ package main
 
 // Visual data JSON structure
 type VisualData struct {
-    Units *UnitsData `json:"units"`
-    Tiles *TilesData `json:"tiles"`
+    Units      *UnitsData      `json:"units"`
+    Tiles      *TilesData      `json:"tiles"`
     Properties *PropertiesData `json:"properties"`
-    SSMetaData ssMetaData `json:"ssMetaData"`
+    SSMetaData ssMetaData      `json:"ssMetaData"`
 
-    AnimationSubClocks int `json:"animationSubClocks"` // TODO
-    Stages int `json:"stages"` // TODO
+    AnimationSubClocks []AnimationSubClock `json:"animationSubClocks"`
+    Stages             []string            `json:"stages"`
 }
 
 type UnitsData struct {
@@ -462,7 +462,7 @@ const PropertyWeatherVariationAmount = Snow + 1
 type CanvasOp [2]string
 
 // Array representing an RGB pixel value
-type RGB [3]uint8
+type RGB [3]int
 
 // Generic palette
 type Palette map[string]RGB
@@ -472,4 +472,10 @@ type UnitPalette struct {
     Flip bool `json:"flip"`
     DoneOps []CanvasOp `json:"doneOps"`
     Palette Palette `json:"palette"`
+}
+
+// Animation Sub Clock structure
+type AnimationSubClock struct {
+    ChangingTicks []int `json:"changingTicks"` // Ticks which update the animations subscribed to this Sub Clock
+    AnimIndexes [][]int `json:"animIndexes"`   // Which indexes animations subscribed to this Clock should use
 }
