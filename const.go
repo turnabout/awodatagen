@@ -22,9 +22,9 @@ type UnitsData struct {
     DstWidth  int `json:"dstWidth"`
     DstHeight int `json:"dstHeight"`
 
-    BasePalette int `json:"basePalette"` // TODO
-    Palettes int `json:"palettes"` // TODO
-    DoneAnimationOperations int `json:"doneAnimOps"` // TODO
+    BasePalette Palette       `json:"basePalette"`
+    Palettes    []UnitPalette `json:"palettes"`
+    BaseDoneOps []CanvasOp    `json:"baseDoneOps"` // Operations used to generate "Done" animation frames
 
     frameImg FrameImage
 }
@@ -38,9 +38,9 @@ type TilesData struct {
     SrcWidth  int `json:"srcWidth"`
     SrcHeight int `json:"srcHeight"`
 
-    BasePalette int `json:"basePalette"` // TODO
-    Palettes int `json:"palettes"` // TODO
-    FogOps int `json:"fogOps"` // TODO
+    BasePalette Palette   `json:"basePalette"`
+    Palettes    []Palette `json:"palettes"`
+    FogOps      CanvasOp  `json:"fogOps"` // Operations used to apply a "fog" effect to Tiles
 
     frameImg FrameImage
 }
@@ -59,8 +59,8 @@ type PropertiesData struct {
     FogDstWidth  int `json:"fogDstWidth"`
     FogDstHeight int `json:"fogDstHeight"`
 
-    Palettes           []map[string]RGB `json:"palettes"`
-    PropsLightsOnColor RGB              `json:"propLightOnColor"` // Color for properties' "lights on" version
+    Palettes       []Palette `json:"palettes"`
+    PropsLightsRGB RGB       `json:"propLightsRGB"` // RGB used for Properties' lights
 
     frameImg FrameImage
 }
@@ -458,5 +458,18 @@ const FirstPropertyWeatherVariation = Clear
 const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
 
+// Array with two strings representing a graphical operation on the game's canvas
+type CanvasOp [2]string
+
 // Array representing an RGB pixel value
 type RGB [3]uint8
+
+// Generic palette
+type Palette map[string]RGB
+
+// Unit palette structure
+type UnitPalette struct {
+    Flip bool `json:"flip"`
+    DoneOps []CanvasOp `json:"doneOps"`
+    Palette Palette `json:"palette"`
+}

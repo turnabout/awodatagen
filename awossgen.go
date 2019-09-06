@@ -1,9 +1,7 @@
-// Generates sprite sheets & data used by AWO (outputs visuals.json & spritesheet.png)
+//
+// awossgen generates the sprite sheet & data JSON file used by AWO.
+//
 package main
-
-import (
-    _ "image/png"
-)
 
 func main() {
     var vData = VisualData{

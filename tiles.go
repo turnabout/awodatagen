@@ -85,7 +85,7 @@ func getTilesData() *TilesData {
     // Get source frame images
     packedSrcFrameImgs, srcWidth, srcHeight := pack(getTilesSrcFrameImgs())
 
-    return &TilesData{
+    vData := TilesData{
         Src:       *getTilesSrcVData(packedSrcFrameImgs),
         ClockData: 0, // TODO
 
@@ -99,6 +99,9 @@ func getTilesData() *TilesData {
             MetaData: FrameImageMetaData{Type: uint8(VisualDataTiles)},
         },
     }
+
+    attachExtraTilesVData(&vData)
+    return &vData
 }
 
 // Gathers data on every single image, filling out "tilesImgData"
@@ -234,4 +237,13 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
     }
 
     return &tilesVData
+}
+
+// Attach extra visual data stored away in JSON files
+func attachExtraTilesVData(vData *TilesData) {
+    tilesDir := baseDirPath + inputsDirName + tilesDirName
+
+    attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
+    attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
+    attachJSONData(tilesDir + fogOpsFileName, &vData.FogOps)
 }

@@ -19,15 +19,17 @@ const jsonOutputDefaultName = "visuals.json"
 const jsonOutputEnvVar = "AWO_JSON"
 
 // Base directory containing all sprite sheet images & visual data files
-const inputsDirName     = "/raw_inputs"
+const inputsDirName     = "/inputs"
 const unitsDirName      = "/units"
 const tilesDirName      = "/tiles"
 const propertiesDirName = "/properties"
 
 // Name of extra data files
-const palettesFileName    = "/palettes.json"
-const basePaletteFileName = "/basePalette.json"
-const propsLightsOnColor  = "/lightsOnColor.json"
+const palettesFileName       = "/palettes.json"
+const basePaletteFileName    = "/basePalette.json"
+const propsLightsRGBFileName = "/lightsRGB.json"
+const fogOpsFileName         = "/fogOps.json"
+const baseDoneOpsFileName    = "/baseDoneOps.json"
 
 // Size of a regular Tile
 const regularTileDimension int = 16

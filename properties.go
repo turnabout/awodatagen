@@ -41,7 +41,6 @@ func getPropertiesData() *PropertiesData {
     }
 
     attachExtraPropsVData(&vData)
-
     return &vData
 }
 
@@ -210,8 +209,8 @@ func getPropsFogDstVData(packedFrameImgs *[]FrameImage) *[][]Frame {
 
 // Attach extra visual data stored away in JSON files
 func attachExtraPropsVData(vData *PropertiesData) {
-    basePropsDir := baseDirPath + inputsDirName + propertiesDirName
+    propsDir := baseDirPath + inputsDirName + propertiesDirName
 
-    attachJSONData(basePropsDir + palettesFileName, &vData.Palettes)
-    attachJSONData(basePropsDir + propsLightsOnColor, &vData.PropsLightsOnColor)
+    attachJSONData(propsDir + palettesFileName, &vData.Palettes)
+    attachJSONData(propsDir +propsLightsRGBFileName, &vData.PropsLightsRGB)
 }

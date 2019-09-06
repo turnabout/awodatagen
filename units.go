@@ -19,7 +19,7 @@ func getUnitsData()  *UnitsData {
     dstFrameImgs := getUnitsDstFrameImgs(srcFrameImgs)
     packedDstFrameImgs, dstWidth, dstHeight := pack(dstFrameImgs)
 
-    return &UnitsData{
+    vData := UnitsData{
         Src:       *getUnitsSrcVData(packedSrcFrameImgs),
         Dst:       *getUnitsDstVData(packedDstFrameImgs),
         SrcWidth:  srcWidth,
@@ -33,6 +33,9 @@ func getUnitsData()  *UnitsData {
             MetaData: FrameImageMetaData{Type: uint8(VisualDataUnits)},
         },
     }
+
+    attachExtraUnitsVData(&vData)
+    return &vData
 }
 
 // Gets Frame Images from every single Unit image
@@ -212,4 +215,13 @@ func getUnitsDstFrameImgs(frameImgs *[]FrameImage) *[]FrameImage {
     }
 
     return &resFrameImgs
+}
+
+// Attach extra visual data stored away in JSON files
+func attachExtraUnitsVData(vData *UnitsData) {
+    unitsDir := baseDirPath + inputsDirName + unitsDirName
+
+    attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
+    attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
+    attachJSONData(unitsDir + baseDoneOpsFileName, &vData.BaseDoneOps)
 }
