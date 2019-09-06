@@ -33,6 +33,7 @@ const fogOpsFileName         = "/fogOps.json"
 const baseDoneOpsFileName    = "/baseDoneOps.json"
 const stagesFileName         = "/stages.json"
 const subClocksFileName      = "/animationSubClocks.json"
+const tilesSCDataFileName    = "/tilesSubClockData.json"
 
 // Size of a regular Tile
 const regularTileDimension int = 16

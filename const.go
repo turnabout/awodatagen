@@ -31,7 +31,6 @@ type UnitsData struct {
 
 type TilesData struct {
     Src       []TileData `json:"src"`
-    ClockData int        `json:"cData"` // TODO
 
     SrcX      int `json:"srcX"`
     SrcY      int `json:"srcY"`
@@ -66,8 +65,14 @@ type PropertiesData struct {
 }
 
 type TileData struct {
-    Variations map[string][]Frame `json:"vars"`
-    ClockData int `json:"cData"` // TODO
+    Variations   map[string][]Frame `json:"vars"`
+    SubClockData *SubClockData      `json:"scData,omitempty"`
+}
+
+type SubClockData struct {
+    SubClockType       int            `json:"subClockType"`       // Which sub clock to subscribe to
+    DefaultAnimIndexes int            `json:"defaultAnimIndexes"` // Default animation indexes used by this entity
+    VarAnimIndexes     map[string]int `json:"varAnimIndexes"`     // Animation indexes used by different variations
 }
 
 type ssMetaData struct {
@@ -226,11 +231,6 @@ func (t TileType) String() string {
         "Silo",
         "BaseSmoke",
         "LandPiece",
-        "HQ",
-        "City",
-        "Base",
-        "Airport",
-        "Port",
     }[t]
 }
 
@@ -356,8 +356,8 @@ func (v TileVariation) String() string {
         "U",
         "V",
         "W",
-        "SrcX",
-        "SrcY",
+        "X",
+        "Y",
         "Z",
         "a",
         "b",
@@ -397,7 +397,7 @@ func (v TileVariation) String() string {
         "9",
         ":",
         ";",
-        "<",
+        "-",
         "=",
     }[v]
 }

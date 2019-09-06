@@ -9,8 +9,26 @@ import (
     "strings"
 )
 
+// Map for looking up a Tile Type using its corresponding full string
+var tileReverseStrings = map[string]TileType {
+    "Plain": Plain,
+    "Forest": Forest,
+    "Mountain": Mountain,
+    "Road": Road,
+    "Bridge": Bridge,
+    "River": River,
+    "Sea": Sea,
+    "Reef": Reef,
+    "Shore": Shore,
+    "Pipe": Pipe,
+    "PipeFragile": PipeFragile,
+    "Silo": Silo,
+    "BaseSmoke": BaseSmoke,
+    "LandPiece": LandPiece,
+}
+
 // Map for looking up a Tile Variation using its corresponding full string
-var tileVarsReverseStrings = map[string]TileVariation{
+var tileVarsReverseStrings = map[string]TileVariation {
     "Default": Default,
     "Horizontal": Horizontal,
     "Vertical": Vertical,
@@ -87,7 +105,6 @@ func getTilesData() *TilesData {
 
     vData := TilesData{
         Src:       *getTilesSrcVData(packedSrcFrameImgs),
-        ClockData: 0, // TODO
 
         SrcWidth:  srcWidth,
         SrcHeight: srcHeight,
@@ -234,6 +251,7 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
         animSlice[tileFrame] = frame
         tilesVData[tileType].Variations[tileVar.String()] = animSlice
+        tilesVData[tileType].SubClockData = nil
     }
 
     return &tilesVData
@@ -246,4 +264,16 @@ func attachExtraTilesVData(vData *TilesData) {
     attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
     attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
     attachJSONData(tilesDir + fogOpsFileName, &vData.FogOps)
+
+    // Attach tiles' sub clock data
+    var tilesSubClockData map[string]SubClockData
+
+    attachJSONData(tilesDir + tilesSCDataFileName, &tilesSubClockData)
+
+    for tileStr := range tilesSubClockData {
+        tileType := tileReverseStrings[tileStr]
+        data := tilesSubClockData[tileStr]
+
+        (*vData).Src[tileType].SubClockData = &data
+    }
 }
