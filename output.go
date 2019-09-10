@@ -97,7 +97,7 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     })
 
     // Update sprite sheet meta data on each visual data object, after sorting the packed frames
-    sort.Sort(SizeSorter(*packedFrames))
+    sort.Sort(TypeSorter(*packedFrames))
 
     vData.Units.SrcX = (*packedFrames)[VisualDataUnits].X
     vData.Units.SrcY = (*packedFrames)[VisualDataUnits].Y

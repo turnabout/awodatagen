@@ -53,7 +53,7 @@ type TypeSorter []FrameImage
 
 func (f TypeSorter) Len() int           { return len(f) }
 func (f TypeSorter) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
-func (f TypeSorter) Less(i, j int) bool { return f[i].MetaData.Type > f[j].MetaData.Type }
+func (f TypeSorter) Less(i, j int) bool { return f[i].MetaData.Type < f[j].MetaData.Type }
 
 // Represents a slot inside the sprite sheet that can be taken up.
 // Can be split up into and linked to further nodes, one underneath it and another to its right
