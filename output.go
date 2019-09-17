@@ -106,6 +106,8 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     vData.Properties.SrcX = (*packedFrames)[VisualDataProperties].X
     vData.Properties.SrcY = (*packedFrames)[VisualDataProperties].Y
 
+    adjustUnitsSrc(vData)
+
     // Return the final sprite sheet
     return drawPackedFrames(packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height)
 }
@@ -116,4 +118,18 @@ func attachAdditionalVData(vData *VisualData) {
 
     attachJSONData(addDir + stagesFileName, &vData.Stages)
     attachJSONData(addDir + subClocksFileName, &vData.AnimationSubClocks)
+}
+
+// Adjust the X/Y coordinates of units' src frames, adding units' sprite sheet X/Y position within the full sprite sheet
+func adjustUnitsSrc(vData *VisualData) {
+    for typeKey := range vData.Units.Src {
+        for varKey := range vData.Units.Src[typeKey] {
+            for animKey := range vData.Units.Src[typeKey][varKey] {
+                for frameIndex := range vData.Units.Src[typeKey][varKey][animKey] {
+                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].X += vData.Units.SrcX
+                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].Y += vData.Units.SrcY
+                }
+            }
+        }
+    }
 }
