@@ -95,7 +95,7 @@
 
   // BH
   {
-    "flip": true,
+    "flip": false,
 
     "doneOps": [
       ["rgba(148,  96, 158, 0.3)",  "color"],
