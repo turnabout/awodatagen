@@ -153,7 +153,7 @@ func getUnitsDstVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
     // Initialize all Animation slices
     for unitType := range destVData {
-        destVData[unitType] = make([][]Frame, UnitAnimationFullAmount)
+        destVData[unitType] = make([][]Frame, UnitAnimationAmount)
     }
 
     // Process every Frame Image, storing them into destination visual data
@@ -164,14 +164,6 @@ func getUnitsDstVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
         // Get amount of missing Frames up until the Frame we're processing
         missingFrames := (unitFrame + 1) - len(destVData[unitType][unitAnim])
-
-        // Check if this Frame Image belongs to an Animation that is mirrored and was already previously stored.
-        // If it was, it means we need to process a mirrored (extra) animation.
-        // Update the Animation to be the one it's mirroring, and get the amount of missing frames that Animation.
-        if (unitAnim == Idle || unitAnim == Right) && missingFrames < 1 && destVData[unitType][unitAnim][unitFrame].Width > 0 {
-            unitAnim += UnitExtraAnimationConvert
-            missingFrames = (unitFrame + 1) - len(destVData[unitType][unitAnim])
-        }
 
         // Add missing Frame(s)
         if missingFrames > 0 {
@@ -193,13 +185,11 @@ func getUnitsDstVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 }
 
 // Take Frame Images and prepare them for destination visual data processing, removing Frame Images for extra variations
-// and adding Frame Images for extra Animations
 func getUnitsDstFrameImgs(frameImgs *[]FrameImage) *[]FrameImage {
     var resFrameImgs []FrameImage
 
     // Filter out Frame Images belonging to Variations other than the first
     for _, frameImg := range *frameImgs {
-        unitAnim := UnitAnimation(frameImg.MetaData.Animation)
 
         // Ignore Unit Variations other than the first
         if UnitVariation(frameImg.MetaData.Variation) > FirstUnitVariation {
@@ -207,11 +197,6 @@ func getUnitsDstFrameImgs(frameImgs *[]FrameImage) *[]FrameImage {
         }
 
         resFrameImgs = append(resFrameImgs, frameImg)
-
-        // If this Frame Image belongs to an Animation that is mirrored, add it a second time
-        if unitAnim == Idle || unitAnim == Right {
-            resFrameImgs = append(resFrameImgs, frameImg)
-        }
     }
 
     return &resFrameImgs

@@ -168,18 +168,14 @@ const (
     Right
     Up
     Down
-    Done
-    Left
 )
 
 const FirstUnitAnimation = Idle
-const LastUnitAnimation = Down // "Left" and "Done" don't count as base animations as they're generated in-game
+const LastUnitAnimation = Down
 const UnitAnimationAmount = LastUnitAnimation + 1
-const UnitAnimationFullAmount = Left + 1 // Full amount of unit animations, including in-game generated ones
-const UnitExtraAnimationConvert = Done // Amount to add to an Animation index to get its corresponding extra Animation
 
 func (a UnitAnimation) String() string {
-    return [...]string{"Idle", "Right", "Up", "Down", "Left", "Done"}[a]
+    return [...]string{"Idle", "Right", "Up", "Down"}[a]
 }
 
 // Tile Types
