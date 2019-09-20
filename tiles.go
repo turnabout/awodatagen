@@ -263,7 +263,6 @@ func attachExtraTilesVData(vData *TilesData) {
 
     attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
     attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
-    attachJSONData(tilesDir + fogOpsFileName, &vData.FogOps)
 
     // Attach tiles' clock data
     var tilesClockData map[string]TileClockData

@@ -24,7 +24,6 @@ type UnitsData struct {
 
     BasePalette Palette       `json:"basePalette"`
     Palettes    []UnitPalette `json:"palettes"`
-    BaseDoneOps []CanvasOp    `json:"baseDoneOps"` // Operations used to generate "Done" animation frames
 
     frameImg FrameImage
 }
@@ -39,7 +38,6 @@ type TilesData struct {
 
     BasePalette Palette   `json:"basePalette"`
     Palettes    []Palette `json:"palettes"`
-    FogOps      CanvasOp  `json:"fogOps"` // Operations used to apply a "fog" effect to Tiles
 
     frameImg FrameImage
 }
@@ -454,9 +452,6 @@ const FirstPropertyWeatherVariation = Clear
 const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
 
-// Array with two strings representing a graphical operation on the game's canvas
-type CanvasOp [2]string
-
 // Array representing an RGB pixel value
 type RGB [3]int
 
@@ -466,7 +461,6 @@ type Palette map[string]RGB
 // Unit palette structure
 type UnitPalette struct {
     Flip bool `json:"flip"`
-    DoneOps []CanvasOp `json:"doneOps"`
     Palette Palette `json:"palette"`
 }
 

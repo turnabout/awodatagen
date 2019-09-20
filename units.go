@@ -208,5 +208,4 @@ func attachExtraUnitsVData(vData *UnitsData) {
 
     attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
     attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
-    attachJSONData(unitsDir + baseDoneOpsFileName, &vData.BaseDoneOps)
 }
