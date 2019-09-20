@@ -7,8 +7,8 @@ type VisualData struct {
     Properties *PropertiesData `json:"properties"`
     SSMetaData ssMetaData      `json:"ssMetaData"`
 
-    AnimationSubClocks []AnimationSubClock `json:"animationSubClocks"`
-    Stages             []string            `json:"stages"`
+    AnimationSubClocks []AnimationClock `json:"animationSubClocks"`
+    Stages             []string         `json:"stages"`
 }
 
 type UnitsData struct {
@@ -65,14 +65,14 @@ type PropertiesData struct {
 }
 
 type TileData struct {
-    Variations   map[string][]Frame `json:"vars"`
-    SubClockData *SubClockData      `json:"scData,omitempty"`
+    Variations map[string][]Frame `json:"vars"`
+    ClockData  *TileClockData     `json:"clockData,omitempty"`
 }
 
-type SubClockData struct {
-    SubClockType       int            `json:"subClockType"`       // Which sub clock to subscribe to
-    DefaultAnimIndexes int            `json:"defaultAnimIndexes"` // Default animation indexes used by this entity
-    VarAnimIndexes     map[string]int `json:"varAnimIndexes"`     // Animation indexes used by different variations
+type TileClockData struct {
+    Clock           int            `json:"clock"`           // Which sub clock to subscribe to
+    DefaultSubClock int            `json:"defaultSubClock"` // Default sub clocks used by this tile's variations
+    VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
 }
 
 type ssMetaData struct {
@@ -470,8 +470,8 @@ type UnitPalette struct {
     Palette Palette `json:"palette"`
 }
 
-// Animation Sub Clock structure
-type AnimationSubClock struct {
-    ChangingTicks []int `json:"changingTicks"` // Ticks which update the animations subscribed to this Sub Clock
-    AnimIndexes [][]int `json:"animIndexes"`   // Which indexes animations subscribed to this Clock should use
+// Animation Clock structure
+type AnimationClock struct {
+    ChangingTicks []int   `json:"changingTicks"` // Ticks which update the animations subscribed to this clock
+    SubClocks     [][]int `json:"subClocks"`     // Which indexes animations subscribed to this clock should use
 }

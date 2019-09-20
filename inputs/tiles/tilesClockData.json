@@ -1,24 +1,24 @@
 // All clock data attached on tiles
 {
   "Reef": {
-    "subClockType": 0, // Sea sub clock
-    "defaultAnimType": 0,
-    "varAnimIndexes": {}
+    "clock": 0, // Sea sub clock
+    "defaultSubClock": 0,
+    "varSubClocks": {}
   },
 
   "Sea": {
-    "subClockType": 0, // Sea sub clock
-    "defaultAnimType": 0,
-    "varAnimIndexes": {
+    "clock": 0, // Sea sub clock
+    "defaultSubClock": 0,
+    "varSubClocks": {
       "E": 1, // Top
       "I": 1  // TopLeft
     }
   },
 
   "Shore": {
-    "subClockType": 0, // Sea sub clock
-    "defaultAnimType": 1,
-    "varAnimIndexes": {
+    "clock": 0, // Sea sub clock
+    "defaultSubClock": 1,
+    "varSubClocks": {
       "n": 1, // TopConnectedFull
       "F": 0, // Bottom
       "o": 0, // BottomConnectedLeft
@@ -31,8 +31,8 @@
   },
 
   "River": {
-    "subClockType": 1, // River sub clock
-    "defaultAnimType": 0,
-    "varAnimIndexes": {}
+    "clock": 1, // River sub clock
+    "defaultSubClock": 0,
+    "varSubClocks": {}
   }
 }

@@ -2,7 +2,7 @@
   // Sea sub clock
   {
     "changingTicks": [0, 5, 6, 11, 12, 18, 19, 31, 32, 38, 39, 45],
-    "animIndexes": [
+    "subClocks": [
       [0, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1, 0], // Pyramid1
       [0, 0, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1], // Pyramid2
       [0, 1, 2, 3, 4, 5, 6, 7, 4, 8, 2, 9]  // Ten
@@ -12,7 +12,7 @@
   // River sub clock
   {
     "changingTicks": [0, 6, 12, 18, 24, 30, 36, 41],
-    "animIndexes": [
+    "subClocks": [
       [0, 1, 2, 3, 4, 5, 6, 7] // Eight
     ]
   }

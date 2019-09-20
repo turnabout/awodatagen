@@ -117,7 +117,7 @@ func attachAdditionalVData(vData *VisualData) {
     addDir := baseDirPath + inputsDirName + additionalDirName
 
     attachJSONData(addDir + stagesFileName, &vData.Stages)
-    attachJSONData(addDir + subClocksFileName, &vData.AnimationSubClocks)
+    attachJSONData(addDir +animClocksFileName, &vData.AnimationSubClocks)
 }
 
 // Adjust the X/Y coordinates of units' src frames, adding units' sprite sheet X/Y position within the full sprite sheet

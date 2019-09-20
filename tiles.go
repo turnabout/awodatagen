@@ -251,7 +251,7 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
         animSlice[tileFrame] = frame
         tilesVData[tileType].Variations[tileVar.String()] = animSlice
-        tilesVData[tileType].SubClockData = nil
+        tilesVData[tileType].ClockData = nil
     }
 
     return &tilesVData
@@ -265,15 +265,15 @@ func attachExtraTilesVData(vData *TilesData) {
     attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
     attachJSONData(tilesDir + fogOpsFileName, &vData.FogOps)
 
-    // Attach tiles' sub clock data
-    var tilesSubClockData map[string]SubClockData
+    // Attach tiles' clock data
+    var tilesClockData map[string]TileClockData
 
-    attachJSONData(tilesDir + tilesSCDataFileName, &tilesSubClockData)
+    attachJSONData(tilesDir + tilesClockDataFileName, &tilesClockData)
 
-    for tileStr := range tilesSubClockData {
+    for tileStr := range tilesClockData {
         tileType := tileReverseStrings[tileStr]
-        data := tilesSubClockData[tileStr]
+        data := tilesClockData[tileStr]
 
-        (*vData).Src[tileType].SubClockData = &data
+        (*vData).Src[tileType].ClockData = &data
     }
 }
