@@ -7,7 +7,7 @@ type VisualData struct {
     Properties *PropertiesData `json:"properties"`
     SSMetaData ssMetaData      `json:"ssMetaData"`
 
-    AnimationSubClocks []AnimationClock `json:"animationSubClocks"`
+    AnimationSubClocks []AnimationClock `json:"animationClocks"`
     Stages             []string         `json:"stages"`
 }
 
