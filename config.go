@@ -32,6 +32,7 @@ const propsLightsRGBFileName = "/lightsRGB.json"
 const stagesFileName         = "/stages.json"
 const animClocksFileName     = "/animationClocks.json"
 const tilesClockDataFileName = "/tilesClockData.json"
+const tilesAutoVarFileName   = "./tilesAutoVarData.json"
 
 // Size of a regular Tile
 const regularTileDimension int = 16

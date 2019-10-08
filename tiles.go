@@ -2,6 +2,7 @@
 package main
 
 import (
+    "fmt"
     "io/ioutil"
     "log"
     "os"
@@ -257,12 +258,25 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
     return &tilesVData
 }
 
+func addTilesAutoVarData(tilesDir string, vData *TilesData) {
+    var raw RawAutoVarsData
+
+    // Load raw auto var data file
+    attachJSONData(tilesDir + tilesAutoVarFileName, &raw)
+
+
+    fmt.Printf("%+v\n", raw)
+}
+
 // Attach extra visual data stored away in JSON files
 func attachExtraTilesVData(vData *TilesData) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName
 
     attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
     attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
+
+    // Attach tiles' auto var data
+    addTilesAutoVarData(tilesDir, vData)
 
     // Attach tiles' clock data
     var tilesClockData map[string]TileClockData

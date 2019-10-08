@@ -65,12 +65,20 @@ type PropertiesData struct {
 type TileData struct {
     Variations map[string][]Frame `json:"vars"`
     ClockData  *TileClockData     `json:"clockData,omitempty"`
+    AutoVarsData int              `json:"autoVars"`
 }
 
 type TileClockData struct {
     Clock           int            `json:"clock"`           // Which sub clock to subscribe to
     DefaultSubClock int            `json:"defaultSubClock"` // Default sub clocks used by this tile's variations
     VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
+}
+
+type RawAutoVarsData map[string][]RawAutoVarData
+
+type RawAutoVarData struct {
+    TileVar string
+    Tiles   []string
 }
 
 type ssMetaData struct {
