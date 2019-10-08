@@ -1,0 +1,146 @@
+// Order of autoVar numbers' directions is Top/Right/Bottom/Left
+{
+    
+    "Plain": {
+        "Default": ["any", "any", "any", "any"],
+        "ShadowedDefault": ["any", "any", "any", "shadowing"]
+    },
+    "Forest": {
+        "TopLeft": [],
+        "Top": [],
+        "TopRight": [],
+        "DirLeft": [],
+        "Middle": [],
+        "DirRight": [],
+        "BottomLeft": [],
+        "Bottom": [],
+        "BottomRight": [],
+        "ShadowedTopLeft": [],
+        "ShadowedLeft": [],
+        "ShadowedTopLeft": [],
+        "Default": [],
+        "ShadowedDefault": []
+    },
+    "Mountain": {
+        "Default": [],
+        "Small": []
+    },
+    "Road": {
+        "BottomLeft": [],
+        "BottomRight": [],
+        "Horizontal": [],
+        "Middle": [],
+        "TBottom": [],
+        "TLeft": [],
+        "TopLeft": [],
+        "TopRight": [],
+        "TRight": [],
+        "TTop": [],
+        "Vertical": [],
+        "VerticalEnd": [],
+        "ShadowedBottomLeft": [],
+        "ShadowedHorizontal": [],
+        "ShadowedTLeft": [],
+        "ShadowedTopLeft": [],
+        "ShadowedVertical": [],
+        "ShadowedVerticalEnd": []
+    },
+    "Bridge": {
+        "Horizontal": [],
+        "Vertical": []
+    },
+    "River": {
+        "BottomLeft": [],
+        "BottomRight": [],
+        "Horizontal": [],
+        "Middle": [],
+        "TBottom": [],
+        "TLeft": [],
+        "TopLeft": [],
+        "TopRight": [],
+        "TRight": [],
+        "TTop": [],
+        "Vertical": [],
+        "WaterfallDown": [],
+        "WaterfallLeft": [],
+        "WaterfallRight": [],
+        "WaterfallUp": []
+    },
+    "Sea": {
+        "Bottom": [],
+        "BottomLeft": [],
+        "BottomRight": [],
+        "DirLeft": [],
+        "DirRight": [],
+        "Hole": [],
+        "HoleBottom": [],
+        "HoleHorizontal": [],
+        "HoleLeft": [],
+        "HoleRight": [],
+        "HoleTop": [],
+        "HoleVertical": [],
+        "Middle": [],
+        "Top": [],
+        "TopLeft": [],
+        "TopRight": []
+    },
+    "Reef": {
+        "": []
+    },
+    "Shore": {
+        "Bottom": [],
+        "BottomConnectedFull": [],
+        "BottomConnectedLeft": [],
+        "BottomConnectedRight": [],
+        "BottomLeft": [],
+        "BottomLeftConnectedFull": [],
+        "BottomLeftConnectedHorizontal": [],
+        "BottomLeftConnectedVertical": [],
+        "DirLeft": [],
+        "DirRight": [],
+        "HoleBottom": [],
+        "HoleLeft": [],
+        "HoleRight": [],
+        "HoleTop": [],
+        "LeftConnectedBottom": [],
+        "LeftConnectedFull": [],
+        "LeftConnectedTop": [],
+        "RightConnectedBottom": [],
+        "RightConnectedFull": [],
+        "RightConnectedTop": [],
+        "Top": [],
+        "TopConnectedFull": [],
+        "TopConnectedLeft": [],
+        "TopConnectedRight": [],
+        "TopLeft": [],
+        "TopLeftConnectedFull": [],
+        "TopLeftConnectedHorizontal": [],
+        "TopLeftConnectedVertical": [],
+        "TopRight": [],
+        "TopRightConnectedFull": [],
+        "TopRightConnectedHorizontal": [],
+        "TopRightConnectedVertical": []
+    },
+    "Pipe": {
+        "Bottom": [],
+        "BottomLeft": [],
+        "BottomRight": [],
+        "DirLeft": [],
+        "DirRight": [],
+        "Horizontal": [],
+        "Top": [],
+        "TopLeft": [],
+        "TopRight": [],
+        "Vertical": []
+    },
+    "PipeFragile": {
+        "HorizontalClosed": [],
+        "HorizontalOpen": [],
+        "VerticalClosed": [],
+        "VerticalOpen": []
+    },
+    "Silo": {
+        "Default": [],
+        "Used": []
+    }
+}
