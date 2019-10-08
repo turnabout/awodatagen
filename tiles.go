@@ -2,7 +2,6 @@
 package main
 
 import (
-    "fmt"
     "io/ioutil"
     "log"
     "os"
@@ -129,7 +128,7 @@ func getTilesSrcFrameImgs() *[]FrameImage {
     tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
-    for tile := FirstBasicTileType; tile <= LastBasicTileType; tile++ {
+    for tile := FirstTileType; tile <= LastTileType; tile++ {
         tileDir := tilesDir + tile.String() + "/"
         files, err := ioutil.ReadDir(tileDir)
 
@@ -207,7 +206,7 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
 func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
-    tilesVData := make([]TileData, BasicTileAmount)
+    tilesVData := make([]TileData, TileTypesAmount)
 
     // Initialize Variations on every TileData
     for tileType := range tilesVData {
@@ -258,16 +257,6 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
     return &tilesVData
 }
 
-func addTilesAutoVarData(tilesDir string, vData *TilesData) {
-    var raw RawAutoVarsData
-
-    // Load raw auto var data file
-    attachJSONData(tilesDir + tilesAutoVarFileName, &raw)
-
-
-    fmt.Printf("%+v\n", raw)
-}
-
 // Attach extra visual data stored away in JSON files
 func attachExtraTilesVData(vData *TilesData) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName
@@ -276,7 +265,7 @@ func attachExtraTilesVData(vData *TilesData) {
     attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
 
     // Attach tiles' auto var data
-    addTilesAutoVarData(tilesDir, vData)
+    attachTilesAutoVarData(tilesDir, vData)
 
     // Attach tiles' clock data
     var tilesClockData map[string]TileClockData

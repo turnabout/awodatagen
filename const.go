@@ -65,7 +65,7 @@ type PropertiesData struct {
 type TileData struct {
     Variations map[string][]Frame `json:"vars"`
     ClockData  *TileClockData     `json:"clockData,omitempty"`
-    AutoVarsData int              `json:"autoVars"`
+    AutoVars   []AutoVarData      `json:"autoVars"`
 }
 
 type TileClockData struct {
@@ -77,8 +77,17 @@ type TileClockData struct {
 type RawAutoVarsData map[string][]RawAutoVarData
 
 type RawAutoVarData struct {
-    TileVar string
-    Tiles   []string
+    TileVar string                         // The tile variation
+    AdjacentTiles [4]string `json:"Tiles"` // Strings describing the adjacent tiles that correspond to the tile
+                                           // variation. In order, the adjacent tiles go: up, right, down, left
+}
+
+type AutoVarData struct {
+    TileVar string       `json:"tileVar"`  // The tile variation's short key
+    AdjacentTiles [4]int `json:"adjTiles"` // Numbers describing the adjacent tiles that correspond to the tile
+                                           // variation. Every number is a bit field where the nth bit corresponds to
+                                           // the nth tile type. If bit n is set, tile type n is acceptable in the
+                                           // adjacent tile.
 }
 
 type ssMetaData struct {
@@ -209,13 +218,26 @@ const(
     // Port
 )
 
-const FirstBasicTileType = Plain
-const LastBasicTileType = LandPiece
-const BasicTileAmount = LastBasicTileType + 1
+const FirstTileType = Plain
+const LastTileType = LandPiece
+const TileTypesAmount = LastTileType + 1
+
+const LastBaseTileType = Silo
+const BaseTileTypeAmount = LastBaseTileType + 1
+
+// Additional tiles
+const OOB = LastTileType + 1
+
+// Auto var data's adjacent tile indexes
+const AUTOVAR_ADJACENT_TILE_UP    = 0
+const AUTOVAR_ADJACENT_TILE_RIGHT = 1
+const AUTOVAR_ADJACENT_TILE_DOWN  = 2
+const AUTOVAR_ADJACENT_TILE_LEFT  = 3
+const ADJACENT_TILE_AMOUNT = 4
 
 // const FirstPropertyTileType = HQ
 // const LastPropertyTileType = Port
-// const PropertyTileAmount = (LastPropertyTileType + 1) - BasicTileAmount
+// const PropertyTileAmount = (LastPropertyTileType + 1) - TileTypesAmount
 
 func (t TileType) String() string {
     return [...]string{
