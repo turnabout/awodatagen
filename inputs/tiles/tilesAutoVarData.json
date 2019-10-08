@@ -1,4 +1,7 @@
-// Order of autoVar adjacent tiles' directions is Top/Right/Bottom/Left
+// Order of autoVar adjacent tiles' directions is Up/Right/Down/Left
+// any: all tiles
+// shadowing: tiles that cast a shadow onto some tiles (property|forest|silo|mountain)
+// oob: non-tiles, out of bounds of the game board
 {
     
     "Plain": [
@@ -6,24 +9,24 @@
         {"var": "ShadowedDefault", "tiles": ["any", "any", "any", "shadowing"]}
     ],
     "Forest": {
-        {"var": "TopLeft",         "tiles": ["", "", "", ""]},
-        {"var": "Top",             "tiles": ["", "", "", ""]},
-        {"var": "TopRight",        "tiles": ["", "", "", ""]},
-        {"var": "DirLeft",         "tiles": ["", "", "", ""]},
-        {"var": "Middle",          "tiles": ["", "", "", ""]},
-        {"var": "DirRight",        "tiles": ["", "", "", ""]},
-        {"var": "BottomLeft",      "tiles": ["", "", "", ""]},
-        {"var": "Bottom",          "tiles": ["", "", "", ""]},
-        {"var": "BottomRight",     "tiles": ["", "", "", ""]},
-        {"var": "ShadowedTopLeft", "tiles": ["", "", "", ""]},
-        {"var": "ShadowedLeft",    "tiles": ["", "", "", ""]},
-        {"var": "ShadowedTopLeft", "tiles": ["", "", "", ""]},
-        {"var": "Default",         "tiles": ["", "", "", ""]},
-        {"var": "ShadowedDefault", "tiles": ["", "", "", ""}
+        {"var": "TopLeft",            "tiles": ["any&~Forest", "Forest",      "Forest",      "any&~Forest"]},
+        {"var": "Top",                "tiles": ["any&~Forest", "Forest",      "Forest",      "Forest"]},
+        {"var": "TopRight",           "tiles": ["any&~Forest", "any&~Forest", "Forest",      "Forest"]},
+        {"var": "DirLeft",            "tiles": ["Forest",      "Forest",      "Forest",      "any&~Forest"]},
+        {"var": "Middle",             "tiles": ["Forest",      "Forest",      "Forest",      "Forest"]},
+        {"var": "DirRight",           "tiles": ["Forest",      "any&~Forest", "Forest",      "Forest"]},
+        {"var": "BottomLeft",         "tiles": ["Forest",      "Forest",      "any&~Forest", "any&~Forest"]},
+        {"var": "Bottom",             "tiles": ["Forest",      "Forest",      "any&~Forest", "Forest"]},
+        {"var": "BottomRight",        "tiles": ["Forest",      "any&~Forest", "any&~Forest", "Forest"]},
+        {"var": "ShadowedTopLeft",    "tiles": ["any&~Forest", "Forest",      "Forest",      "shadowing&~Forest"]},
+        {"var": "ShadowedLeft",       "tiles": ["Forest",      "Forest",      "Forest",      "shadowing&~Forest"]},
+        {"var": "ShadowedBottomLeft", "tiles": ["Forest",      "Forest",      "any&~Forest", "shadowing&~Forest"]},
+        {"var": "Default",            "tiles": ["any", "any", "any", "any"]},
+        {"var": "ShadowedDefault",    "tiles": ["any", "any", "any", "shadowing"}
     },
     "Mountain": [
-        {"var": "Default", "tiles": ["", "", "", ""]},
-        {"var": "Small",   "tiles": ["", "", "", ""]}
+        {"var": "Default", "tiles": ["Plain", "any", "any", "any"]},
+        {"var": "Small",   "tiles": ["any", "any", "any", "any"]}
     ],
     "Road": [
         {"var": "BottomLeft",          "tiles": ["", "", "", ""]},
@@ -46,8 +49,11 @@
         {"var": "ShadowedVerticalEnd", "tiles": ["", "", "", ""]}
     ],
     "Bridge": [
-        {"var": "Horizontal", "tiles": ["", "", "", ""]},
-        {"var": "Vertical",   "tiles": ["", "", "", ""]}
+        {"var": "Horizontal", "tiles": ["any", "land", "any", "any"]},
+        {"var": "Horizontal", "tiles": ["any", "any", "any", "land"]},
+        {"var": "Vertical",   "tiles": ["land", "any", "any", "any"]},
+        {"var": "Vertical",   "tiles": ["any", "any", "land", "any"]},
+        {"var": "Horizontal", "tiles": ["any", "any", "any", "any"]}
     ],
     "River": [
         {"var": "BottomLeft",     "tiles": ["", "", "", ""]},
