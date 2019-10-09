@@ -83,11 +83,11 @@ type RawAutoVarData struct {
 }
 
 type AutoVarData struct {
-    TileVar string       `json:"tileVar"`  // The tile variation's short key
-    AdjacentTiles [4]int `json:"adjTiles"` // Numbers describing the adjacent tiles that correspond to the tile
-                                           // variation. Every number is a bit field where the nth bit corresponds to
-                                           // the nth tile type. If bit n is set, tile type n is acceptable in the
-                                           // adjacent tile.
+    TileVar string       `json:"tileVar"`   // The tile variation's short key
+    AdjacentTiles [4]uint `json:"adjTiles"` // Numbers describing the adjacent tiles that correspond to the tile
+                                            // variation. Every number is a bit field where the nth bit corresponds to
+                                            // the nth tile type. If bit n is set, tile type n is acceptable in the
+                                            // adjacent tile.
 }
 
 type ssMetaData struct {

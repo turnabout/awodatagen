@@ -2,6 +2,7 @@ package main
 
 import (
     "log"
+    "sort"
     "unicode"
     "unicode/utf8"
 )
@@ -41,8 +42,6 @@ func attachTilesAutoVarData(tilesDir string, vData *TilesData) {
             continue
         }
 
-        // fmt.Printf("%s\n", tileType)
-
         // Add initial slice for the tile type
         vData.Src[tileType].AutoVars = []AutoVarData{}
 
@@ -54,10 +53,34 @@ func attachTilesAutoVarData(tilesDir string, vData *TilesData) {
             )
         }
 
-        // Order the auto var data for this tile type, placing data with the least amount of active bits in its adjacent
-        // tiles first.
-        // TODO
+        // Sort the auto var data for this tile type, placing data with the adjacent tiles having the least amount of
+        // active bits first.
+        sort.Slice(vData.Src[tileType].AutoVars, func(i, j int) bool {
+            return getAutoVarBitsAmount(vData.Src[tileType].AutoVars[i]) <
+                getAutoVarBitsAmount(vData.Src[tileType].AutoVars[j])
+        })
     }
+}
+
+// Count amount of bits in a number (hardcoded for 32-bit numbers)
+func countBits(n uint) uint {
+    n = ((0xaaaaaaaa & n) >> 1) + (0x55555555 & n)
+    n = ((0xcccccccc & n) >> 2) + (0x33333333 & n)
+    n = ((0xf0f0f0f0 & n) >> 4) + (0x0f0f0f0f & n)
+    n = ((0xff00ff00 & n) >> 8) + (0x00ff00ff & n)
+    n = ((0xffff0000 & n) >> 16) + (0x0000ffff & n)
+    return n
+}
+
+// Get the total amount of active bits in an auto var data struct. Used to sort an auto vars data slice.
+func getAutoVarBitsAmount(autoVarData AutoVarData) uint {
+    var totalBits uint = 0
+
+    for i := 0; i < ADJACENT_TILE_AMOUNT; i++ {
+        totalBits += countBits(uint(autoVarData.AdjacentTiles[i]))
+    }
+
+    return totalBits
 }
 
 // Process the adjacent tiles in a raw autovar data struct and produce a final exported struct, containing a short
@@ -68,7 +91,7 @@ func processRawAutoVar(rawAutoVarData RawAutoVarData) AutoVarData {
 
     result := AutoVarData{
         TileVar: tileVar.String(),
-        AdjacentTiles: [4]int{0, 0, 0, 0},
+        AdjacentTiles: [4]uint{0, 0, 0, 0},
     }
 
     // fmt.Printf("%s\n", tileVar.String())
@@ -95,14 +118,14 @@ const (
 )
 
 // Translate an adjacent tile string into a bir field number.
-func translateAdjTileStr(rawString string) int {
+func translateAdjTileStr(rawString string) uint {
 
     // Loop every symbol and use them to determine the bit field
     var symbolType int
     var symbolString string
     var nextStartIndex int = 0
 
-    var resultBitField int = 0
+    var resultBitField uint = 0
     var applyANDNOT bool = false
 
     for {
@@ -129,14 +152,14 @@ func translateAdjTileStr(rawString string) int {
         }
 
         // Get value to apply
-        var appliedVal int
+        var appliedVal uint
 
         switch symbolType {
         case SymbolTileType:
             appliedVal = 1 << uint(tileReverseStrings[symbolString])
             break
         case SymbolCompound:
-            appliedVal = int(compoundAutoVarValues[symbolString])
+            appliedVal = uint(compoundAutoVarValues[symbolString])
             break
         default:
             log.Fatalf("Unknown symbol type")
