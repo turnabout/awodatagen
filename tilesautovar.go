@@ -20,7 +20,7 @@ func composeTileTypeBitField(values []TileType) uint {
 
 // Values corresponding to auto var compound symbols
 var compoundAutoVarValues = map[string]uint{
-    "any": 0xFFF,
+    "any": 0xFFFFFFFF,
     "shadowing": composeTileTypeBitField([]TileType{Forest, Mountain, Silo}),
     "oob": composeTileTypeBitField([]TileType{OOB}),
     "land": composeTileTypeBitField([]TileType{Plain, Forest, Mountain, Road, Bridge, Pipe, PipeFragile, Silo}),
