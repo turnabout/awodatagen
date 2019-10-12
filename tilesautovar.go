@@ -38,7 +38,7 @@ func attachTilesAutoVarData(tilesDir string, vData *TilesData) {
         var tileType TileType = tileReverseStrings[tileTypeStr]
 
         // TODO: remove temporary debug condition
-        if tileType != Forest && tileType != Plain && tileType != Bridge {
+        if tileType != Forest && tileType != Plain && tileType != Bridge && tileType != River && tileType != Sea {
             continue
         }
 
