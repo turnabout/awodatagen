@@ -69,7 +69,8 @@
         {"TileVar": "WaterfallDown",  "Tiles": ["River",      "any&~River", "Sea",        "any&~River"]},
         {"TileVar": "WaterfallLeft",  "Tiles": ["any&~River", "River",      "any&~River", "Sea"]},
         {"TileVar": "WaterfallRight", "Tiles": ["any&~River", "Sea",        "any&~River", "River"]},
-        {"TileVar": "WaterfallUp",    "Tiles": ["Sea",        "any&~River", "River",      "any&~River"] }
+        {"TileVar": "WaterfallUp",    "Tiles": ["Sea",        "any&~River", "River",      "any&~River"] },
+        {"TileVar": "Horizontal",     "Tiles": ["any",        "any",        "any",        "any"]}
     ],
     "Sea": [
         {"TileVar": "Bottom",         "Tiles": ["", "", "", ""]},
