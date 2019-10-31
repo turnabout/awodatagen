@@ -106,9 +106,6 @@ func getTilesData() *TilesData {
     vData := TilesData{
         Src:       *getTilesSrcVData(packedSrcFrameImgs),
 
-        SrcWidth:  srcWidth,
-        SrcHeight: srcHeight,
-
         frameImg: FrameImage{
             Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
             Width:    srcWidth,

@@ -5,10 +5,10 @@ package main
 
 func main() {
     var vData = VisualData{
-        Units:      getUnitsData(),
-        Tiles:      getTilesData(),
-        Properties: getPropertiesData(),
-        SSMetaData: ssMetaData{},
+        Units:                 getUnitsData(),
+        Tiles:                 getTilesData(),
+        Properties:            getPropertiesData(),
+        SpriteSheetDimensions: ssDimensions{},
     }
 
     attachAdditionalVData(&vData)

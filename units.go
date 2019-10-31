@@ -8,24 +8,15 @@ import (
 )
 
 // Generate units' sprite sheet & visuals data.
-// SrcX/SrcY specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
+// srcX/srcY specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
 func getUnitsData()  *UnitsData {
 
-    // Get source frame images (for the raw sprite sheet)
+    // Get source frame images
     srcFrameImgs := getUnitsSrcFrameImgs()
     packedSrcFrameImgs, srcWidth, srcHeight := pack(srcFrameImgs)
 
-    // Get destination frame images (for sprite sheets generated in-game)
-    dstFrameImgs := getUnitsDstFrameImgs(srcFrameImgs)
-    packedDstFrameImgs, dstWidth, dstHeight := pack(dstFrameImgs)
-
     vData := UnitsData{
         Src:       *getUnitsSrcVData(packedSrcFrameImgs),
-        Dst:       *getUnitsDstVData(packedDstFrameImgs),
-        SrcWidth:  srcWidth,
-        SrcHeight: srcHeight,
-        DstWidth:  dstWidth,
-        DstHeight: dstHeight,
         frameImg: FrameImage{
             Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
             Width:    srcWidth,
@@ -142,64 +133,6 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
     }
 
     return &originVData
-}
-
-// Generate the destination visual data (visual data for final, in-game sprite sheet generated for each army) using
-// packed Frame Images
-func getUnitsDstVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
-
-    // Unit Type -> Animation -> Animation Frame
-    destVData := make([][][]Frame, UnitTypeAmount)
-
-    // Initialize all Animation slices
-    for unitType := range destVData {
-        destVData[unitType] = make([][]Frame, UnitAnimationAmount)
-    }
-
-    // Process every Frame Image, storing them into destination visual data
-    for _, frameImg := range *packedFrameImgs {
-        unitType := UnitType(frameImg.MetaData.Type)
-        unitAnim := UnitAnimation(frameImg.MetaData.Animation)
-        unitFrame := frameImg.MetaData.Index
-
-        // Get amount of missing Frames up until the Frame we're processing
-        missingFrames := (unitFrame + 1) - len(destVData[unitType][unitAnim])
-
-        // Add missing Frame(s)
-        if missingFrames > 0 {
-            for i := 0; i < missingFrames; i++ {
-                destVData[unitType][unitAnim] = append(destVData[unitType][unitAnim], Frame{})
-            }
-        }
-
-        // Store data
-        destVData[unitType][unitAnim][unitFrame] = Frame{
-            X: frameImg.X,
-            Y: frameImg.Y,
-            Width: frameImg.Width,
-            Height: frameImg.Height,
-        }
-    }
-
-    return &destVData
-}
-
-// Take Frame Images and prepare them for destination visual data processing, removing Frame Images for extra variations
-func getUnitsDstFrameImgs(frameImgs *[]FrameImage) *[]FrameImage {
-    var resFrameImgs []FrameImage
-
-    // Filter out Frame Images belonging to Variations other than the first
-    for _, frameImg := range *frameImgs {
-
-        // Ignore Unit Variations other than the first
-        if UnitVariation(frameImg.MetaData.Variation) > FirstUnitVariation {
-            continue
-        }
-
-        resFrameImgs = append(resFrameImgs, frameImg)
-    }
-
-    return &resFrameImgs
 }
 
 // Attach extra visual data stored away in JSON files

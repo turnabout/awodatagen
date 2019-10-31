@@ -90,7 +90,7 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     var packedFrames *[]FrameImage
 
     // Pack all the sprite sheets together to make one
-    packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height = pack(&[]FrameImage{
+    packedFrames, vData.SpriteSheetDimensions.Width, vData.SpriteSheetDimensions.Height = pack(&[]FrameImage{
         vData.Units.frameImg,
         vData.Tiles.frameImg,
         vData.Properties.frameImg,
@@ -99,17 +99,17 @@ func joinSpriteSheets(vData *VisualData) *image.RGBA {
     // Update sprite sheet meta data on each visual data object, after sorting the packed frames
     sort.Sort(TypeSorter(*packedFrames))
 
-    vData.Units.SrcX = (*packedFrames)[VisualDataUnits].X
-    vData.Units.SrcY = (*packedFrames)[VisualDataUnits].Y
-    vData.Tiles.SrcX = (*packedFrames)[VisualDataTiles].X
-    vData.Tiles.SrcY = (*packedFrames)[VisualDataTiles].Y
-    vData.Properties.SrcX = (*packedFrames)[VisualDataProperties].X
-    vData.Properties.SrcY = (*packedFrames)[VisualDataProperties].Y
+    vData.Units.srcX = (*packedFrames)[VisualDataUnits].X
+    vData.Units.srcY = (*packedFrames)[VisualDataUnits].Y
+    vData.Tiles.srcX = (*packedFrames)[VisualDataTiles].X
+    vData.Tiles.srcY = (*packedFrames)[VisualDataTiles].Y
+    vData.Properties.srcX = (*packedFrames)[VisualDataProperties].X
+    vData.Properties.srcY = (*packedFrames)[VisualDataProperties].Y
 
     adjustUnitsSrc(vData)
 
     // Return the final sprite sheet
-    return drawPackedFrames(packedFrames, vData.SSMetaData.Width, vData.SSMetaData.Height)
+    return drawPackedFrames(packedFrames, vData.SpriteSheetDimensions.Width, vData.SpriteSheetDimensions.Height)
 }
 
 // Gather additional visual data and attach to the main visual data object
@@ -126,8 +126,8 @@ func adjustUnitsSrc(vData *VisualData) {
         for varKey := range vData.Units.Src[typeKey] {
             for animKey := range vData.Units.Src[typeKey][varKey] {
                 for frameIndex := range vData.Units.Src[typeKey][varKey][animKey] {
-                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].X += vData.Units.SrcX
-                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].Y += vData.Units.SrcY
+                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].X += vData.Units.srcX
+                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].Y += vData.Units.srcY
                 }
             }
         }

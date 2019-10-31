@@ -2,10 +2,10 @@ package main
 
 // Visual data JSON structure
 type VisualData struct {
-    Units      *UnitsData      `json:"units"`
-    Tiles      *TilesData      `json:"tiles"`
-    Properties *PropertiesData `json:"properties"`
-    SSMetaData ssMetaData      `json:"ssMetaData"`
+    Units                 *UnitsData      `json:"units"`
+    Tiles                 *TilesData      `json:"tiles"`
+    Properties            *PropertiesData `json:"properties"`
+    SpriteSheetDimensions ssDimensions    `json:"ssDimensions"`
 
     AnimationSubClocks []AnimationClock `json:"animationClocks"`
     Stages             []string         `json:"stages"`
@@ -13,52 +13,34 @@ type VisualData struct {
 
 type UnitsData struct {
     Src [][][][]Frame `json:"src"`
-    Dst [][][]Frame   `json:"dst"`
-
-    SrcX      int `json:"srcX"`
-    SrcY      int `json:"srcY"`
-    SrcWidth  int `json:"srcWidth"`
-    SrcHeight int `json:"srcHeight"`
-    DstWidth  int `json:"dstWidth"`
-    DstHeight int `json:"dstHeight"`
 
     BasePalette Palette       `json:"basePalette"`
     Palettes    []UnitPalette `json:"palettes"`
 
+    srcX     int
+    srcY     int
     frameImg FrameImage
 }
 
 type TilesData struct {
     Src       []TileData `json:"src"`
 
-    SrcX      int `json:"srcX"`
-    SrcY      int `json:"srcY"`
-    SrcWidth  int `json:"srcWidth"`
-    SrcHeight int `json:"srcHeight"`
-
     BasePalette Palette   `json:"basePalette"`
     Palettes    []Palette `json:"palettes"`
 
+    srcX     int
+    srcY     int
     frameImg FrameImage
 }
 
 type PropertiesData struct {
     Src    [][][]Frame `json:"src"`
-    Dst    [][]Frame   `json:"dst"`
-    FogDst [][]Frame   `json:"fogDst"`
-
-    SrcX         int `json:"srcX"`
-    SrcY         int `json:"srcY"`
-    SrcWidth     int `json:"srcWidth"`
-    SrcHeight    int `json:"srcHeight"`
-    DstWidth     int `json:"dstWidth"`
-    DstHeight    int `json:"dstHeight"`
-    FogDstWidth  int `json:"fogDstWidth"`
-    FogDstHeight int `json:"fogDstHeight"`
 
     Palettes       []Palette `json:"palettes"`
     PropsLightsRGB RGB       `json:"propLightsRGB"` // RGB used for Properties' lights
 
+    srcX     int
+    srcY     int
     frameImg FrameImage
 }
 
@@ -90,7 +72,7 @@ type AutoVarData struct {
                                             // adjacent tile.
 }
 
-type ssMetaData struct {
+type ssDimensions struct {
     Width int `json:"width"`
     Height int `json:"height"`
 }

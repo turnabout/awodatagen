@@ -68,7 +68,7 @@ type Node struct {
 // and returning it along with the packed surface's width and height
 func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
 
-    // Max encountered SrcX/SrcY (surface width/height)
+    // Max encountered srcX/srcY (surface width/height)
     var xMax, yMax int
 
     if len(*framesArg) < 1 {
@@ -103,7 +103,7 @@ func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
         frames[index].X = node.X
         frames[index].Y = node.Y
 
-        // Update SrcX/SrcY max encountered values
+        // Update srcX/srcY max encountered values
         if xMax < node.X + frame.Width {
             xMax = node.X + frame.Width
         }
@@ -245,7 +245,7 @@ func drawPackedFrames(frames *[]FrameImage, width, height int) *image.RGBA {
 
 // Draw a Frame Image in the given Node, onto the given sprite sheet
 func drawFrame(frame *FrameImage, ss *image.RGBA) {
-    // Move image to the node's SrcX/SrcY coordinates
+    // Move image to the node's srcX/srcY coordinates
     rect := frame.Image.Bounds()
 
     rect.Min.X += frame.X
