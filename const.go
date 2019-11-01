@@ -457,8 +457,8 @@ const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
 
 type PaletteData struct {
-    BasePalettes map[string]Palette
-    Palettes []Palette
+    BasePalettes map[string]Palette `json:"basePalettes"`
+    Palettes []Palette              `json:"palettes"`
 }
 
 // Array representing an RGB pixel value
