@@ -118,6 +118,8 @@ func attachAdditionalVData(vData *VisualData) {
 
     attachJSONData(addDir + stagesFileName, &vData.Stages)
     attachJSONData(addDir +animClocksFileName, &vData.AnimationSubClocks)
+    attachJSONData(addDir + basePalettesFileName, &vData.PaletteData.BasePalettes)
+    attachJSONData(addDir + palettesFileName, &vData.PaletteData.Palettes)
 }
 
 // Adjust the X/Y coordinates of units' src frames, adding units' sprite sheet X/Y position within the full sprite sheet

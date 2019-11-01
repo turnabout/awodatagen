@@ -137,8 +137,7 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
 
 // Attach extra visual data stored away in JSON files
 func attachExtraUnitsVData(vData *UnitsData) {
-    unitsDir := baseDirPath + inputsDirName + unitsDirName
-
-    attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
-    attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
+    // unitsDir := baseDirPath + inputsDirName + unitsDirName
+    // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
+    // attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
 }

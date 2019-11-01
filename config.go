@@ -27,8 +27,7 @@ const additionalDirName = "/additional"
 
 // Name of extra data files
 const palettesFileName       = "/palettes.json"
-const basePaletteFileName    = "/basePalette.json"
-const propsLightsRGBFileName = "/lightsRGB.json"
+const basePalettesFileName   = "/basePalettes.json"
 const stagesFileName         = "/stages.json"
 const animClocksFileName     = "/animationClocks.json"
 const tilesClockDataFileName = "/tilesClockData.json"

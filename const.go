@@ -2,20 +2,18 @@ package main
 
 // Visual data JSON structure
 type VisualData struct {
-    Units                 *UnitsData      `json:"units"`
-    Tiles                 *TilesData      `json:"tiles"`
-    Properties            *PropertiesData `json:"properties"`
-    SpriteSheetDimensions ssDimensions    `json:"ssDimensions"`
+    Units                 *UnitsData       `json:"units"`
+    Tiles                 *TilesData       `json:"tiles"`
+    Properties            *PropertiesData  `json:"properties"`
 
-    AnimationSubClocks []AnimationClock `json:"animationClocks"`
-    Stages             []string         `json:"stages"`
+    PaletteData           PaletteData      `json:"paletteData"`
+    AnimationSubClocks    []AnimationClock `json:"animationClocks"`
+    Stages                []string         `json:"stages"`
+    SpriteSheetDimensions ssDimensions     `json:"ssDimensions"`
 }
 
 type UnitsData struct {
     Src [][][][]Frame `json:"src"`
-
-    BasePalette Palette       `json:"basePalette"`
-    Palettes    []UnitPalette `json:"palettes"`
 
     srcX     int
     srcY     int
@@ -25,9 +23,6 @@ type UnitsData struct {
 type TilesData struct {
     Src       []TileData `json:"src"`
 
-    BasePalette Palette   `json:"basePalette"`
-    Palettes    []Palette `json:"palettes"`
-
     srcX     int
     srcY     int
     frameImg FrameImage
@@ -35,9 +30,6 @@ type TilesData struct {
 
 type PropertiesData struct {
     Src    [][][]Frame `json:"src"`
-
-    Palettes       []Palette `json:"palettes"`
-    PropsLightsRGB RGB       `json:"propLightsRGB"` // RGB used for Properties' lights
 
     srcX     int
     srcY     int
@@ -464,17 +456,16 @@ const FirstPropertyWeatherVariation = Clear
 const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
 
+type PaletteData struct {
+    BasePalettes map[string]Palette
+    Palettes []Palette
+}
+
 // Array representing an RGB pixel value
 type RGB [3]int
 
 // Generic palette
 type Palette map[string]RGB
-
-// Unit palette structure
-type UnitPalette struct {
-    Flip bool `json:"flip"`
-    Palette Palette `json:"palette"`
-}
 
 // Animation Clock structure
 type AnimationClock struct {

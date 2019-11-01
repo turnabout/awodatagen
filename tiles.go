@@ -258,8 +258,8 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 func attachExtraTilesVData(vData *TilesData) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName
 
-    attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
-    attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
+    // attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
+    // attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
 
     // Attach tiles' auto var data
     attachTilesAutoVarData(tilesDir, vData)
