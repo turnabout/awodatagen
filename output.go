@@ -121,6 +121,22 @@ func attachAdditionalVData(vData *VisualData) {
     attachPaletteData(vData, addDir)
 }
 
+// Make up palette using a base and a main Palette raw data
+func makePalette(basePalette *Palette, mainPalette *Palette) *Palette {
+    var resPalette Palette = make(Palette)
+
+    // Apply base & main palettes on resulting palette
+    for key, val := range *basePalette {
+        resPalette[key] = val
+    }
+
+    for key, val := range *mainPalette {
+        resPalette[key] = val
+    }
+
+    return &resPalette
+}
+
 func attachPaletteData(vData *VisualData, addDir string) {
     var basePalettes map[string]Palette
     var rawPalettes []Palette
@@ -131,24 +147,31 @@ func attachPaletteData(vData *VisualData, addDir string) {
     // Generate final palette data
     // Unit palettes
     var baseUnitPalette Palette = basePalettes["units"]
+    var baseUnitDonePalette Palette = basePalettes["unitsDone"]
 
     for i := FirstUnitVariation; i <= LastUnitVariation; i++ {
         var resPalette Palette = make(Palette)
-        var unitPalette Palette = rawPalettes[i]
+        var doneResPalette Palette = make(Palette)
 
-        // Apply base & unit palette
+        var unitPalette Palette = rawPalettes[i * 2]
+        var unitDonePalette Palette = rawPalettes[(i * 2) + 1]
+
+        // Apply base & unit palette on regular unit palette
         for key, val := range baseUnitPalette { resPalette[key] = val }
         for key, val := range unitPalette     { resPalette[key] = val }
-
-        // Append to all palettes
         vData.Palettes = append(vData.Palettes, resPalette)
+
+        // Apply base & unit palette on done unit palette
+        for key, val := range baseUnitDonePalette { doneResPalette[key] = val }
+        for key, val := range unitDonePalette     { doneResPalette[key] = val }
+        vData.Palettes = append(vData.Palettes, doneResPalette)
     }
 
     // Tile palettes
     var baseTilePalette Palette = basePalettes["tiles"]
     var baseTileFogPalette Palette = basePalettes["tilesFog"]
 
-    var tilePalettesStart int = int(UnitVariationAmount)
+    var tilePalettesStart int = int(UnitVariationAmount) * 2
 
     for i := FirstWeather; i <= LastWeather; i++ {
         var resPalette Palette = make(Palette)
