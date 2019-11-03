@@ -150,21 +150,11 @@ func attachPaletteData(vData *VisualData, addDir string) {
     var baseUnitDonePalette Palette = basePalettes["unitsDone"]
 
     for i := FirstUnitVariation; i <= LastUnitVariation; i++ {
-        var resPalette Palette = make(Palette)
-        var doneResPalette Palette = make(Palette)
-
         var unitPalette Palette = rawPalettes[i * 2]
         var unitDonePalette Palette = rawPalettes[(i * 2) + 1]
 
-        // Apply base & unit palette on regular unit palette
-        for key, val := range baseUnitPalette { resPalette[key] = val }
-        for key, val := range unitPalette     { resPalette[key] = val }
-        vData.Palettes = append(vData.Palettes, resPalette)
-
-        // Apply base & unit palette on done unit palette
-        for key, val := range baseUnitDonePalette { doneResPalette[key] = val }
-        for key, val := range unitDonePalette     { doneResPalette[key] = val }
-        vData.Palettes = append(vData.Palettes, doneResPalette)
+        vData.Palettes = append(vData.Palettes, *makePalette(&baseUnitPalette, &unitPalette))
+        vData.Palettes = append(vData.Palettes, *makePalette(&baseUnitDonePalette, &unitDonePalette))
     }
 
     // Tile palettes
@@ -174,21 +164,11 @@ func attachPaletteData(vData *VisualData, addDir string) {
     var tilePalettesStart int = int(UnitVariationAmount) * 2
 
     for i := FirstWeather; i <= LastWeather; i++ {
-        var resPalette Palette = make(Palette)
-        var resFogPalette Palette = make(Palette)
-
         var tilePalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2)]
         var tileFogPalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2) + 1]
 
-        // Apply base & tile palette on regular tile palette
-        for key, val := range baseTilePalette { resPalette[key] = val }
-        for key, val := range tilePalette     { resPalette[key] = val }
-        vData.Palettes = append(vData.Palettes, resPalette)
-
-        // Apply base & tile palette on fog tile palette
-        for key, val := range baseTileFogPalette { resFogPalette[key] = val }
-        for key, val := range tileFogPalette     { resFogPalette[key] = val }
-        vData.Palettes = append(vData.Palettes, resFogPalette)
+        vData.Palettes = append(vData.Palettes, *makePalette(&baseTilePalette, &tilePalette))
+        vData.Palettes = append(vData.Palettes, *makePalette(&baseTileFogPalette, &tileFogPalette))
     }
 
     // Property palettes
@@ -197,13 +177,9 @@ func attachPaletteData(vData *VisualData, addDir string) {
 
     // + 2 for fogged/neutral properties palette
     for i := FirstUnitVariation; i <= LastUnitVariation + 2; i++ {
-        var resPalette Palette = make(Palette)
         var propPalette Palette = rawPalettes[propertyPalettesStart + int(i)]
 
-        // Apply base & property palette
-        for key, val := range basePropertyPalette { resPalette[key] = val }
-        for key, val := range propPalette         { resPalette[key] = val }
-        vData.Palettes = append(vData.Palettes, resPalette)
+        vData.Palettes = append(vData.Palettes, *makePalette(&basePropertyPalette, &propPalette))
     }
 }
 
