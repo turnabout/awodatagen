@@ -118,8 +118,70 @@ func attachAdditionalVData(vData *VisualData) {
 
     attachJSONData(addDir + stagesFileName, &vData.Stages)
     attachJSONData(addDir +animClocksFileName, &vData.AnimationSubClocks)
-    attachJSONData(addDir + basePalettesFileName, &vData.PaletteData.BasePalettes)
-    attachJSONData(addDir + palettesFileName, &vData.PaletteData.Palettes)
+    attachPaletteData(vData, addDir)
+}
+
+func attachPaletteData(vData *VisualData, addDir string) {
+    var basePalettes map[string]Palette
+    var rawPalettes []Palette
+
+    attachJSONData(addDir + basePalettesFileName, &basePalettes)
+    attachJSONData(addDir + palettesFileName, &rawPalettes)
+
+    // Generate final palette data
+    // Unit palettes
+    var baseUnitPalette Palette = basePalettes["units"]
+
+    for i := FirstUnitVariation; i <= LastUnitVariation; i++ {
+        var resPalette Palette = make(Palette)
+        var unitPalette Palette = rawPalettes[i]
+
+        // Apply base & unit palette
+        for key, val := range baseUnitPalette { resPalette[key] = val }
+        for key, val := range unitPalette     { resPalette[key] = val }
+
+        // Append to all palettes
+        vData.Palettes = append(vData.Palettes, resPalette)
+    }
+
+    // Tile palettes
+    var baseTilePalette Palette = basePalettes["tiles"]
+    var baseTileFogPalette Palette = basePalettes["tilesFog"]
+
+    var tilePalettesStart int = int(UnitVariationAmount)
+
+    for i := FirstWeather; i <= LastWeather; i++ {
+        var resPalette Palette = make(Palette)
+        var resFogPalette Palette = make(Palette)
+
+        var tilePalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2)]
+        var tileFogPalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2) + 1]
+
+        // Apply base & tile palette on regular tile palette
+        for key, val := range baseTilePalette { resPalette[key] = val }
+        for key, val := range tilePalette     { resPalette[key] = val }
+        vData.Palettes = append(vData.Palettes, resPalette)
+
+        // Apply base & tile palette on fog tile palette
+        for key, val := range baseTileFogPalette { resFogPalette[key] = val }
+        for key, val := range tileFogPalette     { resFogPalette[key] = val }
+        vData.Palettes = append(vData.Palettes, resFogPalette)
+    }
+
+    // Property palettes
+    var propertyPalettesStart int = tilePalettesStart + (int(WeatherCount) * 2)
+    var basePropertyPalette Palette = basePalettes["properties"]
+
+    // + 2 for fogged/neutral properties palette
+    for i := FirstUnitVariation; i <= LastUnitVariation + 2; i++ {
+        var resPalette Palette = make(Palette)
+        var propPalette Palette = rawPalettes[propertyPalettesStart + int(i)]
+
+        // Apply base & property palette
+        for key, val := range basePropertyPalette { resPalette[key] = val }
+        for key, val := range propPalette         { resPalette[key] = val }
+        vData.Palettes = append(vData.Palettes, resPalette)
+    }
 }
 
 // Adjust the X/Y coordinates of units' src frames, adding units' sprite sheet X/Y position within the full sprite sheet

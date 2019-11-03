@@ -6,7 +6,8 @@ type VisualData struct {
     Tiles                 *TilesData       `json:"tiles"`
     Properties            *PropertiesData  `json:"properties"`
 
-    PaletteData           PaletteData      `json:"paletteData"`
+    Palettes              []Palette        `json:"palettes"`
+
     AnimationSubClocks    []AnimationClock `json:"animationClocks"`
     Stages                []string         `json:"stages"`
     SpriteSheetDimensions ssDimensions     `json:"ssDimensions"`
@@ -456,10 +457,17 @@ const FirstPropertyWeatherVariation = Clear
 const LastPropertyWeatherVariation = Snow
 const PropertyWeatherVariationAmount = Snow + 1
 
-type PaletteData struct {
-    BasePalettes map[string]Palette `json:"basePalettes"`
-    Palettes []Palette              `json:"palettes"`
-}
+type Weather uint8
+
+const(
+    WeatherClear Weather = iota
+    WeatherSnow
+    WeatherRain
+)
+
+const FirstWeather = WeatherClear
+const LastWeather = WeatherRain
+const WeatherCount = LastWeather + 1
 
 // Array representing an RGB pixel value
 type RGB [3]int
