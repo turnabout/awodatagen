@@ -6,21 +6,10 @@ import (
 )
 
 // Generate properties' sprite sheet & visual data
-func getPropertiesData() *PropertiesData {
-
-    // Get source frame images
-    srcFrameImgs := getPropsSrcFrameImgs()
-    packedSrcFrameImgs, srcWidth, srcHeight := pack(srcFrameImgs)
+func getPropertiesData(packedFrameImgs *[]FrameImage) *PropertiesData {
 
     vData := PropertiesData{
-        Src:    *getPropsSrcVData(packedSrcFrameImgs),
-
-        frameImg: FrameImage{
-            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
-            Width:    srcWidth,
-            Height:   srcHeight,
-            MetaData: FrameImageMetaData{Type: uint8(VisualDataProperties)},
-        },
+        Src: *getPropsSrcVData(packedFrameImgs),
     }
 
     attachExtraPropsVData(&vData)
@@ -28,9 +17,7 @@ func getPropertiesData() *PropertiesData {
 }
 
 // Gather Frame Images for Properties' source
-func getPropsSrcFrameImgs() *[]FrameImage {
-    var frameImgs []FrameImage
-
+func getPropsSrcFrameImgs(frameImgs *[]FrameImage) {
     propsDir := baseDirPath + inputsDirName + propertiesDirName + "/"
 
     // Loop Weather Variations
@@ -52,21 +39,20 @@ func getPropsSrcFrameImgs() *[]FrameImage {
 
                 imageObj := getImage(fullPath)
 
-                frameImgs = append(frameImgs, FrameImage{
+                *frameImgs = append(*frameImgs, FrameImage{
                     Image: imageObj,
                     Width:  imageObj.Bounds().Max.X,
                     Height: imageObj.Bounds().Max.Y,
                     MetaData: FrameImageMetaData{
-                        Type: uint8(propType),
-                        Variation: uint8(weatherVar),
-                        Animation: uint8(unitVar),
+                        Type:           uint8(propType),
+                        Variation:      uint8(weatherVar),
+                        Animation:      uint8(unitVar),
+                        FrameImageType: PropertyFrameImage,
                     },
                 })
             }
         }
     }
-
-    return &frameImgs
 }
 
 // Generate the visual data for Properties' origin
@@ -96,6 +82,12 @@ func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
     // Fill out Src visual data
     for _, frameImg := range *packedFrameImgs {
+
+        // Ignore non-tile frame images
+        if frameImg.MetaData.FrameImageType != PropertyFrameImage {
+            continue
+        }
+
         originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,

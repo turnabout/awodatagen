@@ -18,6 +18,15 @@ type FrameImage struct {
     Y int
 }
 
+type FrameImageType uint8
+
+const(
+    UnitFrameImage FrameImageType = iota
+    TileFrameImage
+    PropertyFrameImage
+    SpriteSheetSectionFrameImage
+)
+
 // Which Type/Var/Animation/Animation Index this Frame Image belongs to
 // TODO: Rename/reorganize
 type FrameImageMetaData struct {
@@ -25,6 +34,7 @@ type FrameImageMetaData struct {
     Variation uint8
     Animation uint8
     Index int
+    FrameImageType FrameImageType
 }
 
 func (f FrameImage) String() string {

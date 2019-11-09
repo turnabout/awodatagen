@@ -98,20 +98,9 @@ var tileVarsReverseStrings = map[string]TileVariation {
 }
 
 // Generate Src visual data JSON & sprite sheet
-func getTilesData() *TilesData {
-
-    // Get source frame images
-    packedSrcFrameImgs, srcWidth, srcHeight := pack(getTilesSrcFrameImgs())
-
+func getTilesData(packedFrameImgs *[]FrameImage) *TilesData {
     vData := TilesData{
-        Src:       *getTilesSrcVData(packedSrcFrameImgs),
-
-        frameImg: FrameImage{
-            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
-            Width:    srcWidth,
-            Height:   srcHeight,
-            MetaData: FrameImageMetaData{Type: uint8(VisualDataTiles)},
-        },
+        Src: *getTilesSrcVData(packedFrameImgs),
     }
 
     attachExtraTilesVData(&vData)
@@ -119,9 +108,7 @@ func getTilesData() *TilesData {
 }
 
 // Gathers data on every single image, filling out "tilesImgData"
-func getTilesSrcFrameImgs() *[]FrameImage {
-    var frameImgs []FrameImage
-
+func getTilesSrcFrameImgs(frameImgs *[]FrameImage) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
@@ -135,13 +122,11 @@ func getTilesSrcFrameImgs() *[]FrameImage {
 
         // Check if 1 or 2-level tile
         if files[0].IsDir() {
-            gatherDoubleLvlTileFrameImgs(&frameImgs, tile, tileDir, files)
+            gatherDoubleLvlTileFrameImgs(frameImgs, tile, tileDir, files)
         } else {
-            gatherSingleLvlTileFrameImgs(&frameImgs, tile, tileDir, files)
+            gatherSingleLvlTileFrameImgs(frameImgs, tile, tileDir, files)
         }
     }
-
-    return &frameImgs
 }
 
 // Gather frame images from a single level tile (variations are single images) and attach to given Frame Images
@@ -158,9 +143,10 @@ func gatherSingleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
             Width:  imageObj.Bounds().Max.X,
             Height: imageObj.Bounds().Max.Y,
             MetaData: FrameImageMetaData{
-                Type: uint8(tile),
-                Variation: uint8(tileVar),
-                Index: 0,
+                Type:           uint8(tile),
+                Variation:      uint8(tileVar),
+                Index:          0,
+                FrameImageType: TileFrameImage,
             },
         })
     }
@@ -190,9 +176,10 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
                 Width:  imageObj.Bounds().Max.X,
                 Height: imageObj.Bounds().Max.Y,
                 MetaData: FrameImageMetaData{
-                    Type: uint8(tile),
-                    Variation: uint8(tileVar),
-                    Index: index,
+                    Type:           uint8(tile),
+                    Variation:      uint8(tileVar),
+                    Index:          index,
+                    FrameImageType: TileFrameImage,
                 },
             })
         }
@@ -212,6 +199,12 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
     // Process Frame Images
     for _, frameImg := range *packedFrameImgs {
+
+        // Ignore non-tile frame images
+        if frameImg.MetaData.FrameImageType != TileFrameImage {
+            continue
+        }
+
         tileType := TileType(frameImg.MetaData.Type)
         tileVar := TileVariation(frameImg.MetaData.Variation)
         tileFrame := frameImg.MetaData.Index

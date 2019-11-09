@@ -10,7 +10,6 @@ import (
     "log"
     "os"
     "regexp"
-    "sort"
 )
 
 // Write a given image to the given path
@@ -83,33 +82,6 @@ func outputSpriteSheet(ss *image.RGBA) {
 
     writeImage(ssOutputPath, ss)
     fmt.Printf("Output %s\n", ssOutputPath)
-}
-
-// Join all sprite sheets together, update their metadata in the Visual Data and return the final, raw sprite sheet
-func joinSpriteSheets(vData *VisualData) *image.RGBA {
-    var packedFrames *[]FrameImage
-
-    // Pack all the sprite sheets together to make one
-    packedFrames, vData.SpriteSheetDimensions.Width, vData.SpriteSheetDimensions.Height = pack(&[]FrameImage{
-        vData.Units.frameImg,
-        vData.Tiles.frameImg,
-        vData.Properties.frameImg,
-    })
-
-    // Update sprite sheet meta data on each visual data object, after sorting the packed frames
-    sort.Sort(TypeSorter(*packedFrames))
-
-    vData.Units.srcX = (*packedFrames)[VisualDataUnits].X
-    vData.Units.srcY = (*packedFrames)[VisualDataUnits].Y
-    vData.Tiles.srcX = (*packedFrames)[VisualDataTiles].X
-    vData.Tiles.srcY = (*packedFrames)[VisualDataTiles].Y
-    vData.Properties.srcX = (*packedFrames)[VisualDataProperties].X
-    vData.Properties.srcY = (*packedFrames)[VisualDataProperties].Y
-
-    adjustUnitsSrc(vData)
-
-    // Return the final sprite sheet
-    return drawPackedFrames(packedFrames, vData.SpriteSheetDimensions.Width, vData.SpriteSheetDimensions.Height)
 }
 
 // Gather additional visual data and attach to the main visual data object

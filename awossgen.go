@@ -4,14 +4,44 @@
 package main
 
 func main() {
-    var vData = VisualData{
-        Units:                 getUnitsData(),
-        Tiles:                 getTilesData(),
-        Properties:            getPropertiesData(),
-        SpriteSheetDimensions: ssDimensions{},
+
+    // Gather tiles frame images
+    var tilesFrameImgs []FrameImage
+
+    getTilesSrcFrameImgs(&tilesFrameImgs)
+    getPropsSrcFrameImgs(&tilesFrameImgs)
+
+    packedTilesFrameImgs, tilesSectionWidth, tilesSectionHeight := pack(&tilesFrameImgs)
+    tilesImg := drawPackedFrames(packedTilesFrameImgs, tilesSectionWidth, tilesSectionHeight)
+
+    // Gather units frame images
+    // Start off the frame images with the previously accumulated image including tiles
+    var unitsFrameImgs []FrameImage = []FrameImage{
+        {
+            Image: tilesImg,
+            Width: tilesSectionWidth,
+            Height: tilesSectionHeight,
+            MetaData: FrameImageMetaData{
+                FrameImageType: SpriteSheetSectionFrameImage,
+            },
+        },
     }
 
-    attachAdditionalVData(&vData)
-    outputSpriteSheet(joinSpriteSheets(&vData))
-    outputJSON(&vData)
+    getUnitsSrcFrameImgs(&unitsFrameImgs)
+
+    packedUnitsFrameImgs, unitsSectionWidth, unitsSectionHeight := pack(&unitsFrameImgs)
+    unitsImg := drawPackedFrames(packedUnitsFrameImgs, unitsSectionWidth, unitsSectionHeight)
+
+    // Create visual data object using the frame images
+    var gameData = VisualData{
+        Tiles: getTilesData(packedTilesFrameImgs),
+        Properties: getPropertiesData(packedTilesFrameImgs),
+        Units: getUnitsData(packedUnitsFrameImgs),
+    }
+
+    attachAdditionalVData(&gameData)
+
+    // Output all results
+    outputJSON(&gameData)
+    outputSpriteSheet(unitsImg)
 }

@@ -2,6 +2,7 @@
 package main
 
 import (
+    "fmt"
     "io/ioutil"
     "log"
     "os"
@@ -9,20 +10,9 @@ import (
 
 // Generate units' sprite sheet & visuals data.
 // srcX/srcY specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
-func getUnitsData()  *UnitsData {
-
-    // Get source frame images
-    srcFrameImgs := getUnitsSrcFrameImgs()
-    packedSrcFrameImgs, srcWidth, srcHeight := pack(srcFrameImgs)
-
+func getUnitsData(packedFrameImgs *[]FrameImage)  *UnitsData {
     vData := UnitsData{
-        Src:       *getUnitsSrcVData(packedSrcFrameImgs),
-        frameImg: FrameImage{
-            Image:    drawPackedFrames(packedSrcFrameImgs, srcWidth, srcHeight),
-            Width:    srcWidth,
-            Height:   srcHeight,
-            MetaData: FrameImageMetaData{Type: uint8(VisualDataUnits)},
-        },
+        Src: *getUnitsSrcVData(packedFrameImgs),
     }
 
     attachExtraUnitsVData(&vData)
@@ -30,9 +20,7 @@ func getUnitsData()  *UnitsData {
 }
 
 // Gets Frame Images from every single Unit image
-func getUnitsSrcFrameImgs() *[]FrameImage {
-    var frameImgs []FrameImage
-
+func getUnitsSrcFrameImgs(frameImgs *[]FrameImage) {
     unitsDir := baseDirPath + inputsDirName + unitsDirName + "/"
 
     // Loop Units
@@ -50,12 +38,10 @@ func getUnitsSrcFrameImgs() *[]FrameImage {
 
             // Loop Animations
             for anim := FirstUnitAnimation; anim <= LastUnitAnimation; anim++ {
-                getAnimFrameImgs(unitType, unitVar, anim, varDir + anim.String() + "/", &frameImgs)
+                getAnimFrameImgs(unitType, unitVar, anim, varDir + anim.String() + "/", frameImgs)
             }
         }
     }
-
-    return &frameImgs
 }
 
 // Get all Frame Images from the given Unit Animation
@@ -75,10 +61,11 @@ func getAnimFrameImgs(uType UnitType, uVar UnitVariation, uAnim UnitAnimation, a
             Width:  imageObj.Bounds().Max.X,
             Height: imageObj.Bounds().Max.Y,
             MetaData: FrameImageMetaData{
-                Type: uint8(uType),
-                Variation: uint8(uVar),
-                Animation: uint8(uAnim),
-                Index: index,
+                Type:           uint8(uType),
+                Variation:      uint8(uVar),
+                Animation:      uint8(uAnim),
+                Index:          index,
+                FrameImageType: UnitFrameImage,
             },
         })
     }
@@ -91,6 +78,12 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
     originVData := make([][][][]Frame, UnitTypeAmount)
 
     for _, frameImg := range *packedFrameImgs {
+
+        // Ignore non-unit frame images
+        if frameImg.MetaData.FrameImageType != UnitFrameImage {
+            continue
+        }
+
         unitType := frameImg.MetaData.Type
         unitVar := frameImg.MetaData.Variation
         unitAnim := frameImg.MetaData.Animation
@@ -124,6 +117,10 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
         }
 
         // Store data
+        if frameImg.X == 48 && frameImg.Y == 64 {
+            fmt.Printf("%#v\n", frameImg)
+        }
+
         originVData[unitType][unitVar][unitAnim][unitFrame] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,
