@@ -186,6 +186,7 @@ const(
     Silo
     BaseSmoke
     LandPiece
+    Empty
     // HQ
     // City
     // Base
@@ -194,7 +195,7 @@ const(
 )
 
 const FirstTileType = Plain
-const LastTileType = LandPiece
+const LastTileType = Empty
 const TileTypesAmount = LastTileType + 1
 
 const LastBaseTileType = Silo
@@ -230,6 +231,7 @@ func (t TileType) String() string {
         "Silo",
         "BaseSmoke",
         "LandPiece",
+        "Empty",
     }[t]
 }
 
