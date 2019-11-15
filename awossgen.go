@@ -37,6 +37,10 @@ func main() {
         Tiles: getTilesData(packedTilesFrameImgs),
         Properties: getPropertiesData(packedTilesFrameImgs),
         Units: getUnitsData(packedUnitsFrameImgs),
+        SpriteSheetDimensions: ssDimensions{
+            Width: unitsSectionWidth,
+            Height: unitsSectionHeight,
+        },
     }
 
     attachAdditionalVData(&gameData)
