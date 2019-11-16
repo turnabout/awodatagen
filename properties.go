@@ -20,17 +20,17 @@ func getPropertiesData(packedFrameImgs *[]FrameImage) *PropertiesData {
 func getPropsSrcFrameImgs(frameImgs *[]FrameImage) {
     propsDir := baseDirPath + inputsDirName + propertiesDirName + "/"
 
-    // Loop Weather Variations
-    for weatherVar := FirstPropertyWeatherVariation; weatherVar <= LastPropertyWeatherVariation; weatherVar++ {
-        weatherDir := propsDir + weatherVar.String() + "/"
+    // Loop property types
+    for propType := FirstPropertyType; propType <= LastPropertyType; propType++ {
+        typeDir := propsDir + propType.String() + "/"
 
-        // Loop Property Types
-        for propType := FirstPropertyType; propType <= LastPropertyType; propType++ {
-            propDir := weatherDir + propType.String() + "/"
+        // Loop variations (weather)
+        for weatherVar := FirstPropertyWeatherVariation; weatherVar <= LastPropertyWeatherVariation; weatherVar++ {
+            weatherDir := typeDir + weatherVar.String() + "/"
 
-            // Loop Unit Variations
+            // Loop unit variations (armies)
             for unitVar := FirstUnitVariation; unitVar <= LastUnitVariation; unitVar++ {
-                fullPath := propDir + unitVar.String() + ".png"
+                fullPath := weatherDir + unitVar.String() + ".png"
 
                 // Ignore this variation if it does not exist on this Property Type
                 if _, err := os.Stat(fullPath); os.IsNotExist(err) {
@@ -58,29 +58,31 @@ func getPropsSrcFrameImgs(frameImgs *[]FrameImage) {
 // Generate the visual data for Properties' origin
 func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
 
-    // Weather Variation -> Property Type -> Unit Variation
-    originVData := make([][][]Frame, PropertyWeatherVariationAmount)
+    // Property type -> Variation (weather) -> Unit variation (army)
+    originVData := make([][][]Frame, PropertyTypeAmount)
 
-    // Initialize Property Type arrays
-    for weatherVar := range originVData {
-        originVData[weatherVar] = make([][]Frame, PropertyTypeAmount)
+    // Initialize property type arrays
+    for propertyType := range originVData {
 
-        // Initialize Unit Variation arrays
-        for propType := range originVData[weatherVar] {
-            var unitVarAmount int
+        // Get amount of unit variations (armies) for this property type (HQs have all, others have only one)
+        var unitVarAmount int
 
-            // HQ Properties have all Unit Variations, while other properties only have one
-            if PropertyType(propType) == HQ {
-                unitVarAmount = int(UnitVariationAmount)
-            } else {
-                unitVarAmount = 1
-            }
+        if PropertyType(propertyType) == HQ {
+            unitVarAmount = int(UnitVariationAmount)
+        } else {
+            unitVarAmount = 1
+        }
 
-            originVData[weatherVar][propType] = make([]Frame, unitVarAmount)
+        originVData[propertyType] = make([][]Frame, PropertyWeatherVariationAmount)
+
+        // Initialize variation (weather) arrays
+        for weatherVar := range originVData[propertyType] {
+
+            originVData[propertyType][weatherVar] = make([]Frame, unitVarAmount)
         }
     }
 
-    // Fill out Src visual data
+    // Fill out properties source data
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-tile frame images
@@ -88,7 +90,11 @@ func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
             continue
         }
 
-        originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
+        propertyType := PropertyType(frameImg.MetaData.Type)
+        weatherVariation := Weather(frameImg.MetaData.Variation)
+        army := UnitType(frameImg.MetaData.Animation)
+
+        originVData[propertyType][weatherVariation][army] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Height: frameImg.Height,
