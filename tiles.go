@@ -11,6 +11,8 @@ import (
 
 // Map for looking up a Tile Type using its corresponding full string
 var tileReverseStrings = map[string]TileType {
+
+    // Basic neutral tiles, represented visually
     "Plain": Plain,
     "Forest": Forest,
     "Mountain": Mountain,
@@ -23,7 +25,12 @@ var tileReverseStrings = map[string]TileType {
     "Pipe": Pipe,
     "PipeFragile": PipeFragile,
     "Silo": Silo,
+
+    // Additional neutral tiles, represented visually (standard size)
     "BaseSmoke": BaseSmoke,
+    "Empty": Empty,
+
+    // Additional neutral tiles, represented visually (non-standard size)
     "LandPiece": LandPiece,
 }
 
@@ -112,7 +119,7 @@ func getTilesSrcFrameImgs(frameImgs *[]FrameImage) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
-    for tile := FirstTileType; tile <= LastTileType; tile++ {
+    for tile := FirstNeutralTileType; tile < NeutralTileTypeCount; tile++ {
         tileDir := tilesDir + tile.String() + "/"
         files, err := ioutil.ReadDir(tileDir)
 
@@ -190,7 +197,7 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
 func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
-    tilesVData := make([]TileData, TileTypesAmount)
+    tilesVData := make([]TileData, NeutralTileTypeCount)
 
     // Initialize Variations on every TileData
     for tileType := range tilesVData {

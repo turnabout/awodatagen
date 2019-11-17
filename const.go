@@ -172,6 +172,7 @@ func (a UnitAnimation) String() string {
 type TileType uint8
 
 const(
+    // Basic neutral tiles, represented visually
     Plain TileType = iota
     Forest
     Mountain
@@ -184,36 +185,39 @@ const(
     Pipe
     PipeFragile
     Silo
+
+    // Additional neutral tiles, represented visually (standard size)
     BaseSmoke
-    LandPiece
     Empty
-    // HQ
-    // City
-    // Base
-    // Airport
-    // Port
+
+    // Additional neutral tiles, represented visually (non-standard size)
+    LandPiece
+
+    // Property tiles, represented visually in their own module (properties module)
+    Property_HQ
+    Property_City
+    Property_Base
+    Property_Airport
+    Property_Port
+
+    // Meta tiles, not represented visually
+    OOB
 )
 
-const FirstTileType = Plain
-const LastTileType = Empty
-const TileTypesAmount = LastTileType + 1
-
-const LastBaseTileType = Silo
-const BaseTileTypeAmount = LastBaseTileType + 1
-
-// Additional tiles
-const OOB = LastTileType + 1
+const FirstNeutralTileType = Plain
+const LastNeutralTileType  = LandPiece
+const NeutralTileTypeCount = LastNeutralTileType + 1
 
 // Auto var data's adjacent tile indexes
 const AUTOVAR_ADJACENT_TILE_UP    = 0
 const AUTOVAR_ADJACENT_TILE_RIGHT = 1
 const AUTOVAR_ADJACENT_TILE_DOWN  = 2
 const AUTOVAR_ADJACENT_TILE_LEFT  = 3
-const ADJACENT_TILE_AMOUNT = 4
+const ADJACENT_TILE_COUNT         = 4
 
 // const FirstPropertyTileType = HQ
 // const LastPropertyTileType = Port
-// const PropertyTileAmount = (LastPropertyTileType + 1) - TileTypesAmount
+// const PropertyTileAmount = (LastPropertyTileType + 1) - NeutralTileTypeCount
 
 func (t TileType) String() string {
     return [...]string{
@@ -230,8 +234,8 @@ func (t TileType) String() string {
         "PipeFragile",
         "Silo",
         "BaseSmoke",
-        "LandPiece",
         "Empty",
+        "LandPiece",
     }[t]
 }
 

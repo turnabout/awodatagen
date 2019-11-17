@@ -76,7 +76,7 @@ func countBits(n uint) uint {
 func getAutoVarBitsAmount(autoVarData AutoVarData) uint {
     var totalBits uint = 0
 
-    for i := 0; i < ADJACENT_TILE_AMOUNT; i++ {
+    for i := 0; i < ADJACENT_TILE_COUNT; i++ {
         totalBits += countBits(uint(autoVarData.AdjacentTiles[i]))
     }
 
@@ -97,7 +97,7 @@ func processRawAutoVar(rawAutoVarData RawAutoVarData) AutoVarData {
     // fmt.Printf("%s\n", tileVar.String())
 
     // Process every adjacent tile string into a bit field number representing acceptable tile types
-    for i := 0; i < ADJACENT_TILE_AMOUNT; i++ {
+    for i := 0; i < ADJACENT_TILE_COUNT; i++ {
         result.AdjacentTiles[i] = translateAdjTileStr(rawAutoVarData.AdjacentTiles[i])
         // fmt.Printf("%s(%s)\n", rawAutoVarData.AdjacentTiles[i], strconv.FormatUint(uint64(result.AdjacentTiles[i]), 2))
     }
