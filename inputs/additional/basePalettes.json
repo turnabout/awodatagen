@@ -54,8 +54,7 @@
     // Look into "191" and "227", snow only
     "properties": {
         "111": [120, 104, 120], // Lights (shut)
-        "191": [184, 184, 248], // Snow-only
-        "227": [  0, 255,   0], // Snow-only
-        "237": [248, 240, 192]  // Base smoke
+        "237": [248, 240, 192], // Base smoke
+        "238": [248, 240, 192]
     }
 }
