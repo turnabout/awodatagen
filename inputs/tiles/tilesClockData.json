@@ -7,32 +7,38 @@
   },
 
   "Sea": {
-    "clock": 0, // Sea sub clock
+    "clock": 0, // Sea clock
     "defaultSubClock": 0,
     "varSubClocks": {
-      "E": 1, // Top
-      "I": 1  // TopLeft
+      "E": 1, // Top: Pyramid2
+      "I": 1  // TopLeft: Pyramid2
     }
   },
 
   "Shore": {
-    "clock": 0, // Sea sub clock
+    "clock": 0, // Sea clock
     "defaultSubClock": 1,
     "varSubClocks": {
-      "n": 1, // TopConnectedFull
-      "F": 0, // Bottom
-      "o": 0, // BottomConnectedLeft
-      "p": 0, // BottomConnectedRight
-      "1": 0, // TopRightConnectedHorizontal
-      "y": 0, // TopLeftConnectedHorizontal
-      "7": 0, // BottomRightConnectedHorizontal
-      "4": 0  // BottomLeftConnectedHorizontal
+      "n": 1, // TopConnectedFull: Pyramid2
+      "F": 0, // Bottom: Pyramid1
+      "o": 0, // BottomConnectedLeft: Pyramid1
+      "p": 0, // BottomConnectedRight: Pyramid1
+      "1": 0, // TopRightConnectedHorizontal: Pyramid1
+      "y": 0, // TopLeftConnectedHorizontal: Pyramid1
+      "7": 0, // BottomRightConnectedHorizontal: Pyramid1
+      "4": 0  // BottomLeftConnectedHorizontal: Pyramid1
     }
   },
 
   "River": {
-    "clock": 1, // River sub clock
+    "clock": 1, // River clock
     "defaultSubClock": 0,
+    "varSubClocks": {}
+  },
+
+  "BaseSmoke": {
+    "clock": 2, // Base smoke clock
+    "defaultSubClock": 0, // Base smoke
     "varSubClocks": {}
   }
 }
