@@ -496,6 +496,8 @@ type UiElement uint8
 
 const(
     TileCursor UiElement = iota
+    StarSm
+    StarLg
 
     UiElementNone = 255
 )
@@ -503,5 +505,7 @@ const(
 // Map for looking up a Ui Element using its corresponding full string
 var uiElementsReverseStrings = map[string]UiElement {
     "TileCursor": TileCursor,
+    "StarSm": StarSm,
+    "StarLg": StarLg,
 }
 
