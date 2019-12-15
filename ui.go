@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
     "io/ioutil"
     "log"
     "path"
@@ -127,7 +126,7 @@ func getUiElementByString(str string) UiElement {
     var uiElement UiElement
 
     if uiElement, ok = uiElementsReverseStrings[str]; !ok {
-        log.Fatal(fmt.Sprintf("UI Element string '%s' not part of the UiElement enum\n", str))
+        log.Fatalf("UI Element string '%s' not part of the UiElement enum\n", str)
     }
 
     return uiElement

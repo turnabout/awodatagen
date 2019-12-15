@@ -164,7 +164,7 @@ func translateAdjTileStr(rawString string) uint {
             appliedVal = uint(compoundAutoVarValues[symbolString])
             break
         default:
-            log.Fatalf("Unknown symbol type")
+            log.Fatalf("tilesAutoVar: Unknown symbol '%d'\n", symbolType)
             break
         }
 
