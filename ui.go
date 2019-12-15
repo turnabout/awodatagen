@@ -12,7 +12,7 @@ import (
 // Generate Src visual data JSON & sprite sheet
 func getUiData(packedFrameImgs *[]FrameImage) *UiData {
     vData := UiData{
-        // Src: *getTilesSrcVData(packedFrameImgs),
+        Src: *getUiSrcData(packedFrameImgs),
     }
 
     return &vData
@@ -106,6 +106,8 @@ func getUiSrcData(packedFrameImgs *[]FrameImage) *[][]Frame {
         frame := Frame{
             X: frameImg.X,
             Y: frameImg.Y,
+            Width: frameImg.Width,
+            Height: frameImg.Height,
         }
 
         uiSrcData[uiElement][uiElFrame] = frame
