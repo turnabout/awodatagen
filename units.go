@@ -6,6 +6,7 @@ import (
     "io/ioutil"
     "log"
     "os"
+    "path"
 )
 
 // Generate units' sprite sheet & visuals data.
@@ -20,15 +21,14 @@ func getUnitsData(packedFrameImgs *[]FrameImage)  *UnitsData {
 
 // Gets Frame Images from every single Unit image
 func getUnitsSrcFrameImgs(frameImgs *[]FrameImage) {
-    unitsDir := baseDirPath + inputsDirName + unitsDirName + "/"
 
-    // Loop Units
+    // Loop units
     for unitType := FirstUnitType; unitType <= LastUnitType; unitType++ {
-        unitDir := unitsDir + unitType.String() + "/"
 
         // Loop Variations
         for unitVar := FirstUnitVariation; unitVar <= LastUnitVariation; unitVar++ {
-            varDir := unitDir + unitVar.String() + "/"
+
+            varDir := getFullProjectPath( unitsDir, unitType.String(), unitVar.String() )
 
             // Ignore this variation if it does not exist on this unit
             if _, err := os.Stat(varDir); os.IsNotExist(err) {
@@ -37,7 +37,13 @@ func getUnitsSrcFrameImgs(frameImgs *[]FrameImage) {
 
             // Loop Animations
             for anim := FirstUnitAnimation; anim <= LastUnitAnimation; anim++ {
-                getAnimFrameImgs(unitType, unitVar, anim, varDir + anim.String() + "/", frameImgs)
+                getAnimFrameImgs(
+                    unitType,
+                    unitVar,
+                    anim,
+                    path.Join( varDir, anim.String() ),
+                    frameImgs,
+                )
             }
         }
     }
@@ -53,7 +59,7 @@ func getAnimFrameImgs(uType UnitType, uVar UnitVariation, uAnim UnitAnimation, a
 
     // Loop every image of this Animation
     for index, imgFile := range imgFiles {
-        imageObj := getImage(animDir + imgFile.Name())
+        imageObj := getImage(path.Join(animDir, imgFile.Name()))
 
         *frameImgs = append(*frameImgs, FrameImage{
             Image: imageObj,
@@ -133,7 +139,7 @@ func getBaseUnitsData(packedFrameImgs *[]FrameImage) *UnitsData {
 
 // Attach extra data stored away in JSON files
 func attachExtraUnitsVData(vData *UnitsData) {
-    // unitsDir := baseDirPath + inputsDirName + unitsDirName
+    // unitsDir := baseDirPath + inputsDirName + unitsDir
     // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
     // attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
 }

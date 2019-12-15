@@ -9,7 +9,9 @@ import (
     "io/ioutil"
     "log"
     "os"
+    "path"
     "regexp"
+    "runtime/debug"
 )
 
 // Write a given image to the given path
@@ -38,6 +40,8 @@ func attachJSONData(jsonPath string , v interface{}) {
 
     // Unmarshal and store the result
     if err := json.Unmarshal(re.ReplaceAll(data, []byte("")), v); err != nil {
+        fmt.Printf("%s\n", jsonPath)
+        debug.PrintStack()
         log.Fatal(err)
     }
 }
@@ -55,9 +59,9 @@ func outputJSON(visualData *GameData) {
     var jsonOutputPath string
     var envExists bool
 
+    // If environment variable doesn't exist, output in this directory directly
     if jsonOutputPath, envExists = os.LookupEnv(jsonOutputEnvVar); !envExists {
-        // Environment variable doesn't exist, output in this directory directly
-        jsonOutputPath = baseDirPath + "/" + jsonOutputDefaultName
+        jsonOutputPath = path.Join(".", jsonOutputDefaultName)
     }
 
     err = ioutil.WriteFile(jsonOutputPath, data, 0644)
@@ -75,9 +79,9 @@ func outputSpriteSheet(ss *image.RGBA) {
     var ssOutputPath string
     var envExists bool
 
+    // If environment variable doesn't exist, output in this directory directly
     if ssOutputPath, envExists = os.LookupEnv(ssOutputEnvVar); !envExists {
-        // Environment variable doesn't exist, output in this directory directly
-        ssOutputPath = baseDirPath + "/" + ssOutputDefaultName
+        ssOutputPath = path.Join(".", ssOutputDefaultName)
     }
 
     writeImage(ssOutputPath, ss)
@@ -85,12 +89,12 @@ func outputSpriteSheet(ss *image.RGBA) {
 }
 
 // Gather additional visual data and attach to the main visual data object
-func attachAdditionalVData(vData *GameData) {
-    addDir := baseDirPath + inputsDirName + additionalDirName
+func attachAdditionalVData(gameData *GameData) {
 
-    attachJSONData(addDir + stagesFileName, &vData.Stages)
-    attachJSONData(addDir +animClocksFileName, &vData.AnimationSubClocks)
-    attachPaletteData(vData, addDir)
+    attachJSONData( getFullProjectPath(additionalDir, stagesFileName), &gameData.Stages )
+    attachJSONData( getFullProjectPath(additionalDir, animClocksFileName), &gameData.AnimationClocks)
+
+    attachPaletteData(gameData)
 }
 
 // Make up palette using a base and a main Palette raw data
@@ -109,12 +113,12 @@ func makePalette(basePalette *Palette, mainPalette *Palette) *Palette {
     return &resPalette
 }
 
-func attachPaletteData(vData *GameData, addDir string) {
+func attachPaletteData(vData *GameData) {
     var basePalettes map[string]Palette
     var rawPalettes []Palette
 
-    attachJSONData(addDir + basePalettesFileName, &basePalettes)
-    attachJSONData(addDir + palettesFileName, &rawPalettes)
+    attachJSONData( getFullProjectPath(additionalDir, basePalettesFileName), &basePalettes )
+    attachJSONData( getFullProjectPath(additionalDir, palettesFileName), &rawPalettes )
 
     // Generate final palette data
     // Unit palettes

@@ -3,7 +3,11 @@
 //
 package main
 
+import "log"
+
 func main() {
+
+    log.SetFlags(log.LstdFlags | log.Lshortfile)
 
     // 1. Gather tiles/properties frame images
     var tilesFrameImgs []FrameImage

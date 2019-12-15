@@ -19,21 +19,26 @@ func getPropertiesData(packedFrameImgs *[]FrameImage) *PropertiesData {
 
 // Gather Frame Images for Properties' source
 func getPropsSrcFrameImgs(frameImgs *[]FrameImage) {
-    propsDir := baseDirPath + inputsDirName + propertiesDirName + "/"
 
     // Loop Weather Variations
     for weatherVar := FirstPropertyWeatherVariation; weatherVar <= LastPropertyWeatherVariation; weatherVar++ {
-        weatherDir := propsDir + weatherVar.String() + "/"
 
         // Loop Property Types
         for propType := FirstPropertyType; propType <= LastPropertyType; propType++ {
-            propDir := weatherDir + propType.String() + "/"
+            // propDir := getFullProjectPath(propertiesDir) + weatherVar.String() + "/" + propType.String() + "/"
 
-            // Loop Unit Variations
+            // Loop army variations
             for unitVar := FirstUnitVariation; unitVar <= LastUnitVariation; unitVar++ {
-                fullPath := propDir + unitVar.String() + ".png"
 
-                // Ignore this variation if it does not exist on this Property Type
+                fullPath := getFullProjectPath(
+                    propertiesDir,
+                    weatherVar.String(),
+                    propType.String(),
+                    unitVar.String(),
+                ) + ".png"
+
+
+                // Ignore this army variation if it does not exist on properties of this type
                 if _, err := os.Stat(fullPath); os.IsNotExist(err) {
                     continue
                 }
@@ -101,7 +106,7 @@ func getBasePropsData(packedFrameImgs *[]FrameImage) *PropertiesData {
 
 // Attach extra visual data stored away in JSON files
 func attachExtraPropsVData(vData *PropertiesData) {
-    // propsDir := baseDirPath + inputsDirName + propertiesDirName
+    // propsDir := baseDirPath + inputsDirName + propertiesDir
     // attachJSONData(propsDir + palettesFileName, &vData.Palettes)
     // attachJSONData(propsDir +propsLightsRGBFileName, &vData.PropsLightsRGB)
 }

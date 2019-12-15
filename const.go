@@ -9,8 +9,8 @@ type GameData struct {
     Palettes    PaletteData    `json:"palettes"`
     Stages      StageData      `json:"stages"`
 
-    AnimationSubClocks []AnimationClock `json:"animationClocks"`
-    SpriteSheetDimensions ssDimensions `json:"ssDimensions"`
+    AnimationClocks       []AnimationClock `json:"animationClocks"`
+    SpriteSheetDimensions ssDimensions     `json:"ssDimensions"`
 }
 
 type UnitsData [][][][]Frame

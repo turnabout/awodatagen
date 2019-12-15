@@ -18,17 +18,26 @@ func getUiData(packedFrameImgs *[]FrameImage) *UiData {
 
 // Gathers data on every single UI image
 func getUISrcFrameImgs(frameImgs *[]FrameImage) {
-    uiDir := baseDirPath + inputsDirName + uiDirName + "/"
 
     // Gather frame images from the elements found in the UI directory
-    folders, err := ioutil.ReadDir(uiDir)
+    folders, err := ioutil.ReadDir(getFullProjectPath(uiDir))
     if err != nil { log.Fatal(err) }
 
     for _, uiDirElement := range folders {
         if uiDirElement.IsDir() {
-            gatherUiSubDirFrameImgs(frameImgs, uiDirElement.Name(), uiDir + uiDirElement.Name() + "/")
+            gatherUiSubDirFrameImgs(
+                frameImgs,
+                uiDirElement.Name(),
+                getFullProjectPath(uiDir, uiDirElement.Name()),
+            )
         } else {
-            appendUiFrameImg(uiDir, uiDirElement.Name(), 0, UiElementNone, frameImgs)
+            appendUiFrameImg(
+                getFullProjectPath(uiDir),
+                uiDirElement.Name(),
+                0,
+                UiElementNone,
+                frameImgs,
+            )
         }
     }
 }
@@ -50,7 +59,7 @@ func gatherUiSubDirFrameImgs(frameImgs *[]FrameImage, dirName string, dirPath st
 func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement UiElement, frameImgs* []FrameImage) {
 
     // Create the frame image for this UI element
-    imageObj := getImage(dirPath + fileName)
+    imageObj := getImage(path.Join(dirPath, fileName))
 
     // If frame index not given, the frame index should be the file's name itself
     if frameIndex == -1 {

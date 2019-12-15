@@ -1,10 +1,7 @@
+//
 // Stores configuration for the project
+//
 package main
-
-import (
-    "path"
-    "runtime"
-)
 
 // Default name for the resulting spritesheet output
 const ssOutputDefaultName = "spritesheet.png"
@@ -18,38 +15,23 @@ const jsonOutputDefaultName = "visuals.json"
 // Environment variable holding the path where the sprite sheet should be output
 const jsonOutputEnvVar = "AWO_JSON"
 
-// Base directory containing all sprite sheet images & visual data files
-const inputsDirName     = "/inputs"
+// Base inputs directory, containing all images & data files
+const inputsDirName = "inputs"
 
-// Directories under base directory
-const unitsDirName      = "/units"
-const tilesDirName      = "/tiles"
-const propertiesDirName = "/properties"
-const uiDirName         = "/ui"
-const additionalDirName = "/additional"
+// Inputs subdirectories
+const unitsDir       = "units"
+const tilesDir       = "tiles"
+const propertiesDir  = "properties"
+const uiDir          = "ui"
+const additionalDir  = "additional"
 
 // Names of extra data files
-const palettesFileName       = "/palettes.json"
-const basePalettesFileName   = "/basePalettes.json"
-const stagesFileName         = "/stages.json"
-const animClocksFileName     = "/animationClocks.json"
-const tilesClockDataFileName = "/tilesClockData.json"
-const tilesAutoVarFileName   = "./tilesAutoVarData.json"
+const palettesFileName       = "palettes.json"
+const basePalettesFileName   = "basePalettes.json"
+const stagesFileName         = "stages.json"
+const animClocksFileName     = "animationClocks.json"
+const tilesClockDataFileName = "tilesClockData.json"
+const tilesAutoVarFileName   = "tilesAutoVarData.json"
 
-// Size of a regular Tile
+// Size of a regular tile
 const regularTileDimension int = 16
-
-// The base path of this project
-var baseDirPath string = getDirPath()
-
-// Grab this directory's full path
-func getDirPath() string {
-    // Grab awssgen's directory path
-    _, filename, _, ok := runtime.Caller(0)
-
-    if !ok {
-        panic("No caller information")
-    }
-
-    return path.Dir(filename)
-}

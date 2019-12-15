@@ -110,22 +110,20 @@ func getTilesData(packedFrameImgs *[]FrameImage) *TilesData {
     // Get the base tiles data object containing frame source data
     var tilesData *TilesData = getBaseTilesData(packedFrameImgs)
 
-    tilesDir := baseDirPath + inputsDirName + tilesDirName
-
     // Attach additional data to the tiles data: auto-var data, clock data...
-    attachTilesAutoVarData(tilesDir, tilesData)
-    attachTilesClockData(tilesDir, tilesData)
+    attachTilesAutoVarData(tilesData)
+    attachTilesClockData(tilesData)
 
     return tilesData
 }
 
 // Gathers data on every single tile image
 func getTilesSrcFrameImgs(frameImgs *[]FrameImage) {
-    tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 
     // Loop basic (non-property) tile types
     for tile := FirstNeutralTileType; tile < NeutralTileTypeCount; tile++ {
-        tileDir := tilesDir + tile.String() + "/"
+        tileDir := getFullProjectPath( tilesDir, tile.String() )
+
         files, err := ioutil.ReadDir(tileDir)
 
         if err != nil {
@@ -148,7 +146,7 @@ func gatherSingleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
         tileVar := tileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
 
         // Add this file's image data to its corresponding tile variation
-        imageObj := getImage(tileDir + file.Name())
+        imageObj := getImage(path.Join(tileDir, file.Name()))
 
         *frameImgs = append(*frameImgs, FrameImage{
             Image: imageObj,
@@ -171,7 +169,7 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
         // Get the Tile Variation corresponding to this image file
         tileVar := tileVarsReverseStrings[dir.Name()]
 
-        varDir := tileDir + dir.Name() + "/"
+        varDir := path.Join(tileDir, dir.Name());
         varFiles, err := ioutil.ReadDir(varDir)
 
         if err != nil {
@@ -181,7 +179,7 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
         // Loop every frame image of this variation
         for index, varFile := range varFiles {
             // Add this file's image data to its corresponding tile variation
-            imageObj := getImage(varDir + varFile.Name())
+            imageObj := getImage(path.Join(varDir, varFile.Name()))
 
             *frameImgs = append(*frameImgs, FrameImage{
                 Image: imageObj,

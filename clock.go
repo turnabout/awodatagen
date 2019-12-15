@@ -1,10 +1,10 @@
 package main
 
-func attachTilesClockData(tilesDir string, tilesData *TilesData) {
+func attachTilesClockData(tilesData *TilesData) {
 
     var tilesClockData map[string]TileClockData
 
-    attachJSONData(tilesDir + tilesClockDataFileName, &tilesClockData)
+    attachJSONData( getFullProjectPath(tilesDir, tilesClockDataFileName), &tilesClockData )
 
     for tileStr := range tilesClockData {
         tileType := tileReverseStrings[tileStr]

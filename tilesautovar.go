@@ -27,11 +27,13 @@ var compoundAutoVarValues = map[string]uint{
 }
 
 // Attach auto var data to accumulated tiles data
-func attachTilesAutoVarData(tilesDir string, tilesData *TilesData) {
+func attachTilesAutoVarData(tilesData *TilesData) {
     var rawData RawAutoVarsData
 
     // Load raw auto var data file into structure
-    attachJSONData(tilesDir + tilesAutoVarFileName, &rawData)
+    getFullProjectPath(tilesDir)
+
+    attachJSONData( getFullProjectPath(tilesDir, tilesAutoVarFileName), &rawData )
 
     // Loop every tile type
     for tileTypeStr, tileTypeAutoVars := range rawData {
