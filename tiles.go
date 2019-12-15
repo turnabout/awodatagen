@@ -114,7 +114,7 @@ func getTilesData(packedFrameImgs *[]FrameImage) *TilesData {
     return &vData
 }
 
-// Gathers data on every single image, filling out "tilesImgData"
+// Gathers data on every single tile image
 func getTilesSrcFrameImgs(frameImgs *[]FrameImage) {
     tilesDir := baseDirPath + inputsDirName + tilesDirName + "/"
 

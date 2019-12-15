@@ -20,12 +20,15 @@ const jsonOutputEnvVar = "AWO_JSON"
 
 // Base directory containing all sprite sheet images & visual data files
 const inputsDirName     = "/inputs"
+
+// Directories under base directory
 const unitsDirName      = "/units"
 const tilesDirName      = "/tiles"
 const propertiesDirName = "/properties"
+const uiDirName         = "/ui"
 const additionalDirName = "/additional"
 
-// Name of extra data files
+// Names of extra data files
 const palettesFileName       = "/palettes.json"
 const basePalettesFileName   = "/basePalettes.json"
 const stagesFileName         = "/stages.json"

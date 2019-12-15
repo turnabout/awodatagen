@@ -5,20 +5,20 @@ package main
 
 func main() {
 
-    // Gather tiles frame images
+    // 1. Gather tiles/properties frame images
     var tilesFrameImgs []FrameImage
 
     getTilesSrcFrameImgs(&tilesFrameImgs)
     getPropsSrcFrameImgs(&tilesFrameImgs)
 
     packedTilesFrameImgs, tilesSectionWidth, tilesSectionHeight := pack(&tilesFrameImgs)
-    tilesImg := drawPackedFrames(packedTilesFrameImgs, tilesSectionWidth, tilesSectionHeight)
+    accumImg := drawPackedFrames(packedTilesFrameImgs, tilesSectionWidth, tilesSectionHeight)
 
-    // Gather units frame images
-    // Start off the frame images with the previously accumulated image including tiles
+    // 2. Gather units frame images
+    // Start off the frame images with previously accumulated image including tiles
     var unitsFrameImgs []FrameImage = []FrameImage{
         {
-            Image: tilesImg,
+            Image: accumImg,
             Width: tilesSectionWidth,
             Height: tilesSectionHeight,
             MetaData: FrameImageMetaData{
@@ -30,7 +30,23 @@ func main() {
     getUnitsSrcFrameImgs(&unitsFrameImgs)
 
     packedUnitsFrameImgs, unitsSectionWidth, unitsSectionHeight := pack(&unitsFrameImgs)
-    unitsImg := drawPackedFrames(packedUnitsFrameImgs, unitsSectionWidth, unitsSectionHeight)
+    accumImg = drawPackedFrames(packedUnitsFrameImgs, unitsSectionWidth, unitsSectionHeight)
+
+    // 3. Gather UI frame images
+    // Start off the frame images with previously accumulated image including tiles & units
+    var uiFrameImgs []FrameImage = []FrameImage{
+        {
+            Image: accumImg,
+            Width: unitsSectionWidth,
+            Height: unitsSectionHeight,
+            MetaData: FrameImageMetaData{
+                FrameImageType: SpriteSheetSectionFrameImage,
+            },
+        },
+    }
+
+    packedUiFrameImgs, uiSectionWidth, uiSectionHeight := pack(&uiFrameImgs)
+    accumImg = drawPackedFrames(packedUiFrameImgs, uiSectionWidth, uiSectionHeight)
 
     // Create visual data object using the frame images
     var gameData = VisualData{
@@ -47,5 +63,5 @@ func main() {
 
     // Output all results
     outputJSON(&gameData)
-    outputSpriteSheet(unitsImg)
+    outputSpriteSheet(accumImg)
 }
