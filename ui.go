@@ -27,7 +27,6 @@ func getUISrcFrameImgs(frameImgs *[]FrameImage) {
     if err != nil { log.Fatal(err) }
 
     for _, uiDirElement := range folders {
-
         if uiDirElement.IsDir() {
             gatherUiSubDirFrameImgs(frameImgs, uiDirElement.Name(), uiDir + uiDirElement.Name() + "/")
         } else {
@@ -64,7 +63,7 @@ func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement
 
     // If ui element not given, the ui element should be the file's name itself
     if int(uiElement) == UiElementNone {
-        uiElement = getUiElementByString(fileName)
+        uiElement = getUiElementByString(strings.TrimSuffix(fileName, path.Ext(fileName)))
     }
 
     *frameImgs = append(*frameImgs, FrameImage{
