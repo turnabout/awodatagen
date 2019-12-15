@@ -502,6 +502,10 @@ const(
     UiElementNone = 255
 )
 
+const UiElementFirst = TileCursor
+const UiElementLast = StarLg
+const UiElementCount = UiElementLast + 1
+
 // Map for looking up a Ui Element using its corresponding full string
 var uiElementsReverseStrings = map[string]UiElement {
     "TileCursor": TileCursor,

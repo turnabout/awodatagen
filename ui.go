@@ -78,6 +78,42 @@ func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement
     })
 }
 
+// Generate UI source data for game_data.json
+func getUiSrcData(packedFrameImgs *[]FrameImage) *[][]Frame {
+
+    // UI Element Type -> UI Element Frames
+    uiSrcData := make([][]Frame, UiElementCount)
+
+    // Process frame images
+    for _, frameImg := range *packedFrameImgs {
+
+        // Ignore non-UI element frame images
+        if frameImg.MetaData.FrameImageType != UiElementFrameImage {
+            continue
+        }
+
+        uiElement := UiElement(frameImg.MetaData.Type)
+        uiElFrame := frameImg.MetaData.Index
+
+        // Add any frames missing up until the one we're adding
+        if missingFrames := (uiElFrame + 1) - len(uiSrcData[uiElement]); missingFrames > 0 {
+            for i := 0; i < missingFrames; i++ {
+                uiSrcData[uiElement] = append(uiSrcData[uiElement], Frame{})
+            }
+        }
+
+        // Add the Frame data to the animation slice, and record it to the visual data
+        frame := Frame{
+            X: frameImg.X,
+            Y: frameImg.Y,
+        }
+
+        uiSrcData[uiElement][uiElFrame] = frame
+    }
+
+    return &uiSrcData
+}
+
 func getUiElementByString(str string) UiElement {
     var ok bool
     var uiElement UiElement
