@@ -22,36 +22,24 @@ func getUiData(packedFrameImgs *[]FrameImage) *UiData {
 func getUISrcFrameImgs(frameImgs *[]FrameImage) {
     uiDir := baseDirPath + inputsDirName + uiDirName + "/"
 
-    // Loop all UI folders
+    // Gather frame images from the elements found in the UI directory
     folders, err := ioutil.ReadDir(uiDir)
     if err != nil { log.Fatal(err) }
 
-    for _, uiSubDir := range folders {
+    for _, uiDirElement := range folders {
 
-        // Ensure all looped values are directories
-        if !uiSubDir.IsDir() {
-            log.Fatal(
-                fmt.Sprintf(
-                    "Found file '%s' in UI directory (should only contain subdirectories)\n",
-                    uiSubDir.Name(),
-                ),
-            )
+        if uiDirElement.IsDir() {
+            gatherUiSubDirFrameImgs(frameImgs, uiDirElement.Name(), uiDir + uiDirElement.Name() + "/")
+        } else {
+            appendUiFrameImg(uiDir, uiDirElement.Name(), 0, UiElementNone, frameImgs)
         }
-
-        // Get frame images from the sub directory
-        gatherUiSubDirFrameImgs(frameImgs, uiSubDir.Name(), uiDir + uiSubDir.Name() + "/")
     }
 }
 
 func gatherUiSubDirFrameImgs(frameImgs *[]FrameImage, dirName string, dirPath string) {
 
     // Get the UI Element corresponding to this directory
-    var uiElement UiElement
-    var ok bool
-
-    if uiElement, ok = uiElementsReverseStrings[dirName]; !ok {
-        log.Fatal(fmt.Sprintf("UI Element directory '%s' not part of the UiElement enum\n", dirName))
-    }
+    uiElement := getUiElementByString(dirName)
 
     // Loop all frames for this UI element
     uiSubDirFiles, err := ioutil.ReadDir(dirPath)
@@ -74,6 +62,11 @@ func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement
         if err != nil {log.Fatal(err)}
     }
 
+    // If ui element not given, the ui element should be the file's name itself
+    if int(uiElement) == UiElementNone {
+        uiElement = getUiElementByString(fileName)
+    }
+
     *frameImgs = append(*frameImgs, FrameImage{
         Image: imageObj,
         Width: imageObj.Bounds().Max.X,
@@ -84,4 +77,15 @@ func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement
             FrameImageType: UiElementFrameImage,
         },
     })
+}
+
+func getUiElementByString(str string) UiElement {
+    var ok bool
+    var uiElement UiElement
+
+    if uiElement, ok = uiElementsReverseStrings[str]; !ok {
+        log.Fatal(fmt.Sprintf("UI Element string '%s' not part of the UiElement enum\n", str))
+    }
+
+    return uiElement
 }

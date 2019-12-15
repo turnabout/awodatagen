@@ -496,6 +496,8 @@ type UiElement uint8
 
 const(
     TileCursor UiElement = iota
+
+    UiElementNone = 255
 )
 
 // Map for looking up a Ui Element using its corresponding full string
