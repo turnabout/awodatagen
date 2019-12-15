@@ -45,6 +45,8 @@ func main() {
         },
     }
 
+    getUISrcFrameImgs(&uiFrameImgs)
+
     packedUiFrameImgs, uiSectionWidth, uiSectionHeight := pack(&uiFrameImgs)
     accumImg = drawPackedFrames(packedUiFrameImgs, uiSectionWidth, uiSectionHeight)
 
@@ -53,6 +55,7 @@ func main() {
         Tiles: getTilesData(packedTilesFrameImgs),
         Properties: getPropertiesData(packedTilesFrameImgs),
         Units: getUnitsData(packedUnitsFrameImgs),
+        UI: getUiData(packedUiFrameImgs),
         SpriteSheetDimensions: ssDimensions{
             Width: unitsSectionWidth,
             Height: unitsSectionHeight,

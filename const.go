@@ -5,6 +5,7 @@ type VisualData struct {
     Units                 *UnitsData       `json:"units"`
     Tiles                 *TilesData       `json:"tiles"`
     Properties            *PropertiesData  `json:"properties"`
+    UI                    *UiData          `json:"uiData"`
 
     Palettes              []Palette        `json:"palettes"`
 
@@ -35,6 +36,10 @@ type PropertiesData struct {
     srcX     int
     srcY     int
     frameImg FrameImage
+}
+
+type UiData struct {
+    Src [][]Frame `json:"src"`
 }
 
 type TileData struct {
@@ -486,3 +491,15 @@ type AnimationClock struct {
     ChangingTicks []int   `json:"changingTicks"` // Ticks which update the animations subscribed to this clock
     SubClocks     [][]int `json:"subClocks"`     // Which indexes animations subscribed to this clock should use
 }
+
+type UiElement uint8
+
+const(
+    TileCursor UiElement = iota
+)
+
+// Map for looking up a Ui Element using its corresponding full string
+var uiElementsReverseStrings = map[string]UiElement {
+    "TileCursor": TileCursor,
+}
+

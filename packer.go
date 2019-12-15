@@ -24,6 +24,7 @@ const(
     UnitFrameImage FrameImageType = iota
     TileFrameImage
     PropertyFrameImage
+    UiElementFrameImage
     SpriteSheetSectionFrameImage
 )
 

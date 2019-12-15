@@ -2,15 +2,19 @@ package main
 
 import (
     "fmt"
+    "io/ioutil"
+    "log"
+    "path"
+    "strconv"
+    "strings"
 )
 
 // Generate Src visual data JSON & sprite sheet
-func getUIData(packedFrameImgs *[]FrameImage) *TilesData {
-    vData := TilesData{
+func getUiData(packedFrameImgs *[]FrameImage) *UiData {
+    vData := UiData{
         // Src: *getTilesSrcVData(packedFrameImgs),
     }
 
-    attachExtraTilesVData(&vData)
     return &vData
 }
 
@@ -18,24 +22,58 @@ func getUIData(packedFrameImgs *[]FrameImage) *TilesData {
 func getUISrcFrameImgs(frameImgs *[]FrameImage) {
     uiDir := baseDirPath + inputsDirName + uiDirName + "/"
 
-    fmt.Printf("%d\n", uiDir)
+    // Loop all UI folders
+    folders, err := ioutil.ReadDir(uiDir)
+    if err != nil { log.Fatal(err) }
 
-    // Loop basic (non-property) tile types
-    /*
-    for tile := FirstNeutralTileType; tile < NeutralTileTypeCount; tile++ {
-        tileDir := tilesDir + tile.String() + "/"
-        files, err := ioutil.ReadDir(tileDir)
+    for _, uiSubDir := range folders {
 
-        if err != nil {
-            log.Fatal(err)
+        // Ensure all looped values are directories
+        if !uiSubDir.IsDir() {
+            log.Fatal(
+                fmt.Sprintf(
+                    "Found file '%s' in UI directory (should only contain subdirectories)\n",
+                    uiSubDir.Name(),
+                ),
+            )
         }
 
-        // Check if 1 or 2-level tile
-        if files[0].IsDir() {
-            gatherDoubleLvlTileFrameImgs(frameImgs, tile, tileDir, files)
-        } else {
-            gatherSingleLvlTileFrameImgs(frameImgs, tile, tileDir, files)
-        }
+        // Get frame images from the sub directory
+        gatherUiSubDirFrameImgs(frameImgs, uiSubDir.Name(), uiDir + uiSubDir.Name() + "/")
     }
-    */
+}
+
+func gatherUiSubDirFrameImgs(frameImgs *[]FrameImage, dirName string, dirPath string) {
+
+    // Get the UI Element corresponding to this directory
+    var uiElement UiElement
+    var ok bool
+
+    if uiElement, ok = uiElementsReverseStrings[dirName]; !ok {
+        log.Fatal(fmt.Sprintf("UI Element directory '%s' not part of the UiElement enum\n", dirName))
+    }
+
+    // Loop all frames for this UI element
+    uiSubDirFiles, err := ioutil.ReadDir(dirPath)
+    if err != nil {log.Fatal(err)}
+
+    for _, file := range uiSubDirFiles {
+
+        // Create the frame image for this UI element
+        imageObj := getImage(dirPath + file.Name())
+
+        frameIndex, err := strconv.Atoi(strings.TrimSuffix(file.Name(), path.Ext(file.Name())))
+        if err != nil {log.Fatal(err)}
+
+        *frameImgs = append(*frameImgs, FrameImage{
+            Image: imageObj,
+            Width: imageObj.Bounds().Max.X,
+            Height: imageObj.Bounds().Max.Y,
+            MetaData: FrameImageMetaData{
+                Type: uint8(uiElement),
+                Index: frameIndex,
+                FrameImageType: UiElementFrameImage,
+            },
+        })
+    }
 }
