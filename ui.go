@@ -58,22 +58,30 @@ func gatherUiSubDirFrameImgs(frameImgs *[]FrameImage, dirName string, dirPath st
     if err != nil {log.Fatal(err)}
 
     for _, file := range uiSubDirFiles {
-
-        // Create the frame image for this UI element
-        imageObj := getImage(dirPath + file.Name())
-
-        frameIndex, err := strconv.Atoi(strings.TrimSuffix(file.Name(), path.Ext(file.Name())))
-        if err != nil {log.Fatal(err)}
-
-        *frameImgs = append(*frameImgs, FrameImage{
-            Image: imageObj,
-            Width: imageObj.Bounds().Max.X,
-            Height: imageObj.Bounds().Max.Y,
-            MetaData: FrameImageMetaData{
-                Type: uint8(uiElement),
-                Index: frameIndex,
-                FrameImageType: UiElementFrameImage,
-            },
-        })
+        appendUiFrameImg(dirPath, file.Name(), -1, uiElement, frameImgs)
     }
+}
+
+func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement UiElement, frameImgs* []FrameImage) {
+
+    // Create the frame image for this UI element
+    imageObj := getImage(dirPath + fileName)
+
+    // If frame index not given, the frame index should be the file's name itself
+    if frameIndex == -1 {
+        var err error
+        frameIndex, err = strconv.Atoi(strings.TrimSuffix(fileName, path.Ext(fileName)))
+        if err != nil {log.Fatal(err)}
+    }
+
+    *frameImgs = append(*frameImgs, FrameImage{
+        Image: imageObj,
+        Width: imageObj.Bounds().Max.X,
+        Height: imageObj.Bounds().Max.Y,
+        MetaData: FrameImageMetaData{
+            Type: uint8(uiElement),
+            Index: frameIndex,
+            FrameImageType: UiElementFrameImage,
+        },
+    })
 }
