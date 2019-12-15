@@ -43,7 +43,7 @@ func attachJSONData(jsonPath string , v interface{}) {
 }
 
 // Output the visuals data JSON
-func outputJSON(visualData *VisualData) {
+func outputJSON(visualData *GameData) {
     // data, err := json.Marshal(visualData)
     data, err := json.MarshalIndent(visualData, "", "\t")
 
@@ -85,7 +85,7 @@ func outputSpriteSheet(ss *image.RGBA) {
 }
 
 // Gather additional visual data and attach to the main visual data object
-func attachAdditionalVData(vData *VisualData) {
+func attachAdditionalVData(vData *GameData) {
     addDir := baseDirPath + inputsDirName + additionalDirName
 
     attachJSONData(addDir + stagesFileName, &vData.Stages)
@@ -109,7 +109,7 @@ func makePalette(basePalette *Palette, mainPalette *Palette) *Palette {
     return &resPalette
 }
 
-func attachPaletteData(vData *VisualData, addDir string) {
+func attachPaletteData(vData *GameData, addDir string) {
     var basePalettes map[string]Palette
     var rawPalettes []Palette
 

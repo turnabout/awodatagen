@@ -106,12 +106,17 @@ var tileVarsReverseStrings = map[string]TileVariation {
 
 // Generate Src visual data JSON & sprite sheet
 func getTilesData(packedFrameImgs *[]FrameImage) *TilesData {
-    vData := TilesData{
-        Src: *getTilesSrcVData(packedFrameImgs),
-    }
 
-    attachExtraTilesVData(&vData)
-    return &vData
+    // Get the base tiles data object containing frame source data
+    var tilesData *TilesData = getBaseTilesData(packedFrameImgs)
+
+    tilesDir := baseDirPath + inputsDirName + tilesDirName
+
+    // Attach additional data to the tiles data: auto-var data, clock data...
+    attachTilesAutoVarData(tilesDir, tilesData)
+    attachTilesClockData(tilesDir, tilesData)
+
+    return tilesData
 }
 
 // Gathers data on every single tile image
@@ -194,10 +199,10 @@ func gatherDoubleLvlTileFrameImgs(frameImgs *[]FrameImage, tile TileType, tileDi
 }
 
 // Generate visual data for Src
-func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
+func getBaseTilesData(packedFrameImgs *[]FrameImage) *TilesData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
-    tilesVData := make([]TileData, NeutralTileTypeCount)
+    tilesVData := make(TilesData, NeutralTileTypeCount)
 
     // Initialize Variations on every TileData
     for tileType := range tilesVData {
@@ -252,27 +257,4 @@ func getTilesSrcVData(packedFrameImgs *[]FrameImage) *[]TileData {
     }
 
     return &tilesVData
-}
-
-// Attach extra visual data stored away in JSON files
-func attachExtraTilesVData(vData *TilesData) {
-    tilesDir := baseDirPath + inputsDirName + tilesDirName
-
-    // attachJSONData(tilesDir + palettesFileName, &vData.Palettes)
-    // attachJSONData(tilesDir + basePaletteFileName, &vData.BasePalette)
-
-    // Attach tiles' auto var data
-    attachTilesAutoVarData(tilesDir, vData)
-
-    // Attach tiles' clock data
-    var tilesClockData map[string]TileClockData
-
-    attachJSONData(tilesDir + tilesClockDataFileName, &tilesClockData)
-
-    for tileStr := range tilesClockData {
-        tileType := tileReverseStrings[tileStr]
-        data := tilesClockData[tileStr]
-
-        (*vData).Src[tileType].ClockData = &data
-    }
 }

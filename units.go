@@ -11,12 +11,11 @@ import (
 // Generate units' sprite sheet & visuals data.
 // srcX/srcY specifies the coordinates of the units' sprite sheet within the final raw sprite sheet
 func getUnitsData(packedFrameImgs *[]FrameImage)  *UnitsData {
-    vData := UnitsData{
-        Src: *getUnitsSrcVData(packedFrameImgs),
-    }
+    var unitsData *UnitsData = getBaseUnitsData(packedFrameImgs)
 
-    attachExtraUnitsVData(&vData)
-    return &vData
+    attachExtraUnitsVData(unitsData)
+
+    return unitsData
 }
 
 // Gets Frame Images from every single Unit image
@@ -72,10 +71,10 @@ func getAnimFrameImgs(uType UnitType, uVar UnitVariation, uAnim UnitAnimation, a
 }
 
 // Generate the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
+func getBaseUnitsData(packedFrameImgs *[]FrameImage) *UnitsData {
 
     // Unit Type -> Variation -> Animation -> Animation Frames
-    originVData := make([][][][]Frame, UnitTypeAmount)
+    unitsData := make(UnitsData, UnitTypeAmount)
 
     for _, frameImg := range *packedFrameImgs {
 
@@ -90,29 +89,29 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
         unitFrame := frameImg.MetaData.Index
 
         // Check if Variation is missing, add up to it if necessary
-        missingVars := int(unitVar + 1) - len(originVData[unitType])
+        missingVars := int(unitVar + 1) - len(unitsData[unitType])
 
         if missingVars > 0 {
             for i := 0; i < missingVars; i++ {
-                originVData[unitType] = append(originVData[unitType], [][]Frame{})
+                unitsData[unitType] = append(unitsData[unitType], [][]Frame{})
             }
         }
 
         // Check if Animation is missing, add up to it if necessary
-        missingAnims := int(unitAnim + 1) - len(originVData[unitType][unitVar])
+        missingAnims := int(unitAnim + 1) - len(unitsData[unitType][unitVar])
 
         if missingAnims > 0 {
             for i := 0; i < missingAnims; i++ {
-                originVData[unitType][unitVar] = append(originVData[unitType][unitVar], []Frame{})
+                unitsData[unitType][unitVar] = append(unitsData[unitType][unitVar], []Frame{})
             }
         }
 
         // Check if Animation Frame is missing, add up to it if necessary
-        missingFrames := int(unitFrame + 1) - len(originVData[unitType][unitVar][unitAnim])
+        missingFrames := int(unitFrame + 1) - len(unitsData[unitType][unitVar][unitAnim])
 
         if missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                originVData[unitType][unitVar][unitAnim] = append(originVData[unitType][unitVar][unitAnim], Frame{})
+                unitsData[unitType][unitVar][unitAnim] = append(unitsData[unitType][unitVar][unitAnim], Frame{})
             }
         }
 
@@ -121,7 +120,7 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
             fmt.Printf("%#v\n", frameImg)
         }
 
-        originVData[unitType][unitVar][unitAnim][unitFrame] = Frame{
+        unitsData[unitType][unitVar][unitAnim][unitFrame] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,
@@ -129,10 +128,10 @@ func getUnitsSrcVData(packedFrameImgs *[]FrameImage) *[][][][]Frame {
         }
     }
 
-    return &originVData
+    return &unitsData
 }
 
-// Attach extra visual data stored away in JSON files
+// Attach extra data stored away in JSON files
 func attachExtraUnitsVData(vData *UnitsData) {
     // unitsDir := baseDirPath + inputsDirName + unitsDirName
     // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)

@@ -8,12 +8,13 @@ import (
 // Generate properties' sprite sheet & visual data
 func getPropertiesData(packedFrameImgs *[]FrameImage) *PropertiesData {
 
-    vData := PropertiesData{
-        Src: *getPropsSrcVData(packedFrameImgs),
-    }
+    // Get the base properties data object containing frame source data
+    var propsData *PropertiesData = getBasePropsData(packedFrameImgs)
 
-    attachExtraPropsVData(&vData)
-    return &vData
+    // Attach additional data to the properties data
+    attachExtraPropsVData(propsData)
+
+    return propsData
 }
 
 // Gather Frame Images for Properties' source
@@ -56,17 +57,17 @@ func getPropsSrcFrameImgs(frameImgs *[]FrameImage) {
 }
 
 // Generate the visual data for Properties' origin
-func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
+func getBasePropsData(packedFrameImgs *[]FrameImage) *PropertiesData {
 
     // Weather Variation -> Property Type -> Unit Variation
-    originVData := make([][][]Frame, PropertyWeatherVariationAmount)
+    propsData := make(PropertiesData, PropertyWeatherVariationAmount)
 
     // Initialize Property Type arrays
-    for weatherVar := range originVData {
-        originVData[weatherVar] = make([][]Frame, PropertyTypeAmount)
+    for weatherVar := range propsData {
+        propsData[weatherVar] = make([][]Frame, PropertyTypeAmount)
 
         // Initialize Unit Variation arrays
-        for propType := range originVData[weatherVar] {
+        for propType := range propsData[weatherVar] {
             var unitVarAmount int
 
             // HQ Properties have all Unit Variations, while other properties only have one
@@ -76,7 +77,7 @@ func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
                 unitVarAmount = 1
             }
 
-            originVData[weatherVar][propType] = make([]Frame, unitVarAmount)
+            propsData[weatherVar][propType] = make([]Frame, unitVarAmount)
         }
     }
 
@@ -88,14 +89,14 @@ func getPropsSrcVData(packedFrameImgs *[]FrameImage) *[][][]Frame {
             continue
         }
 
-        originVData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
+        propsData[frameImg.MetaData.Variation][frameImg.MetaData.Type][frameImg.MetaData.Animation] = Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Height: frameImg.Height,
         }
     }
 
-    return &originVData
+    return &propsData
 }
 
 // Attach extra visual data stored away in JSON files

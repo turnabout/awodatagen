@@ -11,11 +11,9 @@ import (
 
 // Generate Src visual data JSON & sprite sheet
 func getUiData(packedFrameImgs *[]FrameImage) *UiData {
-    vData := UiData{
-        Src: *getUiSrcData(packedFrameImgs),
-    }
+    var uiData *UiData = getUiBaseData(packedFrameImgs)
 
-    return &vData
+    return uiData
 }
 
 // Gathers data on every single UI image
@@ -78,11 +76,10 @@ func appendUiFrameImg(dirPath string, fileName string, frameIndex int, uiElement
     })
 }
 
-// Generate UI source data for game_data.json
-func getUiSrcData(packedFrameImgs *[]FrameImage) *[][]Frame {
+func getUiBaseData(packedFrameImgs *[]FrameImage) *UiData {
 
     // UI Element Type -> UI Element Frames
-    uiSrcData := make([][]Frame, UiElementCount)
+    uiData := make(UiData, UiElementCount)
 
     // Process frame images
     for _, frameImg := range *packedFrameImgs {
@@ -96,9 +93,9 @@ func getUiSrcData(packedFrameImgs *[]FrameImage) *[][]Frame {
         uiElFrame := frameImg.MetaData.Index
 
         // Add any frames missing up until the one we're adding
-        if missingFrames := (uiElFrame + 1) - len(uiSrcData[uiElement]); missingFrames > 0 {
+        if missingFrames := (uiElFrame + 1) - len(uiData[uiElement]); missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                uiSrcData[uiElement] = append(uiSrcData[uiElement], Frame{})
+                uiData[uiElement] = append(uiData[uiElement], Frame{})
             }
         }
 
@@ -110,10 +107,10 @@ func getUiSrcData(packedFrameImgs *[]FrameImage) *[][]Frame {
             Height: frameImg.Height,
         }
 
-        uiSrcData[uiElement][uiElFrame] = frame
+        uiData[uiElement][uiElFrame] = frame
     }
 
-    return &uiSrcData
+    return &uiData
 }
 
 func getUiElementByString(str string) UiElement {

@@ -1,35 +1,32 @@
 package main
 
-// Visual data JSON structure
-type VisualData struct {
-    Units                 *UnitsData       `json:"units"`
-    Tiles                 *TilesData       `json:"tiles"`
-    Properties            *PropertiesData  `json:"properties"`
-    UI                    *UiData          `json:"uiData"`
+// Game data JSON structure
+type GameData struct {
+    Units       UnitsData      `json:"units"`
+    Tiles       TilesData      `json:"tiles"`
+    Properties  PropertiesData `json:"properties"`
+    UI          UiData         `json:"ui"`
+    Palettes    PaletteData    `json:"palettes"`
+    Stages      StageData      `json:"stages"`
 
-    Palettes              []Palette        `json:"palettes"`
-
-    AnimationSubClocks    []AnimationClock `json:"animationClocks"`
-    Stages                []string         `json:"stages"`
-    SpriteSheetDimensions ssDimensions     `json:"ssDimensions"`
+    AnimationSubClocks []AnimationClock `json:"animationClocks"`
+    SpriteSheetDimensions ssDimensions `json:"ssDimensions"`
 }
 
-type UnitsData struct {
-    Src [][][][]Frame `json:"src"`
+type UnitsData [][][][]Frame
+type TilesData []TileData
+type PropertiesData [][][]Frame
+type UiData [][]Frame
+type PaletteData []Palette
+type StageData []string
+
+// Sprite sheet dimensions
+type ssDimensions struct {
+    Width int `json:"width"`
+    Height int `json:"height"`
 }
 
-type TilesData struct {
-    Src       []TileData `json:"src"`
-}
-
-type PropertiesData struct {
-    Src    [][][]Frame `json:"src"`
-}
-
-type UiData struct {
-    Src [][]Frame `json:"src"`
-}
-
+// Tiles data
 type TileData struct {
     Variations map[string][]Frame `json:"vars"`
     ClockData  *TileClockData     `json:"clockData,omitempty"`
@@ -42,6 +39,7 @@ type TileClockData struct {
     VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
 }
 
+// Auto-vars data
 type RawAutoVarsData map[string][]RawAutoVarData
 
 type RawAutoVarData struct {
@@ -58,12 +56,7 @@ type AutoVarData struct {
                                             // adjacent tile.
 }
 
-type ssDimensions struct {
-    Width int `json:"width"`
-    Height int `json:"height"`
-}
-
-// Used to store a frame's visual data within the game's sprite sheet
+// Frame data
 type Frame struct {
     X int      `json:"x"`
     Y int      `json:"y"`
@@ -208,10 +201,6 @@ const AUTOVAR_ADJACENT_TILE_DOWN  = 2
 const AUTOVAR_ADJACENT_TILE_LEFT  = 3
 const ADJACENT_TILE_COUNT         = 4
 
-// const FirstPropertyTileType = HQ
-// const LastPropertyTileType = Port
-// const PropertyTileAmount = (LastPropertyTileType + 1) - NeutralTileTypeCount
-
 func (t TileType) String() string {
     return [...]string{
         "Plain",
@@ -229,6 +218,11 @@ func (t TileType) String() string {
         "BaseSmoke",
         "Empty",
         "LandPiece",
+        "Property_HQ",
+        "Property_City",
+        "Property_Base",
+        "Property_Airport",
+        "Property_Port",
     }[t]
 }
 
@@ -399,18 +393,6 @@ func (v TileVariation) String() string {
         "=",
     }[v]
 }
-
-// Visual Data IDs for keeping an order on generated sprite sheets
-type VisualDataID uint8
-
-const(
-    VisualDataUnits VisualDataID = iota
-    VisualDataTiles
-    VisualDataProperties
-)
-
-const FirstVisualDataID = VisualDataUnits
-const LastVisualDataID = VisualDataTiles
 
 // Property Types
 type PropertyType uint8

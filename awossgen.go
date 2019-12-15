@@ -51,11 +51,11 @@ func main() {
     accumImg = drawPackedFrames(packedUiFrameImgs, uiSectionWidth, uiSectionHeight)
 
     // Create visual data object using the frame images
-    var gameData = VisualData{
-        Tiles: getTilesData(packedTilesFrameImgs),
-        Properties: getPropertiesData(packedTilesFrameImgs),
-        Units: getUnitsData(packedUnitsFrameImgs),
-        UI: getUiData(packedUiFrameImgs),
+    var gameData = GameData{
+        Tiles: *getTilesData(packedTilesFrameImgs),
+        Properties: *getPropertiesData(packedTilesFrameImgs),
+        Units: *getUnitsData(packedUnitsFrameImgs),
+        UI: *getUiData(packedUiFrameImgs),
         SpriteSheetDimensions: ssDimensions{
             Width: unitsSectionWidth,
             Height: unitsSectionHeight,

@@ -27,7 +27,7 @@ var compoundAutoVarValues = map[string]uint{
 }
 
 // Attach auto var data to accumulated tiles data
-func attachTilesAutoVarData(tilesDir string, vData *TilesData) {
+func attachTilesAutoVarData(tilesDir string, tilesData *TilesData) {
     var rawData RawAutoVarsData
 
     // Load raw auto var data file into structure
@@ -43,21 +43,21 @@ func attachTilesAutoVarData(tilesDir string, vData *TilesData) {
         }
 
         // Add initial slice for the tile type
-        vData.Src[tileType].AutoVars = []AutoVarData{}
+        (*tilesData)[tileType].AutoVars = []AutoVarData{}
 
         // Loop auto var values, appending every one of them to this tile type's AutoVars field
         for _, autoVarData := range tileTypeAutoVars {
-            vData.Src[tileType].AutoVars = append(
-                vData.Src[tileType].AutoVars,
+            (*tilesData)[tileType].AutoVars = append(
+                (*tilesData)[tileType].AutoVars,
                 processRawAutoVar(autoVarData),
             )
         }
 
         // Sort the auto var data for this tile type, placing data with the adjacent tiles having the least amount of
         // active bits first.
-        sort.Slice(vData.Src[tileType].AutoVars, func(i, j int) bool {
-            return getAutoVarBitsAmount(vData.Src[tileType].AutoVars[i]) <
-                getAutoVarBitsAmount(vData.Src[tileType].AutoVars[j])
+        sort.Slice((*tilesData)[tileType].AutoVars, func(i, j int) bool {
+            return getAutoVarBitsAmount((*tilesData)[tileType].AutoVars[i]) <
+                getAutoVarBitsAmount((*tilesData)[tileType].AutoVars[j])
         })
     }
 }
@@ -184,7 +184,6 @@ func translateAdjTileStr(rawString string) uint {
 
 // Get the next symbol from a raw adjacent tile string
 // Returns: the symbol type and the symbol's full string.
-// unicode.IsSymbol()
 func getNextSymbol(rawString string, startIndex int) (int, string) {
     var stringToProcess string
     var resultCharCount int = 0
