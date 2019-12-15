@@ -154,17 +154,3 @@ func attachPaletteData(vData *VisualData, addDir string) {
         vData.Palettes = append(vData.Palettes, *makePalette(&basePropertyPalette, &propPalette))
     }
 }
-
-// Adjust the X/Y coordinates of units' src frames, adding units' sprite sheet X/Y position within the full sprite sheet
-func adjustUnitsSrc(vData *VisualData) {
-    for typeKey := range vData.Units.Src {
-        for varKey := range vData.Units.Src[typeKey] {
-            for animKey := range vData.Units.Src[typeKey][varKey] {
-                for frameIndex := range vData.Units.Src[typeKey][varKey][animKey] {
-                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].X += vData.Units.srcX
-                    vData.Units.Src[typeKey][varKey][animKey][frameIndex].Y += vData.Units.srcY
-                }
-            }
-        }
-    }
-}

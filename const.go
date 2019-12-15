@@ -16,26 +16,14 @@ type VisualData struct {
 
 type UnitsData struct {
     Src [][][][]Frame `json:"src"`
-
-    srcX     int
-    srcY     int
-    frameImg FrameImage
 }
 
 type TilesData struct {
     Src       []TileData `json:"src"`
-
-    srcX     int
-    srcY     int
-    frameImg FrameImage
 }
 
 type PropertiesData struct {
     Src    [][][]Frame `json:"src"`
-
-    srcX     int
-    srcY     int
-    frameImg FrameImage
 }
 
 type UiData struct {
