@@ -1,42 +1,42 @@
 package uigen
 
 import (
-    "github.com/turnabout/awossgen"
-    "github.com/turnabout/awossgen/pkg/packer"
+    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/packer"
 )
 
 // Generate Src visual data JSON & sprite sheet
-func GetUIData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
-    var uiData *awossgen.UIData = getUIBaseData(packedFrameImgs)
+func GetUIData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
+    var uiData *awodatagen.UIData = getUIBaseData(packedFrameImgs)
 
     return uiData
 }
 
-func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
+func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
 
     // UI Element Type -> UI Element Frames
-    uiData := make(awossgen.UIData, awossgen.UIElementCount)
+    uiData := make(awodatagen.UIData, awodatagen.UIElementCount)
 
     // Process frame images
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-UI element frame images
-        if frameImg.MetaData.FrameImageDataType != uint8(awossgen.UIDataType) {
+        if frameImg.MetaData.FrameImageDataType != uint8(awodatagen.UIDataType) {
             continue
         }
 
-        uiElement := awossgen.UIElement(frameImg.MetaData.Type)
+        uiElement := awodatagen.UIElement(frameImg.MetaData.Type)
         uiElFrame := frameImg.MetaData.Index
 
         // Add any frames missing up until the one we're adding
         if missingFrames := (uiElFrame + 1) - len(uiData[uiElement]); missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                uiData[uiElement] = append(uiData[uiElement], awossgen.Frame{})
+                uiData[uiElement] = append(uiData[uiElement], awodatagen.Frame{})
             }
         }
 
         // Add the Frame data to the animation slice, and record it to the visual data
-        frame := awossgen.Frame{
+        frame := awodatagen.Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,

@@ -3,7 +3,7 @@ package genio
 
 import (
     "fmt"
-    "github.com/turnabout/awossgen"
+    "github.com/turnabout/awodatagen"
     "image"
     "os"
     "path/filepath"
@@ -14,7 +14,7 @@ func GetImage(path string) image.Image {
 
     // Ensure image is a png
     if extension := filepath.Ext(path); extension != ".png" {
-        awossgen.LogFatal([]string{
+        awodatagen.LogFatal([]string{
             fmt.Sprintf(
                 "Tried to get an image with extension '%s', only '.png' is valid",
                 filepath.Ext(path),
@@ -24,11 +24,11 @@ func GetImage(path string) image.Image {
 
     // Load image file
     imgFile, err := os.Open(path)
-    awossgen.LogFatalIfErr(err)
+    awodatagen.LogFatalIfErr(err)
 
     // Decode image and return
     img, _, err := image.Decode(imgFile)
-    awossgen.LogFatalIfErr(err)
+    awodatagen.LogFatalIfErr(err)
 
     return img
 }

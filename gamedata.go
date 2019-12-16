@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Game data JSON structure
 type GameData struct {

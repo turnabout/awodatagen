@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Data for all units, attached to game data
 type UnitData [][][][]Frame

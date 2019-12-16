@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Data for all tiles, attached to game data
 type TileData []TileTypeData

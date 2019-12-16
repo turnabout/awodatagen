@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Data for all palettes, attached to game data
 type PaletteData []Palette

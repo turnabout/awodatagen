@@ -2,7 +2,7 @@
 package packer
 
 import (
-    "github.com/turnabout/awossgen/pkg/packer/packerTree"
+    "github.com/turnabout/awodatagen/pkg/packer/packerTree"
     "log"
     "runtime/debug"
     "sort"

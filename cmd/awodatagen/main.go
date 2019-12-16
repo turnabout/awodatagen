@@ -1,14 +1,14 @@
 package main
 
 import (
-    "github.com/turnabout/awossgen"
-    "github.com/turnabout/awossgen/pkg/genio"
-    "github.com/turnabout/awossgen/pkg/packer"
-    "github.com/turnabout/awossgen/pkg/palettegen"
-    "github.com/turnabout/awossgen/pkg/propertygen"
-    "github.com/turnabout/awossgen/pkg/tilegen"
-    "github.com/turnabout/awossgen/pkg/uigen"
-    "github.com/turnabout/awossgen/pkg/unitgen"
+    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/palettegen"
+    "github.com/turnabout/awodatagen/pkg/propertygen"
+    "github.com/turnabout/awodatagen/pkg/tilegen"
+    "github.com/turnabout/awodatagen/pkg/uigen"
+    "github.com/turnabout/awodatagen/pkg/unitgen"
     "image"
     "log"
 )
@@ -25,13 +25,13 @@ func main() {
     ssImg = gatherFrameImages(&packedTileFrameImages, &packedUnitFrameImages, &packedUIFrameImages)
 
     // Create game data object using the frame images
-    var gameData = awossgen.GameData{
+    var gameData = awodatagen.GameData{
         Tiles:      *tilegen.GetTileData(&packedTileFrameImages),
         Properties: *propertygen.GetPropertyData(&packedTileFrameImages),
         Units:      *unitgen.GetUnitData(&packedUnitFrameImages),
         UI:         *uigen.GetUIData(&packedUIFrameImages),
 
-        SpriteSheetDimensions: awossgen.SSDimensions{
+        SpriteSheetDimensions: awodatagen.SSDimensions{
             Width: ssImg.Bounds().Max.X,
             Height: ssImg.Bounds().Max.Y,
         },
@@ -45,14 +45,14 @@ func main() {
 }
 
 // Gather additional visual data and attach to the main visual data object
-func attachAdditionalVData(gameData *awossgen.GameData) {
+func attachAdditionalVData(gameData *awodatagen.GameData) {
     genio.AttachJSONData(
-        awossgen.GetInputPath(awossgen.AdditionalDir, awossgen.StagesFileName),
+        awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.StagesFileName),
         &gameData.Stages,
     )
 
     genio.AttachJSONData(
-        awossgen.GetInputPath(awossgen.AdditionalDir, awossgen.AnimClocksFileName),
+        awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.AnimClocksFileName),
         &gameData.AnimationClocks,
     )
 
@@ -82,7 +82,7 @@ func gatherFrameImages(
             Width: tilesSectionWidth,
             Height: tilesSectionHeight,
             MetaData: packer.FrameImageMetaData{
-                FrameImageDataType: uint8(awossgen.OtherDataType),
+                FrameImageDataType: uint8(awodatagen.OtherDataType),
             },
         },
     }
@@ -101,7 +101,7 @@ func gatherFrameImages(
             Width: unitsSectionWidth,
             Height: unitsSectionHeight,
             MetaData: packer.FrameImageMetaData{
-                FrameImageDataType: uint8(awossgen.OtherDataType),
+                FrameImageDataType: uint8(awodatagen.OtherDataType),
             },
         },
     }

@@ -1,9 +1,9 @@
 package uigen
 
 import (
-    "github.com/turnabout/awossgen"
-    "github.com/turnabout/awossgen/pkg/genio"
-    "github.com/turnabout/awossgen/pkg/packer"
+    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/packer"
     "io/ioutil"
     "log"
     "path"
@@ -15,7 +15,7 @@ import (
 func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Gather frame images from the elements found in the UI directory
-    dirs, err := ioutil.ReadDir(awossgen.GetInputPath(awossgen.UIDir))
+    dirs, err := ioutil.ReadDir(awodatagen.GetInputPath(awodatagen.UIDir))
     if err != nil { log.Fatal(err) }
 
     for _, uiDirElement := range dirs {
@@ -23,14 +23,14 @@ func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
             gatherUISubDirFrameImgs(
                 frameImgs,
                 uiDirElement.Name(),
-                awossgen.GetInputPath(awossgen.UIDir, uiDirElement.Name()),
+                awodatagen.GetInputPath(awodatagen.UIDir, uiDirElement.Name()),
             )
         } else {
             appendUIFrameImgs(
-                awossgen.GetInputPath(awossgen.UIDir),
+                awodatagen.GetInputPath(awodatagen.UIDir),
                 uiDirElement.Name(),
                 0,
-                awossgen.UIElementNone,
+                awodatagen.UIElementNone,
                 frameImgs,
             )
         }
@@ -51,7 +51,7 @@ func gatherUISubDirFrameImgs(frameImgs *[]packer.FrameImage, dirName string, dir
     }
 }
 
-func appendUIFrameImgs(dirPath string, fileName string, frameIndex int, uiElement awossgen.UIElement, frameImgs* []packer.FrameImage) {
+func appendUIFrameImgs(dirPath string, fileName string, frameIndex int, uiElement awodatagen.UIElement, frameImgs* []packer.FrameImage) {
 
     // Create the frame image for this UI element
     imageObj := genio.GetImage(path.Join(dirPath, fileName))
@@ -64,7 +64,7 @@ func appendUIFrameImgs(dirPath string, fileName string, frameIndex int, uiElemen
     }
 
     // If ui element not given, the ui element should be the file's name itself
-    if int(uiElement) == awossgen.UIElementNone {
+    if int(uiElement) == awodatagen.UIElementNone {
         uiElement = getUiElementByString(strings.TrimSuffix(fileName, path.Ext(fileName)))
     }
 
@@ -75,7 +75,7 @@ func appendUIFrameImgs(dirPath string, fileName string, frameIndex int, uiElemen
         MetaData: packer.FrameImageMetaData{
             Type: uint8(uiElement),
             Index: frameIndex,
-            FrameImageDataType: uint8(awossgen.UIDataType),
+            FrameImageDataType: uint8(awodatagen.UIDataType),
         },
     })
 }

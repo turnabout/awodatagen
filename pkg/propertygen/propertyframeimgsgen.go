@@ -1,9 +1,9 @@
 package propertygen
 
 import (
-    "github.com/turnabout/awossgen"
-    "github.com/turnabout/awossgen/pkg/genio"
-    "github.com/turnabout/awossgen/pkg/packer"
+    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/packer"
     "os"
 )
 
@@ -11,17 +11,17 @@ import (
 func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop Weather Variations
-    for weatherVar := awossgen.PropWeatherVarFirst; weatherVar <= awossgen.PropWeatherVarLast; weatherVar++ {
+    for weatherVar := awodatagen.PropWeatherVarFirst; weatherVar <= awodatagen.PropWeatherVarLast; weatherVar++ {
 
         // Loop Property Types
-        for propType := awossgen.PropTypeFirst; propType <= awossgen.PropTypeLast; propType++ {
+        for propType := awodatagen.PropTypeFirst; propType <= awodatagen.PropTypeLast; propType++ {
             // propDir := getFullProjectPath(propertiesDir) + weatherVar.String() + "/" + propType.String() + "/"
 
             // Loop army variations
-            for unitVar := awossgen.ArmyTypeFirst; unitVar <= awossgen.ArmyTypeLast; unitVar++ {
+            for unitVar := awodatagen.ArmyTypeFirst; unitVar <= awodatagen.ArmyTypeLast; unitVar++ {
 
-                fullPath := awossgen.GetInputPath(
-                    awossgen.PropertiesDir,
+                fullPath := awodatagen.GetInputPath(
+                    awodatagen.PropertiesDir,
                     weatherVar.String(),
                     propType.String(),
                     unitVar.String(),
@@ -42,7 +42,7 @@ func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
                         Type:               uint8(propType),
                         Variation:          uint8(weatherVar),
                         Animation:          uint8(unitVar),
-                        FrameImageDataType: uint8(awossgen.PropertyDataType),
+                        FrameImageDataType: uint8(awodatagen.PropertyDataType),
                     },
                 })
             }

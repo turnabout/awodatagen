@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 import (
     "fmt"
@@ -42,7 +42,7 @@ func GetInputPath(paths ...string) string {
     }
 
     // Use the project's assets path as a base
-    baseDirPath := path.Join(filepath.ToSlash(goPath), "src", "github.com", "turnabout", "awossgen", assetsDirName)
+    baseDirPath := path.Join(filepath.ToSlash(goPath), "src", "github.com", "turnabout", "awodatagen", assetsDirName)
 
     // Add up all given directories to make up the full path
     var result string = baseDirPath

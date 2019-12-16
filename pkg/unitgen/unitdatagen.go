@@ -2,14 +2,14 @@ package unitgen
 
 import (
     "fmt"
-    "github.com/turnabout/awossgen"
-    "github.com/turnabout/awossgen/pkg/packer"
+    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/packer"
 )
 
 // Generates units game data.
-func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitData {
+func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 
-    var unitsData *awossgen.UnitData = getBaseUnitData(packedFrameImgs)
+    var unitsData *awodatagen.UnitData = getBaseUnitData(packedFrameImgs)
 
 
     attachExtraUnitsVData(unitsData)
@@ -18,15 +18,15 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitData {
 }
 
 // Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
+func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData {
 
     // Unit Type -> Variation -> Animation -> Animation Frames
-    unitsData := make(awossgen.UnitData, awossgen.UnitTypeCount)
+    unitsData := make(awodatagen.UnitData, awodatagen.UnitTypeCount)
 
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-unit frame images
-        if frameImg.MetaData.FrameImageDataType != uint8(awossgen.UnitDataType) {
+        if frameImg.MetaData.FrameImageDataType != uint8(awodatagen.UnitDataType) {
             continue
         }
 
@@ -40,7 +40,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
 
         if missingVars > 0 {
             for i := 0; i < missingVars; i++ {
-                unitsData[unitType] = append(unitsData[unitType], [][]awossgen.Frame{})
+                unitsData[unitType] = append(unitsData[unitType], [][]awodatagen.Frame{})
             }
         }
 
@@ -49,7 +49,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
 
         if missingAnims > 0 {
             for i := 0; i < missingAnims; i++ {
-                unitsData[unitType][unitVar] = append(unitsData[unitType][unitVar], []awossgen.Frame{})
+                unitsData[unitType][unitVar] = append(unitsData[unitType][unitVar], []awodatagen.Frame{})
             }
         }
 
@@ -58,7 +58,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
 
         if missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                unitsData[unitType][unitVar][unitAnim] = append(unitsData[unitType][unitVar][unitAnim], awossgen.Frame{})
+                unitsData[unitType][unitVar][unitAnim] = append(unitsData[unitType][unitVar][unitAnim], awodatagen.Frame{})
             }
         }
 
@@ -67,7 +67,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
             fmt.Printf("%#v\n", frameImg)
         }
 
-        unitsData[unitType][unitVar][unitAnim][unitFrame] = awossgen.Frame{
+        unitsData[unitType][unitVar][unitAnim][unitFrame] = awodatagen.Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,
@@ -79,7 +79,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
 }
 
 // Attach extra data stored away in JSON files
-func attachExtraUnitsVData(vData *awossgen.UnitData) {
+func attachExtraUnitsVData(vData *awodatagen.UnitData) {
     // unitsDir := baseDirPath + inputsDirName + unitsDir
     // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
     // attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)

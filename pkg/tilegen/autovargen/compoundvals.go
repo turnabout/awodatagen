@@ -1,9 +1,9 @@
 package autovargen
 
-import "github.com/turnabout/awossgen"
+import "github.com/turnabout/awodatagen"
 
 // Outputs bit field from multiple tile types, used to populate autoVarCompoundVals
-func makeCompoundVal(values []awossgen.TileType) uint {
+func makeCompoundVal(values []awodatagen.TileType) uint {
     var result uint = 0
 
     for _, val := range values {
@@ -17,24 +17,24 @@ func makeCompoundVal(values []awossgen.TileType) uint {
 var autoVarCompoundVals = map[string]uint{
     "any":       0xFFFFFFFF,
 
-    "shadowing": makeCompoundVal([]awossgen.TileType{
-        awossgen.Forest,
-        awossgen.Mountain,
-        awossgen.Silo,
+    "shadowing": makeCompoundVal([]awodatagen.TileType{
+        awodatagen.Forest,
+        awodatagen.Mountain,
+        awodatagen.Silo,
     }),
 
-    "oob": makeCompoundVal([]awossgen.TileType{
-        awossgen.OOB,
+    "oob": makeCompoundVal([]awodatagen.TileType{
+        awodatagen.OOB,
     }),
 
-    "land": makeCompoundVal([]awossgen.TileType{
-        awossgen.Plain,
-        awossgen.Forest,
-        awossgen.Mountain,
-        awossgen.Road,
-        awossgen.Bridge,
-        awossgen.Pipe,
-        awossgen.PipeFragile,
-        awossgen.Silo,
+    "land": makeCompoundVal([]awodatagen.TileType{
+        awodatagen.Plain,
+        awodatagen.Forest,
+        awodatagen.Mountain,
+        awodatagen.Road,
+        awodatagen.Bridge,
+        awodatagen.Pipe,
+        awodatagen.PipeFragile,
+        awodatagen.Silo,
     }),
 }

@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Data for all property tiles, attached to game data
 type PropertyData [][][]Frame

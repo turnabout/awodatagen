@@ -1,4 +1,4 @@
-package awossgen
+package awodatagen
 
 // Data for all UI elements, attached to game data
 type UIData [][]Frame

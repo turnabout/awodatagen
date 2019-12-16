@@ -2,7 +2,7 @@ package autovargen
 
 import (
     "fmt"
-    "github.com/turnabout/awossgen"
+    "github.com/turnabout/awodatagen"
     "unicode"
     "unicode/utf8"
 )
@@ -43,7 +43,7 @@ func processAdjTileStr(rawString string) uint {
                 rawString,
             )
 
-            awossgen.LogFatal([]string{errMsg})
+            awodatagen.LogFatal([]string{errMsg})
         }
 
         // If symbol signifies ANDNOT, store that the next operation should use it
@@ -57,13 +57,13 @@ func processAdjTileStr(rawString string) uint {
 
         switch symbolType {
         case SymbolTileType:
-            appliedVal = 1 << uint(awossgen.TileReverseStrings[symbolString])
+            appliedVal = 1 << uint(awodatagen.TileReverseStrings[symbolString])
             break
         case SymbolCompound:
             appliedVal = uint(autoVarCompoundVals[symbolString])
             break
         default:
-            awossgen.LogFatal([]string{
+            awodatagen.LogFatal([]string{
                 fmt.Sprintf("tilesAutoVar: Unknown symbol '%d'\n", symbolType),
             })
             break

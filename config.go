@@ -1,7 +1,7 @@
 //
 // Configuration for the project
 //
-package awossgen
+package awodatagen
 
 
 //
