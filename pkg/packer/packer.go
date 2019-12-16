@@ -3,7 +3,7 @@ package packer
 
 import (
     "fmt"
-    "github.com/turnabout/AWO/pkg/packer/packerTree"
+    "github.com/turnabout/awossgen/pkg/packer/packerTree"
     "sort"
 )
 

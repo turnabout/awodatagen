@@ -1,5 +1,5 @@
 // Generates Units' visual data
-package main
+package unitgen
 
 import (
     "fmt"

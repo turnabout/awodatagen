@@ -1,5 +1,5 @@
 // Functions used to process inputs
-package main
+package genio
 
 import (
     "image"

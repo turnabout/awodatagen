@@ -1,37 +1,57 @@
 //
-// Stores configuration for the project
+// Configuration for the project
 //
-package main
+package awossgen
 
-// Default name for the resulting spritesheet output
-const ssOutputDefaultName = "spritesheet.png"
 
-// Environment variable holding the path where the sprite sheet should be output
-const ssOutputEnvVar = "AWO_SPRITESHEET"
-
-// Default name for the resulting spritesheet output
-const jsonOutputDefaultName = "visuals.json"
+//
+// Environment variables
+//
 
 // Environment variable holding the path where the sprite sheet should be output
-const jsonOutputEnvVar = "AWO_JSON"
+const SSOutputEnvVar = "AWO_SPRITESHEET"
+
+// Environment variable holding the path where the data file should be output
+const JSONOutputEnvVar = "AWO_JSON"
+
+
+//
+// Output paths
+//
+
+// Default name for the sprite sheet output
+const SSOutputDefaultName = "spritesheet.png"
+
+// Default name for the data file output
+const JSONOutputDefaultName = "visuals.json"
+
+
+//
+// Input paths
+//
 
 // Base inputs directory, containing all images & data files
-const inputsDirName = "inputs"
+const inputsDirName = "assets"
 
 // Inputs subdirectories
-const unitsDir       = "units"
-const tilesDir       = "tiles"
-const propertiesDir  = "properties"
-const uiDir          = "ui"
-const additionalDir  = "additional"
+const UnitsDir       = "units"
+const TilesDir       = "tiles"
+const PropertiesDir  = "properties"
+const UiDir          = "ui"
+const AdditionalDir  = "additional"
 
 // Names of extra data files
-const palettesFileName       = "palettes.json"
-const basePalettesFileName   = "basePalettes.json"
-const stagesFileName         = "stages.json"
-const animClocksFileName     = "animationClocks.json"
-const tilesClockDataFileName = "tilesClockData.json"
-const tilesAutoVarFileName   = "tilesAutoVarData.json"
+const PalettesFileName       = "palettes.json"
+const BasePalettesFileName   = "basePalettes.json"
+const StagesFileName         = "stages.json"
+const AnimClocksFileName     = "animationClocks.json"
+const TilesClockDataFileName = "tilesClockData.json"
+const TilesAutoVarFileName   = "tilesAutoVarData.json"
+
+
+//
+// Other configuration
+//
 
 // Size of a regular tile
-const regularTileDimension int = 16
+const RegularTileDimension int = 16

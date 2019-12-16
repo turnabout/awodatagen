@@ -1,5 +1,5 @@
 // Generates Properties' visual data
-package main
+package propertygen
 
 import (
     "os"

@@ -1,12 +1,13 @@
-package main
+package awossgen
 
 import (
     "log"
     "path"
     "runtime"
 )
+
 // Gets the full path to a directory in the project's inputs
-func getFullProjectPath(paths ...string) string {
+func GetInputPath(paths ...string) string {
 
     // Get the base directory path of the project
     var baseDirPath string

@@ -1,5 +1,5 @@
 // Generates Tiles' visual data
-package main
+package tilegen
 
 import (
     "io/ioutil"

@@ -1,4 +1,4 @@
-package main
+package uigen
 
 import (
     "io/ioutil"
