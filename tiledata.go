@@ -1,12 +1,10 @@
 package awossgen
 
 // Data for all tiles, attached to game data
-// TODO rename -> TileData
-type TilesData []TileData
+type TileData []TileTypeData
 
 // Data for a single tile type
-// TODO rename -> TileTypeData
-type TileData struct {
+type TileTypeData struct {
     Variations map[string][]Frame `json:"vars"`
     ClockData  *TileClockData     `json:"clockData,omitempty"`
     AutoVars   []AutoVarData      `json:"autoVars"`

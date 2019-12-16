@@ -1,7 +1,7 @@
 package awossgen
 
 // Data for all units, attached to game data
-type UnitsData [][][][]Frame
+type UnitData [][][][]Frame
 
 // Unit type enum
 type UnitType uint8
@@ -28,9 +28,9 @@ const (
     TransportCopter
 )
 
-const FirstUnitType = Infantry
-const LastUnitType = TransportCopter
-const UnitTypeAmount = LastUnitType + 1
+const UnitTypeFirst = Infantry
+const UnitTypeLast  = TransportCopter
+const UnitTypeCount = UnitTypeLast + 1
 
 func (u UnitType) String() string {
     return [...]string{
@@ -56,25 +56,6 @@ func (u UnitType) String() string {
     }[u]
 }
 
-// Unit variation enum
-type UnitVariation uint8
-
-const (
-    OS UnitVariation = iota
-    BM
-    GE
-    YC
-    BH
-)
-
-const FirstUnitVariation = OS
-const LastUnitVariation = BH
-const UnitVariationAmount = LastUnitVariation + 1
-
-func (v UnitVariation) String() string {
-    return [...]string{"OS", "BM", "GE", "YC", "BH"}[v]
-}
-
 // Unit animation enum
 type UnitAnimation uint8
 
@@ -85,10 +66,29 @@ const (
     Down
 )
 
-const FirstUnitAnimation = Idle
-const LastUnitAnimation = Down
-const UnitAnimationAmount = LastUnitAnimation + 1
+const UnitAnimFirst = Idle
+const UnitAnimLast  = Down
+const UnitAnimCount = UnitAnimLast + 1
 
 func (a UnitAnimation) String() string {
     return [...]string{"Idle", "Right", "Up", "Down"}[a]
+}
+
+// Army type enum (unit variation/property variation)
+type ArmyType uint8
+
+const (
+    OS ArmyType = iota
+    BM
+    GE
+    YC
+    BH
+)
+
+const ArmyTypeFirst = OS
+const ArmyTypeLast  = BH
+const ArmyTypeCount = ArmyTypeLast + 1
+
+func (v ArmyType) String() string {
+    return [...]string{"OS", "BM", "GE", "YC", "BH"}[v]
 }

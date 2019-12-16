@@ -14,10 +14,10 @@ import (
 func GetUnitFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop units
-    for unitType := awossgen.FirstUnitType; unitType <= awossgen.LastUnitType; unitType++ {
+    for unitType := awossgen.UnitTypeFirst; unitType <= awossgen.UnitTypeLast; unitType++ {
 
         // Loop Variations
-        for unitVar := awossgen.FirstUnitVariation; unitVar <= awossgen.LastUnitVariation; unitVar++ {
+        for unitVar := awossgen.ArmyTypeFirst; unitVar <= awossgen.ArmyTypeLast; unitVar++ {
 
             varDir := awossgen.GetInputPath( awossgen.UnitsDir, unitType.String(), unitVar.String() )
 
@@ -27,7 +27,7 @@ func GetUnitFrameImgs(frameImgs *[]packer.FrameImage) {
             }
 
             // Loop Animations
-            for anim := awossgen.FirstUnitAnimation; anim <= awossgen.LastUnitAnimation; anim++ {
+            for anim := awossgen.UnitAnimFirst; anim <= awossgen.UnitAnimLast; anim++ {
                 getAnimFrameImgs(
                     unitType,
                     unitVar,
@@ -43,7 +43,7 @@ func GetUnitFrameImgs(frameImgs *[]packer.FrameImage) {
 // Gets frame images from a unit animation
 func getAnimFrameImgs(
     uType awossgen.UnitType,
-    uVar awossgen.UnitVariation,
+    uVar awossgen.ArmyType,
     uAnim awossgen.UnitAnimation,
     animDir string,
     frameImgs *[]packer.FrameImage,

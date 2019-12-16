@@ -14,11 +14,11 @@ func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
     for weatherVar := awossgen.PropWeatherVarFirst; weatherVar <= awossgen.PropWeatherVarLast; weatherVar++ {
 
         // Loop Property Types
-        for propType := awossgen.FirstPropertyType; propType <= awossgen.LastPropertyType; propType++ {
+        for propType := awossgen.PropTypeFirst; propType <= awossgen.PropTypeLast; propType++ {
             // propDir := getFullProjectPath(propertiesDir) + weatherVar.String() + "/" + propType.String() + "/"
 
             // Loop army variations
-            for unitVar := awossgen.FirstUnitVariation; unitVar <= awossgen.LastUnitVariation; unitVar++ {
+            for unitVar := awossgen.ArmyTypeFirst; unitVar <= awossgen.ArmyTypeLast; unitVar++ {
 
                 fullPath := awossgen.GetInputPath(
                     awossgen.PropertiesDir,

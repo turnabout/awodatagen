@@ -7,9 +7,9 @@ import (
 )
 
 // Generates units game data.
-func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitsData {
+func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitData {
 
-    var unitsData *awossgen.UnitsData = getBaseUnitData(packedFrameImgs)
+    var unitsData *awossgen.UnitData = getBaseUnitData(packedFrameImgs)
 
 
     attachExtraUnitsVData(unitsData)
@@ -18,10 +18,10 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitsData {
 }
 
 // Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitsData {
+func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitData {
 
     // Unit Type -> Variation -> Animation -> Animation Frames
-    unitsData := make(awossgen.UnitsData, awossgen.UnitTypeAmount)
+    unitsData := make(awossgen.UnitData, awossgen.UnitTypeCount)
 
     for _, frameImg := range *packedFrameImgs {
 
@@ -79,7 +79,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitsData {
 }
 
 // Attach extra data stored away in JSON files
-func attachExtraUnitsVData(vData *awossgen.UnitsData) {
+func attachExtraUnitsVData(vData *awossgen.UnitData) {
     // unitsDir := baseDirPath + inputsDirName + unitsDir
     // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
     // attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)

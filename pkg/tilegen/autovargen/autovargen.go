@@ -7,7 +7,7 @@ import (
 )
 
 // Attach auto-var data to tile data object
-func AttachTilesAutoVarData(tilesData *awossgen.TilesData) {
+func AttachTilesAutoVarData(tilesData *awossgen.TileData) {
     var rawData rawAutoVarsData
 
     // Load raw auto var data file into structure

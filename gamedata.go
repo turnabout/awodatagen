@@ -2,15 +2,15 @@ package awossgen
 
 // Game data JSON structure
 type GameData struct {
-    Units      UnitsData      `json:"units"`
-    Tiles      TilesData      `json:"tiles"`
-    Properties PropertiesData `json:"properties"`
-    UI         UIData         `json:"ui"`
-    Palettes   PaletteData    `json:"palettes"`
-    Stages     StageData      `json:"stages"`
+    Units      UnitData     `json:"units"`
+    Tiles      TileData     `json:"tiles"`
+    Properties PropertyData `json:"properties"`
+    UI         UIData       `json:"ui"`
+    Palettes   PaletteData  `json:"palettes"`
+    Stages     StageData    `json:"stages"`
 
     AnimationClocks       []AnimationClock `json:"animationClocks"`
-    SpriteSheetDimensions ssDimensions     `json:"ssDimensions"`
+    SpriteSheetDimensions SSDimensions     `json:"SSDimensions"`
 }
 
 // Animation Clock structure
@@ -20,7 +20,7 @@ type AnimationClock struct {
 }
 
 // Sprite sheet dimensions
-type ssDimensions struct {
+type SSDimensions struct {
     Width int `json:"width"`
     Height int `json:"height"`
 }
@@ -32,7 +32,6 @@ type Frame struct {
     Width int  `json:"w,omitempty"`
     Height int `json:"h,omitempty"`
 }
-
 
 // Sections of the game data
 type GameDataType uint8

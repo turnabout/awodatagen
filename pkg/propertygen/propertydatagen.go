@@ -6,10 +6,10 @@ import (
 )
 
 // Generate properties' sprite sheet & visual data
-func GetPropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesData {
+func GetPropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertyData {
 
     // Get the base properties data object containing frame source data
-    var propsData *awossgen.PropertiesData = getBasePropertyData(packedFrameImgs)
+    var propsData *awossgen.PropertyData = getBasePropertyData(packedFrameImgs)
 
     // Attach additional data to the properties data
     attachExtraPropData(propsData)
@@ -18,14 +18,14 @@ func GetPropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesD
 }
 
 // Generate the visual data for Properties' origin
-func getBasePropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesData {
+func getBasePropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertyData {
 
     // Weather Variation -> Property Type -> Unit Variation
-    propsData := make(awossgen.PropertiesData, awossgen.PropWeatherVarCount)
+    propsData := make(awossgen.PropertyData, awossgen.PropWeatherVarCount)
 
     // Initialize Property Type arrays
     for weatherVar := range propsData {
-        propsData[weatherVar] = make([][]awossgen.Frame, awossgen.PropertyTypeAmount)
+        propsData[weatherVar] = make([][]awossgen.Frame, awossgen.PropTypeCount)
 
         // Initialize Unit Variation arrays
         for propType := range propsData[weatherVar] {
@@ -33,7 +33,7 @@ func getBasePropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.Propert
 
             // HQ Properties have all Unit Variations, while other properties only have one
             if awossgen.PropertyType(propType) == awossgen.HQ {
-                unitVarAmount = int(awossgen.UnitVariationAmount)
+                unitVarAmount = int(awossgen.ArmyTypeCount)
             } else {
                 unitVarAmount = 1
             }
@@ -61,7 +61,7 @@ func getBasePropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.Propert
 }
 
 // Attach extra data to property data
-func attachExtraPropData(propData *awossgen.PropertiesData) {
+func attachExtraPropData(propData *awossgen.PropertyData) {
     // propsDir := baseDirPath + inputsDirName + propertiesDir
     // attachJSONData(propsDir + palettesFileName, &propData.Palettes)
     // attachJSONData(propsDir +propsLightsRGBFileName, &propData.PropsLightsRGB)

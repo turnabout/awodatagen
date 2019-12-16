@@ -5,7 +5,7 @@ import (
     "github.com/turnabout/awossgen/pkg/genio"
 )
 
-func attachTilesClockData(tileData *awossgen.TilesData) {
+func attachTilesClockData(tileData *awossgen.TileData) {
 
     var tilesClockData map[string]awossgen.TileClockData
 

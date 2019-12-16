@@ -7,10 +7,10 @@ import (
 )
 
 // Generate Src visual data JSON & sprite sheet
-func GetTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TilesData {
+func GetTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TileData {
 
     // Get the base tiles data object containing frame source data
-    var tilesData *awossgen.TilesData = getBaseTileData(packedFrameImgs)
+    var tilesData *awossgen.TileData = getBaseTileData(packedFrameImgs)
 
     // Attach additional data to the tiles data: auto-var data, clock data...
     autovargen.AttachTilesAutoVarData(tilesData)
@@ -20,12 +20,12 @@ func GetTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TilesData {
 }
 
 // Generate visual data for Src
-func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TilesData {
+func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TileData {
 
     // Tile Type -> Tile Variation -> Tile Variation Frames
-    tilesVData := make(awossgen.TilesData, awossgen.NeutralTileTypeCount)
+    tilesVData := make(awossgen.TileData, awossgen.NeutralTileTypeCount)
 
-    // Initialize Variations on every TileData
+    // Initialize Variations on every TileTypeData
     for tileType := range tilesVData {
         tilesVData[tileType].Variations = make(map[string][]awossgen.Frame)
     }

@@ -1,7 +1,7 @@
 package awossgen
 
 // Data for all property tiles, attached to game data
-type PropertiesData [][][]Frame
+type PropertyData [][][]Frame
 
 // Property type enum
 type PropertyType uint8
@@ -24,9 +24,9 @@ func (p PropertyType) String() string {
     }[p]
 }
 
-const FirstPropertyType = HQ
-const LastPropertyType = Port
-const PropertyTypeAmount = LastPropertyType + 1
+const PropTypeFirst = HQ
+const PropTypeLast  = Port
+const PropTypeCount = PropTypeLast + 1
 
 // Weather enum
 type Weather uint8

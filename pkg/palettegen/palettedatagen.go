@@ -17,7 +17,7 @@ func AttachPaletteData(vData *awossgen.GameData) {
     var baseUnitPalette awossgen.Palette = basePalettes["units"]
     var baseUnitDonePalette awossgen.Palette = basePalettes["unitsDone"]
 
-    for i := awossgen.FirstUnitVariation; i <= awossgen.LastUnitVariation; i++ {
+    for i := awossgen.ArmyTypeFirst; i <= awossgen.ArmyTypeLast; i++ {
         var unitPalette awossgen.Palette = rawPalettes[i * 2]
         var unitDonePalette awossgen.Palette = rawPalettes[(i * 2) + 1]
 
@@ -29,7 +29,7 @@ func AttachPaletteData(vData *awossgen.GameData) {
     var baseTilePalette awossgen.Palette = basePalettes["tiles"]
     var baseTileFogPalette awossgen.Palette = basePalettes["tilesFog"]
 
-    var tilePalettesStart int = int(awossgen.UnitVariationAmount) * 2
+    var tilePalettesStart int = int(awossgen.ArmyTypeCount) * 2
 
     for i := awossgen.WeatherFirst; i <= awossgen.WeatherLast; i++ {
         var tilePalette awossgen.Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2)]
@@ -44,7 +44,7 @@ func AttachPaletteData(vData *awossgen.GameData) {
     var basePropertyPalette awossgen.Palette = basePalettes["properties"]
 
     // + 2 for fogged/neutral properties palette
-    for i := awossgen.FirstUnitVariation; i <= awossgen.LastUnitVariation + 2; i++ {
+    for i := awossgen.ArmyTypeFirst; i <= awossgen.ArmyTypeLast+ 2; i++ {
         var propPalette awossgen.Palette = rawPalettes[propertyPalettesStart + int(i)]
 
         vData.Palettes = append(vData.Palettes, *makePalette(&basePropertyPalette, &propPalette))
