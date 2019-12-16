@@ -1,4 +1,4 @@
-package tilegen
+package autovargen
 
 import (
     "log"

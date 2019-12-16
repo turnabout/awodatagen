@@ -1,15 +1,25 @@
 package tilegen
 
-func attachTilesClockData(tilesData *TilesData) {
+import (
+    "github.com/turnabout/awossgen"
+    "github.com/turnabout/awossgen/pkg/genio"
+)
 
-    var tilesClockData map[string]TileClockData
+func attachTilesClockData(tileData *awossgen.TilesData) {
 
-    attachJSONData( getFullProjectPath(tilesDir, tilesClockDataFileName), &tilesClockData )
+    var tilesClockData map[string]awossgen.TileClockData
 
+    // Fill out map with keys being tile short strings and values being tile clock data
+    genio.AttachJSONData(
+        awossgen.GetInputPath(awossgen.TilesDir, awossgen.TilesClockDataFileName),
+        &tilesClockData,
+    )
+
+    // Attach tile clock data to tile data object using the map
     for tileStr := range tilesClockData {
         tileType := tileReverseStrings[tileStr]
         data := tilesClockData[tileStr]
 
-        (*tilesData)[tileType].ClockData = &data
+        (*tileData)[tileType].ClockData = &data
     }
 }

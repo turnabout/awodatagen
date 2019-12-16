@@ -7,9 +7,9 @@ import (
 )
 
 // Generates units game data.
-func GetUnitsData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitsData {
+func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitsData {
 
-    var unitsData *awossgen.UnitsData = getBaseUnitsData(packedFrameImgs)
+    var unitsData *awossgen.UnitsData = getBaseUnitData(packedFrameImgs)
 
 
     attachExtraUnitsVData(unitsData)
@@ -18,7 +18,7 @@ func GetUnitsData(packedFrameImgs *[]packer.FrameImage)  *awossgen.UnitsData {
 }
 
 // Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func getBaseUnitsData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitsData {
+func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awossgen.UnitsData {
 
     // Unit Type -> Variation -> Animation -> Animation Frames
     unitsData := make(awossgen.UnitsData, awossgen.UnitTypeAmount)
