@@ -2,52 +2,11 @@
 package packer
 
 import (
-    "fmt"
     "github.com/turnabout/awossgen/pkg/packer/packerTree"
+    "log"
+    "runtime/debug"
     "sort"
 )
-
-/*
-type FrameImageType uint8
-
-const(
-    UnitFrameImage FrameImageType = iota
-    TileFrameImage
-    PropertyFrameImage
-    UiElementFrameImage
-    SpriteSheetSectionFrameImage
-)
-*/
-
-// Which Type/Var/Animation/Animation Index this Frame Image belongs to
-// TODO: Rename/reorganize
-/*
-type FrameImageMetaData struct {
-    Type uint8
-    Variation uint8
-    Animation uint8
-    Index int
-    FrameImageType FrameImageType
-}
-*/
-
-/*
-func (f FrameImage) String() string {
-    return fmt.Sprintf(
-        "%s, %s, %s, [%d]: %dx%d (%d) (%d, %d)",
-        PropertyType(f.MetaData.Type).String(),
-        PropertyWeatherVariation(f.MetaData.Variation).String(),
-        UnitVariation(f.MetaData.Animation).String(),
-        f.MetaData.Index,
-        f.Width,
-        f.Height,
-        f.Width * f.Height,
-        f.X, f.Y,
-    )
-}
-*/
-
-// Sorts Frame Images by Meta Data Type
 
 /*
 type TypeSorter []FrameImage
@@ -68,7 +27,7 @@ func (f SizeSorter) Less(i, j int) bool { return (f[i].Width * f[i].Height) > (f
 
 // Pack Frame Images into an expanding surface, attaching Nodes specifying coordinates to every FrameImage in the list,
 // and returning it along with the packed surface's width and height
-func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
+func Pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
 
     // Max encountered srcX/srcY (surface width/height)
     var xMax, yMax int
@@ -99,7 +58,8 @@ func pack(framesArg *[]FrameImage) (*[]FrameImage, int, int) {
             node, ok = packerTree.GrowNode(&root, frame.Width, frame.Height)
 
             if !ok {
-                fmt.Printf("Failed to fit Frame #%d\n", index)
+                debug.PrintStack()
+                log.Fatalf("Failed to fit Frame index %d\n", index)
                 continue
             }
         }

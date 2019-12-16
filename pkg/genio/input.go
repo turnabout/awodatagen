@@ -5,10 +5,16 @@ import (
     "image"
     "log"
     "os"
+    "path/filepath"
 )
 
-// Gets the image stored at the given path
-func getImage(path string) image.Image {
+// Gets image stored at the given path
+func GetImage(path string) image.Image {
+
+    if extension := filepath.Ext(path); extension != ".png" {
+        log.Fatalf
+    }
+
     // Load Image file
     imgFile, err := os.Open(path)
 

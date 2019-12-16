@@ -32,3 +32,15 @@ type Frame struct {
     Width int  `json:"w,omitempty"`
     Height int `json:"h,omitempty"`
 }
+
+
+// Sections of the game data
+type GameDataType uint8
+
+const(
+    UnitDataType GameDataType = iota
+    TileDataType
+    PropertyDataType
+    UiDataType
+    OtherDataType
+)

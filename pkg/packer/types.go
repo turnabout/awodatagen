@@ -10,6 +10,14 @@ type FrameImage struct {
     X int
     Y int
 
-    // MetaData FrameImageMetaData
+    MetaData FrameImageMetaData
 }
 
+// Metadata attached to a frame image
+type FrameImageMetaData struct {
+    Type               uint8
+    Variation          uint8
+    Animation          uint8
+    Index              uint8
+    FrameImageDataType uint8
+}
