@@ -59,6 +59,23 @@ func attachAdditionalVData(gameData *awodatagen.GameData) {
     palettegen.AttachPaletteData(gameData)
 }
 
+func createSectionFrameImages(
+    accumImg *image.RGBA,
+    previousSectionWidth int,
+    previousSectionHeight int,
+) []packer.FrameImage {
+    return []packer.FrameImage{
+        {
+            Image: accumImg,
+            Width: previousSectionWidth,
+            Height: previousSectionHeight,
+            MetaData: packer.FrameImageMetaData{
+                FrameImageDataType: uint8(awodatagen.OtherDataType),
+            },
+        },
+    }
+}
+
 func gatherFrameImages(
     packedTileFrameImagesOut *[]packer.FrameImage,
     packedUnitFrameImagesOut*[]packer.FrameImage,
@@ -76,16 +93,7 @@ func gatherFrameImages(
 
     // 2. Gather units frame images
     // Start off the frame images with previously accumulated image including tiles
-    var unitsFrameImages []packer.FrameImage = []packer.FrameImage{
-        {
-            Image: accumImg,
-            Width: tilesSectionWidth,
-            Height: tilesSectionHeight,
-            MetaData: packer.FrameImageMetaData{
-                FrameImageDataType: uint8(awodatagen.OtherDataType),
-            },
-        },
-    }
+    unitsFrameImages := createSectionFrameImages(accumImg, tilesSectionWidth, tilesSectionHeight)
 
     unitgen.GetUnitFrameImgs(&unitsFrameImages)
     packedUnitFrameImages, unitsSectionWidth, unitsSectionHeight := packer.Pack(&unitsFrameImages)
@@ -95,16 +103,7 @@ func gatherFrameImages(
 
     // 3. Gather UI frame images
     // Start off the frame images with previously accumulated image including tiles & units
-    var UIFrameImages []packer.FrameImage = []packer.FrameImage{
-        {
-            Image: accumImg,
-            Width: unitsSectionWidth,
-            Height: unitsSectionHeight,
-            MetaData: packer.FrameImageMetaData{
-                FrameImageDataType: uint8(awodatagen.OtherDataType),
-            },
-        },
-    }
+    UIFrameImages := createSectionFrameImages(accumImg, unitsSectionWidth, unitsSectionHeight)
 
     uigen.GetUIFrameImgs(&UIFrameImages)
     packedUIFrameImages, uiSectionWidth, uiSectionHeight := packer.Pack(&UIFrameImages)
