@@ -38,6 +38,7 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TileData {
             continue
         }
 
+
         tileType := awossgen.TileType(frameImg.MetaData.Type)
         tileVar := awossgen.TileVariation(frameImg.MetaData.Variation)
         tileFrame := frameImg.MetaData.Index

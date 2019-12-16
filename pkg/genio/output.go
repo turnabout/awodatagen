@@ -15,7 +15,7 @@ import (
 )
 
 // Write a given image to the given path
-func WriteImage(path string, outputImg image.Image) {
+func writeImage(path string, outputImg image.Image) {
     out, err := os.Create(path)
 
     if err != nil {

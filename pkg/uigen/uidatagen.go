@@ -6,13 +6,13 @@ import (
 )
 
 // Generate Src visual data JSON & sprite sheet
-func getUiData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
-    var uiData *awossgen.UIData = getUiBaseData(packedFrameImgs)
+func GetUIData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
+    var uiData *awossgen.UIData = getUIBaseData(packedFrameImgs)
 
     return uiData
 }
 
-func getUiBaseData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
+func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awossgen.UIData {
 
     // UI Element Type -> UI Element Frames
     uiData := make(awossgen.UIData, awossgen.UIElementCount)
