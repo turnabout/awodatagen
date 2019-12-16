@@ -8,6 +8,7 @@ type GameData struct {
     UI         UIData       `json:"ui"`
     Palettes   PaletteData  `json:"palettes"`
     Stages     StageData    `json:"stages"`
+    COs        COData       `json:"COs"`
 
     AnimationClocks       []AnimationClock `json:"animationClocks"`
     SpriteSheetDimensions SSDimensions     `json:"SSDimensions"`
