@@ -46,11 +46,14 @@ func main() {
 
 // Gather additional visual data and attach to the main visual data object
 func attachAdditionalVData(gameData *awodatagen.GameData) {
+
+    // Adds default stages data
     genio.AttachJSONData(
         awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.StagesFileName),
         &gameData.Stages,
     )
 
+    // Adds animation clocks data
     genio.AttachJSONData(
         awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.AnimClocksFileName),
         &gameData.AnimationClocks,
@@ -59,6 +62,7 @@ func attachAdditionalVData(gameData *awodatagen.GameData) {
     palettegen.AttachPaletteData(gameData)
 }
 
+// Creates a frame image slice to be used by a step in gatherFrameImages
 func createSectionFrameImages(
     accumImg *image.RGBA,
     previousSectionWidth int,
@@ -76,6 +80,7 @@ func createSectionFrameImages(
     }
 }
 
+// Gathers frame images from every category of entities making up the sprite sheet
 func gatherFrameImages(
     packedTileFrameImagesOut *[]packer.FrameImage,
     packedUnitFrameImagesOut*[]packer.FrameImage,
