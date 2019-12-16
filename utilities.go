@@ -2,10 +2,10 @@ package awossgen
 
 import (
     "fmt"
-    "log"
+    "go/build"
     "os"
     "path"
-    "runtime"
+    "path/filepath"
     "runtime/debug"
 )
 
@@ -34,22 +34,22 @@ func LogFatal(msgs []string) {
 // Gets the full path to a directory in the project's inputs
 func GetInputPath(paths ...string) string {
 
-    // Get the base directory path of the project
-    var baseDirPath string
-    _, fileName, _, ok := runtime.Caller(0)
+    // Get $GOPATH
+    goPath := os.Getenv("GOPATH")
 
-    if !ok {
-        log.Fatal("getFullProjectPath: No caller information")
+    if goPath == "" {
+        goPath = build.Default.GOPATH
     }
 
-    baseDirPath = path.Dir(fileName)
+    // Use the project's assets path as a base
+    baseDirPath := path.Join(filepath.ToSlash(goPath), "src", "github.com", "turnabout", "awossgen", assetsDirName)
 
     // Add up all given directories to make up the full path
-    var fullPath string = path.Join(baseDirPath, inputsDirName)
+    var result string = baseDirPath
 
     for _, loopedPath := range paths {
-        fullPath = path.Join(fullPath, loopedPath)
+        result = path.Join(result, loopedPath)
     }
 
-    return fullPath
+    return result
 }

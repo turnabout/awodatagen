@@ -20,6 +20,7 @@ func main() {
     ssImg = gatherFrameImages(&packedTileFrameImages, &packedUnitFrameImages, &packedUIFrameImages)
 
     fmt.Printf("%#v\n", ssImg)
+    fmt.Printf("%s\n", awossgen.GetInputPath("units"))
 
     /*
         // Create game data object using the frame images

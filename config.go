@@ -31,7 +31,7 @@ const JSONOutputDefaultName = "visuals.json"
 //
 
 // Base inputs directory, containing all images & data files
-const inputsDirName = "assets"
+const assetsDirName = "assets"
 
 // Inputs subdirectories
 const UnitsDir       = "units"
