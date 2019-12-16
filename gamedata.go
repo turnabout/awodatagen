@@ -41,6 +41,6 @@ const(
     UnitDataType GameDataType = iota
     TileDataType
     PropertyDataType
-    UiDataType
+    UIDataType
     OtherDataType
 )

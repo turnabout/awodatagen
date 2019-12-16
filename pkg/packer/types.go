@@ -18,6 +18,6 @@ type FrameImageMetaData struct {
     Type               uint8
     Variation          uint8
     Animation          uint8
-    Index              uint8
+    Index              int
     FrameImageDataType uint8
 }

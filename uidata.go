@@ -4,23 +4,22 @@ package awossgen
 type UIData [][]Frame
 
 // UI element enum
-// TODO: rename -> UIElement
-type UiElement uint8
+type UIElement uint8
 
 const(
-    TileCursor UiElement = iota
+    TileCursor UIElement = iota
     StarSm
     StarLg
 
-    UiElementNone = 255
+    UIElementNone = 255
 )
 
-const UiElementFirst = TileCursor
-const UiElementLast = StarLg
-const UiElementCount = UiElementLast + 1
+const UIElementFirst = TileCursor
+const UIElementLast = StarLg
+const UIElementCount = UIElementLast + 1
 
 // Map for looking up a Ui Element using its corresponding full string
-var uiElementsReverseStrings = map[string]UiElement {
+var UIElementsReverseStrings = map[string]UIElement {
     "TileCursor": TileCursor,
     "StarSm": StarSm,
     "StarLg": StarLg,

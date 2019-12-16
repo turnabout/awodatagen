@@ -66,7 +66,7 @@ func getAnimFrameImgs(
                 Type:               uint8(uType),
                 Variation:          uint8(uVar),
                 Animation:          uint8(uAnim),
-                Index:              uint8(index),
+                Index:              index,
                 FrameImageDataType: uint8(awossgen.UnitDataType),
             },
         })

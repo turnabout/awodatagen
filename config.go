@@ -37,7 +37,7 @@ const inputsDirName = "assets"
 const UnitsDir       = "units"
 const TilesDir       = "tiles"
 const PropertiesDir  = "properties"
-const UiDir          = "ui"
+const UIDir = "ui"
 const AdditionalDir  = "additional"
 
 // Names of extra data files
