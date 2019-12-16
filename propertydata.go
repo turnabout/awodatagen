@@ -28,25 +28,6 @@ const FirstPropertyType = HQ
 const LastPropertyType = Port
 const PropertyTypeAmount = LastPropertyType + 1
 
-// Property weather variation enum
-type PropertyWeatherVariation uint8
-
-const(
-    Clear PropertyWeatherVariation = iota
-    Snow
-)
-
-func (p PropertyWeatherVariation) String() string {
-    return [...]string{
-        "Clear",
-        "Snow",
-    }[p]
-}
-
-const FirstPropertyWeatherVariation = Clear
-const LastPropertyWeatherVariation = Snow
-const PropertyWeatherVariationAmount = Snow + 1
-
 // Weather enum
 type Weather uint8
 
@@ -56,6 +37,10 @@ const(
     WeatherRain
 )
 
-const FirstWeather = WeatherClear
-const LastWeather = WeatherRain
-const WeatherCount = LastWeather + 1
+const WeatherFirst = WeatherClear
+const WeatherLast  = WeatherRain
+const WeatherCount = WeatherLast + 1
+
+const FirstPropertyWeatherVariation = WeatherClear
+const LastPropertyWeatherVariation = WeatherSnow
+const PropertyWeatherVariationAmount = LastPropertyWeatherVariation + 1
