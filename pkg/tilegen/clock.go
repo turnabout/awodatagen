@@ -17,7 +17,7 @@ func attachTilesClockData(tileData *awossgen.TilesData) {
 
     // Attach tile clock data to tile data object using the map
     for tileStr := range tilesClockData {
-        tileType := tileReverseStrings[tileStr]
+        tileType := awossgen.TileReverseStrings[tileStr]
         data := tilesClockData[tileStr]
 
         (*tileData)[tileType].ClockData = &data

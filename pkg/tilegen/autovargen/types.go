@@ -10,9 +10,13 @@ type rawAutoVarData struct {
 }
 
 // Auto var data's adjacent tile indexes
-// TODO: lowercase
-const AUTOVAR_ADJACENT_TILE_UP    = 0
-const AUTOVAR_ADJACENT_TILE_RIGHT = 1
-const AUTOVAR_ADJACENT_TILE_DOWN  = 2
-const AUTOVAR_ADJACENT_TILE_LEFT  = 3
-const ADJACENT_TILE_COUNT         = 4
+type adjacentTileIndex int
+
+const(
+    adjacentTileUp adjacentTileIndex = iota
+    adjacentTileRight
+    adjacentTileDown
+    adjacentTileLeft
+)
+
+const adjacentTileCount = 4

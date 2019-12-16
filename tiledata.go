@@ -19,7 +19,7 @@ type TileClockData struct {
     VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
 }
 
-// Tile Auto-vars data
+// Tile auto-vars data
 type AutoVarData struct {
     TileVar string       `json:"tileVar"`   // The tile variation's short key
     AdjacentTiles [4]uint `json:"adjTiles"` // Numbers describing the adjacent tiles that correspond to the tile
