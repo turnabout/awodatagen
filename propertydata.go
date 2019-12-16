@@ -32,15 +32,23 @@ const PropertyTypeAmount = LastPropertyType + 1
 type Weather uint8
 
 const(
-    WeatherClear Weather = iota
-    WeatherSnow
-    WeatherRain
+    Clear Weather = iota
+    Snow
+    Rain
 )
 
-const WeatherFirst = WeatherClear
-const WeatherLast  = WeatherRain
+const WeatherFirst = Clear
+const WeatherLast  = Rain
 const WeatherCount = WeatherLast + 1
 
-const FirstPropertyWeatherVariation = WeatherClear
-const LastPropertyWeatherVariation = WeatherSnow
-const PropertyWeatherVariationAmount = LastPropertyWeatherVariation + 1
+const PropWeatherVarFirst = Clear
+const PropWeatherVarLast  = Snow
+const PropWeatherVarCount = PropWeatherVarLast + 1
+
+func (w Weather) String() string {
+    return [...]string{
+        "Clear",
+        "Snow",
+        "Rain",
+    }[w]
+}
