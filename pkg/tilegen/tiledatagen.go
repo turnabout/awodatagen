@@ -3,6 +3,7 @@ package tilegen
 import (
     "github.com/turnabout/awossgen"
     "github.com/turnabout/awossgen/pkg/packer"
+    "github.com/turnabout/awossgen/pkg/tilegen/autovargen"
 )
 
 // Generate Src visual data JSON & sprite sheet
@@ -12,7 +13,7 @@ func GetTileData(packedFrameImgs *[]packer.FrameImage) *awossgen.TilesData {
     var tilesData *awossgen.TilesData = getBaseTileData(packedFrameImgs)
 
     // Attach additional data to the tiles data: auto-var data, clock data...
-    // attachTilesAutoVarData(tilesData) // TODO
+    autovargen.AttachTilesAutoVarData(tilesData)
     attachTilesClockData(tilesData)
 
     return tilesData

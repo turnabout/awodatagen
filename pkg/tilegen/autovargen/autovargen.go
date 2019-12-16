@@ -1,43 +1,24 @@
 package autovargen
 
 import (
+    "github.com/turnabout/awossgen"
+    "github.com/turnabout/awossgen/pkg/genio"
     "log"
     "sort"
     "unicode"
     "unicode/utf8"
 )
 
-// Take multiple tile types and compose a bit field for usage in auto var data
-func composeTileTypeBitField(values []TileType) uint {
-    var result uint = 0
-
-    for _, val := range values {
-        result |= (1 << val)
-    }
-
-    return result
-}
-
-// Values corresponding to auto var compound symbols
-var compoundAutoVarValues = map[string]uint{
-    "any": 0xFFFFFFFF,
-    "shadowing": composeTileTypeBitField([]TileType{Forest, Mountain, Silo}),
-    "oob": composeTileTypeBitField([]TileType{OOB}),
-    "land": composeTileTypeBitField([]TileType{Plain, Forest, Mountain, Road, Bridge, Pipe, PipeFragile, Silo}),
-}
-
-// Attach auto var data to accumulated tiles data
-func attachTilesAutoVarData(tilesData *TilesData) {
+// Attach auto-var data to tile data object
+func AttachTilesAutoVarData(tilesData *awossgen.TilesData) {
     var rawData RawAutoVarsData
 
     // Load raw auto var data file into structure
-    getFullProjectPath(tilesDir)
+    genio.AttachJSONData( awossgen.GetInputPath(awossgen.TilesDir, awossgen.TilesAutoVarFileName), &rawData )
 
-    attachJSONData( getFullProjectPath(tilesDir, tilesAutoVarFileName), &rawData )
-
-    // Loop every tile type
+    // Loop every tile type in the raw data
     for tileTypeStr, tileTypeAutoVars := range rawData {
-        var tileType TileType = tileReverseStrings[tileTypeStr]
+        var tileType awossgen.TileType = awossgen.TileReverseStrings[tileTypeStr]
 
         // TODO: remove temporary debug condition
         if tileType != Forest && tileType != Plain && tileType != Bridge && tileType != River && tileType != Sea {
@@ -63,6 +44,26 @@ func attachTilesAutoVarData(tilesData *TilesData) {
         })
     }
 }
+
+// Take multiple tile types and compose a bit field for usage in auto var data
+func composeTileTypeBitField(values []TileType) uint {
+    var result uint = 0
+
+    for _, val := range values {
+        result |= (1 << val)
+    }
+
+    return result
+}
+
+// Values corresponding to auto var compound symbols
+var compoundAutoVarValues = map[string]uint{
+    "any": 0xFFFFFFFF,
+    "shadowing": composeTileTypeBitField([]TileType{Forest, Mountain, Silo}),
+    "oob": composeTileTypeBitField([]TileType{OOB}),
+    "land": composeTileTypeBitField([]TileType{Plain, Forest, Mountain, Road, Bridge, Pipe, PipeFragile, Silo}),
+}
+
 
 // Count amount of bits in a number (hardcoded for 32-bit numbers)
 func countBits(n uint) uint {

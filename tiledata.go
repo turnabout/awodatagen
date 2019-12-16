@@ -1,6 +1,7 @@
 package awossgen
 
 // Data for all tiles, attached to game data
+// TODO rename -> TileData
 type TilesData []TileData
 
 // Data for a single tile type
@@ -18,33 +19,14 @@ type TileClockData struct {
     VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
 }
 
-
 // Tile Auto-vars data
 type AutoVarData struct {
     TileVar string       `json:"tileVar"`   // The tile variation's short key
     AdjacentTiles [4]uint `json:"adjTiles"` // Numbers describing the adjacent tiles that correspond to the tile
-    // variation. Every number is a bit field where the nth bit corresponds to
-    // the nth tile type. If bit n is set, tile type n is acceptable in the
-    // adjacent tile.
+                                            // variation. Every number is a bit field where the nth bit corresponds to
+                                            // the nth tile type. If bit n is set, tile type n is acceptable in the
+                                            // adjacent tile.
 }
-
-// TODO move in autovar pkg
-type RawAutoVarsData map[string][]RawAutoVarData
-
-// TODO move in autovar pkg
-type RawAutoVarData struct {
-    TileVar string                         // The tile variation
-    AdjacentTiles [4]string `json:"Tiles"` // Strings describing the adjacent tiles that correspond to the tile
-    // variation. In order, the adjacent tiles go: up, right, down, left
-}
-
-// Auto var data's adjacent tile indexes
-// TODO move to tilesautovar pkg
-const AUTOVAR_ADJACENT_TILE_UP    = 0
-const AUTOVAR_ADJACENT_TILE_RIGHT = 1
-const AUTOVAR_ADJACENT_TILE_DOWN  = 2
-const AUTOVAR_ADJACENT_TILE_LEFT  = 3
-const ADJACENT_TILE_COUNT         = 4
 
 // Tile type
 type TileType uint8
@@ -210,72 +192,103 @@ const(
 
 func (v TileVariation) String() string {
     return [...]string{
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        ":",
-        ";",
-        "-",
-        "=",
+        "A","B","C","D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
+        "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+        "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "-", "=",
     }[v]
 }
 
+// Map for looking up a Tile Type using its corresponding full string
+var TileReverseStrings = map[string]TileType {
+
+    // Basic neutral tiles, represented visually
+    "Plain": Plain,
+    "Forest": Forest,
+    "Mountain": Mountain,
+    "Road": Road,
+    "Bridge": Bridge,
+    "River": River,
+    "Sea": Sea,
+    "Reef": Reef,
+    "Shore": Shore,
+    "Pipe": Pipe,
+    "PipeFragile": PipeFragile,
+    "Silo": Silo,
+
+    // Additional neutral tiles, represented visually (standard size)
+    "BaseSmoke": BaseSmoke,
+    "Empty": Empty,
+
+    // Additional neutral tiles, represented visually (non-standard size)
+    "LandPiece": LandPiece,
+}
+
+// Map for looking up a Tile Variation using its corresponding full string
+var TileVarsReverseStrings = map[string]TileVariation {
+    "Default": Default,
+    "Horizontal": Horizontal,
+    "Vertical": Vertical,
+    "VerticalEnd": VerticalEnd,
+    "Top": Top,
+    "Bottom": Bottom,
+    "DirLeft": DirLeft,
+    "DirRight": DirRight,
+    "TopLeft": TopLeft,
+    "TopRight": TopRight,
+    "BottomLeft": BottomLeft,
+    "BottomRight": BottomRight,
+    "Middle": Middle,
+    "ShadowedDefault": ShadowedDefault,
+    "ShadowedTopLeft": ShadowedTopLeft,
+    "ShadowedBottomLeft": ShadowedBottomLeft,
+    "ShadowedLeft": ShadowedLeft,
+    "ShadowedHorizontal": ShadowedHorizontal,
+    "ShadowedVertical": ShadowedVertical,
+    "ShadowedVerticalEnd": ShadowedVerticalEnd,
+    "ShadowedTLeft": ShadowedTLeft,
+    "TTop": TTop,
+    "TBottom": TBottom,
+    "TLeft": TLeft,
+    "TRight": TRight,
+    "Small": Small,
+    "WaterfallUp": WaterfallUp,
+    "WaterfallDown": WaterfallDown,
+    "WaterfallLeft": WaterfallLeft,
+    "WaterfallRight": WaterfallRight,
+    "Hole": Hole,
+    "HoleHorizontal": HoleHorizontal,
+    "HoleVertical": HoleVertical,
+    "HoleLeft": HoleLeft,
+    "HoleRight": HoleRight,
+    "HoleTop": HoleTop,
+    "HoleBottom": HoleBottom,
+    "TopConnectedLeft": TopConnectedLeft,
+    "TopConnectedRight": TopConnectedRight,
+    "TopConnectedFull": TopConnectedFull,
+    "BottomConnectedLeft": BottomConnectedLeft,
+    "BottomConnectedRight": BottomConnectedRight,
+    "BottomConnectedFull": BottomConnectedFull,
+    "LeftConnectedTop": LeftConnectedTop,
+    "LeftConnectedBottom": LeftConnectedBottom,
+    "LeftConnectedFull": LeftConnectedFull,
+    "RightConnectedTop": RightConnectedTop,
+    "RightConnectedBottom": RightConnectedBottom,
+    "RightConnectedFull": RightConnectedFull,
+    "TopLeftConnectedVertical": TopLeftConnectedVertical,
+    "TopLeftConnectedHorizontal": TopLeftConnectedHorizontal,
+    "TopLeftConnectedFull": TopLeftConnectedFull,
+    "TopRightConnectedVertical": TopRightConnectedVertical,
+    "TopRightConnectedHorizontal": TopRightConnectedHorizontal,
+    "TopRightConnectedFull": TopRightConnectedFull,
+    "BottomLeftConnectedVertical": BottomLeftConnectedVertical,
+    "BottomLeftConnectedHorizontal": BottomLeftConnectedHorizontal,
+    "BottomLeftConnectedFull": BottomLeftConnectedFull,
+    "BottomRightConnectedVertical": BottomRightConnectedVertical,
+    "BottomRightConnectedHorizontal": BottomRightConnectedHorizontal,
+    "BottomRightConnectedFull": BottomRightConnectedFull,
+    "HorizontalClosed": HorizontalClosed,
+    "HorizontalOpen": HorizontalOpen,
+    "VerticalClosed": VerticalClosed,
+    "VerticalOpen": VerticalOpen,
+    "Used": Used,
+}

@@ -42,7 +42,7 @@ func gatherSingleLvlTileFrameImgs(
 ) {
     for _, file := range files {
         // Get the Tile Variation corresponding to this image file
-        tileVar := tileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
+        tileVar := awossgen.TileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
 
         // Add this file's image data to its corresponding tile variation
         imageObj := genio.GetImage(path.Join(tileDir, file.Name()))
@@ -70,7 +70,7 @@ func gatherDoubleLvlTileFrameImgs(
     // Loop every variation directory
     for _, dir := range dirs {
         // Get the Tile Variation corresponding to this image file
-        tileVar := tileVarsReverseStrings[dir.Name()]
+        tileVar := awossgen.TileVarsReverseStrings[dir.Name()]
 
         varDir := path.Join(tileDir, dir.Name());
         varFiles, err := ioutil.ReadDir(varDir)
