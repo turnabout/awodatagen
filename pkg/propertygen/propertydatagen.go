@@ -8,6 +8,18 @@ import (
 // Generate properties' sprite sheet & visual data
 func GetPropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesData {
 
+    // Get the base properties data object containing frame source data
+    var propsData *awossgen.PropertiesData = getBasePropertyData(packedFrameImgs)
+
+    // Attach additional data to the properties data
+    attachExtraPropData(propsData)
+
+    return propsData
+}
+
+// Generate the visual data for Properties' origin
+func getBasePropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesData {
+
     // Weather Variation -> Property Type -> Unit Variation
     propsData := make(awossgen.PropertiesData, awossgen.PropWeatherVarCount)
 
@@ -46,4 +58,11 @@ func GetPropertyData(packedFrameImgs *[]packer.FrameImage) *awossgen.PropertiesD
     }
 
     return &propsData
+}
+
+// Attach extra data to property data
+func attachExtraPropData(propData *awossgen.PropertiesData) {
+    // propsDir := baseDirPath + inputsDirName + propertiesDir
+    // attachJSONData(propsDir + palettesFileName, &propData.Palettes)
+    // attachJSONData(propsDir +propsLightsRGBFileName, &propData.PropsLightsRGB)
 }
