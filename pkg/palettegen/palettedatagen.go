@@ -9,8 +9,8 @@ func AttachPaletteData(vData *awodatagen.GameData) {
     var basePalettes map[string]awodatagen.Palette
     var rawPalettes []awodatagen.Palette
 
-    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.BasePalettesFileName), &basePalettes )
-    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.PalettesFileName), &rawPalettes )
+    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.BasePalettesFileName), &basePalettes )
+    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.PalettesFileName), &rawPalettes )
 
     // Generate final palette data
     // Unit palettes

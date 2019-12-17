@@ -11,7 +11,7 @@ func attachTilesClockData(tileData *awodatagen.TileData) {
 
     // Fill out map with keys being tile short strings and values being tile clock data
     genio.AttachJSONData(
-        awodatagen.GetInputPath(awodatagen.TilesDir, awodatagen.TilesClockDataFileName),
+        awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.TilesClockDataFileName),
         &tilesClockData,
     )
 

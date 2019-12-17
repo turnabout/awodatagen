@@ -37,9 +37,9 @@ const assetsDirName = "assets"
 const UnitsDir       = "units"
 const TilesDir       = "tiles"
 const PropertiesDir  = "properties"
-const UIDir = "ui"
-const CODir = "co"
-const AdditionalDir  = "additional"
+const UIDir          = "ui"
+const CODir          = "co"
+const OtherDir       = "other"
 
 // Names of extra data files
 const PalettesFileName       = "palettes.json"

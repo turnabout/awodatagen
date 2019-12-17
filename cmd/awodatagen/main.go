@@ -112,13 +112,13 @@ func attachAdditionalVData(gameData *awodatagen.GameData) {
 
     // Adds default stages data
     genio.AttachJSONData(
-        awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.StagesFileName),
+        awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.StagesFileName),
         &gameData.Stages,
     )
 
     // Adds animation clocks data
     genio.AttachJSONData(
-        awodatagen.GetInputPath(awodatagen.AdditionalDir, awodatagen.AnimClocksFileName),
+        awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.AnimClocksFileName),
         &gameData.AnimationClocks,
     )
 

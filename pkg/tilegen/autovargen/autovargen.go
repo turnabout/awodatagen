@@ -11,7 +11,7 @@ func AttachTilesAutoVarData(tilesData *awodatagen.TileData) {
     var rawData rawAutoVarsData
 
     // Load raw auto var data file into structure
-    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.TilesDir, awodatagen.TilesAutoVarFileName), &rawData )
+    genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.TilesAutoVarFileName), &rawData )
 
     // Loop every tile type in the raw data
     for tileTypeStr, tileTypeAutoVars := range rawData {
