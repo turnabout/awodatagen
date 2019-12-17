@@ -38,6 +38,7 @@ const UnitsDir       = "units"
 const TilesDir       = "tiles"
 const PropertiesDir  = "properties"
 const UIDir = "ui"
+const CODir = "co"
 const AdditionalDir  = "additional"
 
 // Names of extra data files

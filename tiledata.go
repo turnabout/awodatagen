@@ -62,9 +62,9 @@ const(
     OOB
 )
 
-const FirstNeutralTileType = Plain
-const LastNeutralTileType  = LandPiece
-const NeutralTileTypeCount = LastNeutralTileType + 1
+const NeutralTileTypeFirst = Plain
+const NeutralTileTypeLast  = LandPiece
+const NeutralTileTypeCount = NeutralTileTypeLast + 1
 
 func (t TileType) String() string {
     return [...]string{

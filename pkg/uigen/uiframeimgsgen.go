@@ -15,20 +15,20 @@ import (
 func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Gather frame images from the elements found in the UI directory
-    dirs, err := ioutil.ReadDir(awodatagen.GetInputPath(awodatagen.UIDir))
-    if err != nil { log.Fatal(err) }
+    UIDirElements, err := ioutil.ReadDir(awodatagen.GetInputPath(awodatagen.UIDir))
+    awodatagen.LogFatalIfErr(err)
 
-    for _, uiDirElement := range dirs {
-        if uiDirElement.IsDir() {
+    for _, UIDirElement := range UIDirElements {
+        if UIDirElement.IsDir() {
             gatherUISubDirFrameImgs(
                 frameImgs,
-                uiDirElement.Name(),
-                awodatagen.GetInputPath(awodatagen.UIDir, uiDirElement.Name()),
+                UIDirElement.Name(),
+                awodatagen.GetInputPath(awodatagen.UIDir, UIDirElement.Name()),
             )
         } else {
             appendUIFrameImgs(
                 awodatagen.GetInputPath(awodatagen.UIDir),
-                uiDirElement.Name(),
+                UIDirElement.Name(),
                 0,
                 awodatagen.UIElementNone,
                 frameImgs,

@@ -15,7 +15,7 @@ import (
 func GetTileFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop basic (non-property) tile types
-    for tile := awodatagen.FirstNeutralTileType; tile < awodatagen.NeutralTileTypeCount; tile++ {
+    for tile := awodatagen.NeutralTileTypeFirst; tile < awodatagen.NeutralTileTypeCount; tile++ {
         tileDir := awodatagen.GetInputPath( awodatagen.TilesDir, tile.String() )
 
         files, err := ioutil.ReadDir(tileDir)

@@ -2,6 +2,7 @@ package main
 
 import (
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/cogen"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
     "github.com/turnabout/awodatagen/pkg/palettegen"
@@ -19,10 +20,16 @@ func main() {
     // Gather packed frame images for all sections of the sprite sheet
     var packedTileFrameImages []packer.FrameImage
     var packedUnitFrameImages []packer.FrameImage
+    var packedCOFrameImages   []packer.FrameImage
     var packedUIFrameImages   []packer.FrameImage
     var ssImg *image.RGBA
 
-    ssImg = gatherFrameImages(&packedTileFrameImages, &packedUnitFrameImages, &packedUIFrameImages)
+    ssImg = gatherFrameImages(
+        &packedTileFrameImages,
+        &packedUnitFrameImages,
+        &packedCOFrameImages,
+        &packedUIFrameImages,
+    )
 
     // Create game data object using the frame images
     var gameData = awodatagen.GameData{
@@ -83,8 +90,9 @@ func createSectionFrameImages(
 // Gathers frame images from every category of entities making up the sprite sheet
 func gatherFrameImages(
     packedTileFrameImagesOut *[]packer.FrameImage,
-    packedUnitFrameImagesOut*[]packer.FrameImage,
-    packedUIFrameImagesOut*[]packer.FrameImage,
+    packedUnitFrameImagesOut *[]packer.FrameImage,
+    packedCOFrameImagesOut   *[]packer.FrameImage,
+    packedUIFrameImagesOut   *[]packer.FrameImage,
 ) *image.RGBA {
     // 1. Gather tiles/properties frame images
     var tileFrameImages []packer.FrameImage
@@ -106,8 +114,16 @@ func gatherFrameImages(
     accumImg = packer.DrawPackedFrames(packedUnitFrameImages, unitsSectionWidth, unitsSectionHeight)
     *packedUnitFrameImagesOut = *packedUnitFrameImages
 
-    // 3. Gather UI frame images
-    // Start off the frame images with previously accumulated image including tiles & units
+    // 3. Gather CO frame images
+    COFrameImages := createSectionFrameImages(accumImg, unitsSectionWidth, unitsSectionHeight)
+
+    cogen.GetCOFrameImgs(&COFrameImages)
+    packedCOFrameImages, COSectionWidth, COSectionHeight := packer.Pack(&COFrameImages)
+
+    accumImg = packer.DrawPackedFrames(packedCOFrameImages, COSectionWidth, COSectionHeight)
+    *packedCOFrameImagesOut = *packedCOFrameImages
+
+    // 4. Gather UI frame images
     UIFrameImages := createSectionFrameImages(accumImg, unitsSectionWidth, unitsSectionHeight)
 
     uigen.GetUIFrameImgs(&UIFrameImages)
