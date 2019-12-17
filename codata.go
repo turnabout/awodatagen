@@ -5,10 +5,9 @@ type COData []COTypeData
 
 // Data for a single CO type
 type COTypeData struct {
-    Name string   `json:"name"`
-    Army ArmyType `json:"army"`
-    Body Frame    `json:"body"`
-    Faces []Frame `json:"faces"`
+    Name string    `json:"name"`
+    Army ArmyType  `json:"army"`
+    Frames []Frame `json:"frames"`
 }
 
 // CO enum
@@ -59,17 +58,19 @@ var COReverseStrings = map[string]CO {
     "Sturm": Sturm,
 }
 
-// CO face types enum
-type COFaceType uint8
+// CO frame type enum (all possible CO images)
+type COFrameType uint8
 
 const(
-    FaceNeutral COFaceType = iota
+    Body COFrameType = iota
+    FaceNeutral
     FaceGood
     FaceBad
 )
 
 // Map for looking up a CO face type using its corresponding string
-var COFaceReverseStrings = map[string]COFaceType {
+var COFrameTypeReverseStrings = map[string]COFrameType{
+    "Body": Body,
     "FaceNeutral": FaceNeutral,
     "FaceGood": FaceGood,
     "FaceBad": FaceBad,
