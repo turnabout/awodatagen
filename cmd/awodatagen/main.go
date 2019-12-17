@@ -30,6 +30,7 @@ func main() {
         Properties: *propertygen.GetPropertyData(&packedTileFrameImages),
         Units:      *unitgen.GetUnitData(&otherPackedFrameImages),
         UI:         *uigen.GetUIData(&otherPackedFrameImages),
+        COs:        *cogen.GetCOData(&otherPackedFrameImages),
 
         SpriteSheetDimensions: awodatagen.SSDimensions{
             Width: ssImg.Bounds().Max.X,

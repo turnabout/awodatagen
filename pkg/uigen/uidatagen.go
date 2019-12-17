@@ -5,17 +5,17 @@ import (
     "github.com/turnabout/awodatagen/pkg/packer"
 )
 
-// Generate Src visual data JSON & sprite sheet
+// Generates the UI-related game data
 func GetUIData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
-    var uiData *awodatagen.UIData = getUIBaseData(packedFrameImgs)
+    var UIData *awodatagen.UIData = getUIBaseData(packedFrameImgs)
 
-    return uiData
+    return UIData
 }
 
 func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
 
     // UI Element Type -> UI Element Frames
-    uiData := make(awodatagen.UIData, awodatagen.UIElementCount)
+    UIData := make(awodatagen.UIData, awodatagen.UIElementCount)
 
     // Process frame images
     for _, frameImg := range *packedFrameImgs {
@@ -25,13 +25,14 @@ func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
             continue
         }
 
+        // Get metadata on the UI element this frame image represents
         uiElement := awodatagen.UIElement(frameImg.MetaData.Type)
         uiElFrame := frameImg.MetaData.Index
 
         // Add any frames missing up until the one we're adding
-        if missingFrames := (uiElFrame + 1) - len(uiData[uiElement]); missingFrames > 0 {
+        if missingFrames := (uiElFrame + 1) - len(UIData[uiElement]); missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                uiData[uiElement] = append(uiData[uiElement], awodatagen.Frame{})
+                UIData[uiElement] = append(UIData[uiElement], awodatagen.Frame{})
             }
         }
 
@@ -43,9 +44,9 @@ func getUIBaseData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UIData {
             Height: frameImg.Height,
         }
 
-        uiData[uiElement][uiElFrame] = frame
+        UIData[uiElement][uiElFrame] = frame
     }
 
-    return &uiData
+    return &UIData
 }
 

@@ -66,8 +66,6 @@ func getCOTypeFrameImgs(
         cleanFileName := strings.TrimSuffix(img.Name(), filepath.Ext(img.Name()))
 
         if frameType, ok = awodatagen.COFrameTypeReverseStrings[cleanFileName]; !ok {
-
-            fmt.Printf("AAAA %s\n", filepath.Ext(img.Name()))
             awodatagen.LogFatal(
                 []string{
                     fmt.Sprintf(
