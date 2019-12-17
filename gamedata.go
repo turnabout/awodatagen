@@ -11,7 +11,7 @@ type GameData struct {
     COs        COData       `json:"COs"`
 
     AnimationClocks       []AnimationClock `json:"animationClocks"`
-    SpriteSheetDimensions SSDimensions     `json:"SSDimensions"`
+    SpriteSheetDimensions SSDimensions     `json:"ssDimensions"`
 }
 
 // Animation Clock structure
