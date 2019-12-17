@@ -21,22 +21,15 @@ func main() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
 
     // Gather all packed frame images & the sprite sheet image
-    var packedTileFrameImages, packedUnitFrameImages, packedCOFrameImages, packedUIFrameImages []packer.FrameImage
-    var ssImg *image.RGBA
-
-    ssImg = gatherFrameImages(
-        &packedTileFrameImages,
-        &packedUnitFrameImages,
-        &packedCOFrameImages,
-        &packedUIFrameImages,
-    )
+    var packedTileFrameImages, otherPackedFrameImages []packer.FrameImage
+    ssImg := gatherFrameImages(&packedTileFrameImages, &otherPackedFrameImages)
 
     // Create game data object using the frame images
     var gameData = awodatagen.GameData{
         Tiles:      *tilegen.GetTileData(&packedTileFrameImages),
         Properties: *propertygen.GetPropertyData(&packedTileFrameImages),
-        Units:      *unitgen.GetUnitData(&packedUnitFrameImages),
-        UI:         *uigen.GetUIData(&packedUIFrameImages),
+        Units:      *unitgen.GetUnitData(&otherPackedFrameImages),
+        UI:         *uigen.GetUIData(&otherPackedFrameImages),
 
         SpriteSheetDimensions: awodatagen.SSDimensions{
             Width: ssImg.Bounds().Max.X,
@@ -54,12 +47,10 @@ func main() {
 // Gathers frame images from every category of entities making up the sprite sheet
 func gatherFrameImages(
     packedTileFrameImagesOut *[]packer.FrameImage,
-    packedUnitFrameImagesOut *[]packer.FrameImage,
-    packedCOFrameImagesOut   *[]packer.FrameImage,
-    packedUIFrameImagesOut   *[]packer.FrameImage,
+    otherPackedFrameImages *[]packer.FrameImage,
 ) *image.RGBA {
 
-    // Gather tiles/properties frame images
+    // 1. Gather tiles/properties frame images (tiles need to be aligned with top-left)
     accumImg := gatherStepFrameImages(
         packedTileFrameImagesOut,
         nil,
@@ -67,14 +58,14 @@ func gatherFrameImages(
         propertygen.GetPropertyFrameImgs,
     )
 
-    // Gather units frame images
-    accumImg = gatherStepFrameImages(packedUnitFrameImagesOut, accumImg, unitgen.GetUnitFrameImgs)
-
-    // Gather CO frame images
-    accumImg = gatherStepFrameImages(packedCOFrameImagesOut, accumImg, cogen.GetCOFrameImgs)
-
-    // Gather UI frame images
-    accumImg = gatherStepFrameImages(packedUIFrameImagesOut, accumImg, uigen.GetUIFrameImgs)
+    // 2. Gather all other frame images together
+    accumImg = gatherStepFrameImages(
+        otherPackedFrameImages,
+        accumImg,
+        unitgen.GetUnitFrameImgs,
+        cogen.GetCOFrameImgs,
+        uigen.GetUIFrameImgs,
+    )
 
     return accumImg
 }
