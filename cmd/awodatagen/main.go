@@ -37,7 +37,7 @@ func main() {
         },
     }
 
-    attachAdditionalVData(&gameData)
+    attachAdditionalData(&gameData)
 
     // Output results
     genio.OutputJSON(&gameData)
@@ -98,8 +98,8 @@ func gatherStepFrameImages(
     }
 
     // Get the frame images for this step using the given callbacks
-    for _, cb := range frameImagesCBs {
-        cb(&frameImages)
+    for _, CB := range frameImagesCBs {
+        CB(&frameImages)
     }
 
     // Pack the frame images
@@ -110,7 +110,7 @@ func gatherStepFrameImages(
 }
 
 // Gather additional visual data and attach to the main visual data object
-func attachAdditionalVData(gameData *awodatagen.GameData) {
+func attachAdditionalData(gameData *awodatagen.GameData) {
 
     // Adds default stages data
     genio.AttachJSONData(
@@ -124,5 +124,6 @@ func attachAdditionalVData(gameData *awodatagen.GameData) {
         &gameData.AnimationClocks,
     )
 
+    // Palette data
     palettegen.AttachPaletteData(gameData)
 }
