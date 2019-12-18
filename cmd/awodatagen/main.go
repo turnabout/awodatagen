@@ -51,21 +51,22 @@ func gatherFrameImages(
     otherPackedFrameImages *[]packer.FrameImage,
 ) *image.RGBA {
 
-    // 1. Gather tiles/properties frame images (tiles need to be aligned with top-left)
+    // 1. Gather frame images that need to be aligned with the top-left (tiles, properties, idle units)
     accumImg := gatherStepFrameImages(
         packedTileFrameImagesOut,
         nil,
         tilegen.GetTileFrameImgs,
         propertygen.GetPropertyFrameImgs,
+        unitgen.GetUnitIdleFrameImgs,
     )
 
     // 2. Gather all other frame images together
     accumImg = gatherStepFrameImages(
         otherPackedFrameImages,
         accumImg,
-        unitgen.GetUnitFrameImgs,
         cogen.GetCOFrameImgs,
         uigen.GetUIFrameImgs,
+        unitgen.GetUnitNonIdleFrameImgs,
     )
 
     return accumImg

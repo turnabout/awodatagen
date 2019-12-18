@@ -5,18 +5,26 @@ import (
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
     "io/ioutil"
-    "log"
     "os"
     "path"
 )
 
-// Gets frame images from all unit images
-func GetUnitFrameImgs(frameImgs *[]packer.FrameImage) {
+// Gets frame images from all non-idle unit images
+func GetUnitNonIdleFrameImgs(frameImgs *[]packer.FrameImage) {
+    getUnitFrameImgs(frameImgs, []awodatagen.UnitAnimation{awodatagen.Right, awodatagen.Up, awodatagen.Down})
+}
 
+// Gets frame images from all idle unit images
+func GetUnitIdleFrameImgs(frameImgs *[]packer.FrameImage) {
+    getUnitFrameImgs(frameImgs, []awodatagen.UnitAnimation{awodatagen.Idle})
+}
+
+// Gets frame images for all unit images of the given unit animations
+func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []awodatagen.UnitAnimation) {
     // Loop units
     for unitType := awodatagen.UnitTypeFirst; unitType <= awodatagen.UnitTypeLast; unitType++ {
 
-        // Loop Variations
+        // Loop variations
         for unitVar := awodatagen.ArmyTypeFirst; unitVar <= awodatagen.ArmyTypeLast; unitVar++ {
 
             varDir := awodatagen.GetInputPath( awodatagen.UnitsDir, unitType.String(), unitVar.String() )
@@ -26,13 +34,13 @@ func GetUnitFrameImgs(frameImgs *[]packer.FrameImage) {
                 break
             }
 
-            // Loop Animations
-            for anim := awodatagen.UnitAnimFirst; anim <= awodatagen.UnitAnimLast; anim++ {
+            // Loop animations
+            for _, animation := range animations {
                 getAnimFrameImgs(
                     unitType,
                     unitVar,
-                    anim,
-                    path.Join( varDir, anim.String() ),
+                    animation,
+                    path.Join( varDir, animation.String() ),
                     frameImgs,
                 )
             }
@@ -49,10 +57,7 @@ func getAnimFrameImgs(
     frameImgs *[]packer.FrameImage,
 ) {
     imgFiles, err := ioutil.ReadDir(animDir)
-
-    if err != nil {
-        log.Fatal(err)
-    }
+    awodatagen.LogFatalIfErr(err)
 
     // Loop every image of this Animation
     for index, imgFile := range imgFiles {
