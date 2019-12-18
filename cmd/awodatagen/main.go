@@ -21,16 +21,15 @@ func main() {
     log.SetFlags(log.LstdFlags | log.Lshortfile)
 
     // Gather all packed frame images & the sprite sheet image
-    var packedTileFrameImages, otherPackedFrameImages []packer.FrameImage
-    ssImg := gatherFrameImages(&packedTileFrameImages, &otherPackedFrameImages)
+    packedFrameImages, ssImg := gatherFrameImages()
 
     // Create game data object using the frame images
     var gameData = awodatagen.GameData{
-        Tiles:      *tilegen.GetTileData(&packedTileFrameImages),
-        Properties: *propertygen.GetPropertyData(&packedTileFrameImages),
-        Units:      *unitgen.GetUnitData(&otherPackedFrameImages),
-        UI:         *uigen.GetUIData(&otherPackedFrameImages),
-        COs:        *cogen.GetCOData(&otherPackedFrameImages),
+        Tiles:      *tilegen.GetTileData(packedFrameImages),
+        Properties: *propertygen.GetPropertyData(packedFrameImages),
+        Units:      *unitgen.GetUnitData(packedFrameImages),
+        UI:         *uigen.GetUIData(packedFrameImages),
+        COs:        *cogen.GetCOData(packedFrameImages),
 
         SpriteSheetDimensions: awodatagen.SSDimensions{
             Width: ssImg.Bounds().Max.X,
@@ -46,40 +45,43 @@ func main() {
 }
 
 // Gathers frame images from every category of entities making up the sprite sheet
-func gatherFrameImages(
-    packedTileFrameImagesOut *[]packer.FrameImage,
-    otherPackedFrameImages *[]packer.FrameImage,
-) *image.RGBA {
+func gatherFrameImages() (*[]packer.FrameImage, *image.RGBA) {
+
+    var accumImg *image.RGBA = nil
 
     // 1. Gather frame images that need to be aligned with the top-left (tiles, properties, idle units)
-    accumImg := gatherStepFrameImages(
-        packedTileFrameImagesOut,
-        nil,
+    var alignedFrameImages *[]packer.FrameImage
+
+    alignedFrameImages, accumImg = gatherStepFrameImages(
+        accumImg,
         tilegen.GetTileFrameImgs,
         propertygen.GetPropertyFrameImgs,
         unitgen.GetUnitIdleFrameImgs,
     )
 
     // 2. Gather all other frame images together
-    accumImg = gatherStepFrameImages(
-        otherPackedFrameImages,
+    var otherFrameImages *[]packer.FrameImage
+
+    otherFrameImages, accumImg = gatherStepFrameImages(
         accumImg,
         cogen.GetCOFrameImgs,
         uigen.GetUIFrameImgs,
         unitgen.GetUnitNonIdleFrameImgs,
     )
 
-    return accumImg
+    // 3. Combine all frame images in one array
+    var frameImagesOut []packer.FrameImage = append(*alignedFrameImages, *otherFrameImages...)
+
+    return &frameImagesOut, accumImg
 }
 
 // Gathers the frame images for a single step.
 // Can use one or many frame image callbacks to process frame images, pack them, use them to draw an image and return
 // both the packed frame images and the drawn image.
 func gatherStepFrameImages(
-    packedFrameImagesOut *[]packer.FrameImage,
     accumImg *image.RGBA,
     frameImagesCBs ...getFrameImagesCB,
-) *image.RGBA {
+) (*[]packer.FrameImage, *image.RGBA) {
 
     var frameImages []packer.FrameImage
 
@@ -100,12 +102,11 @@ func gatherStepFrameImages(
         cb(&frameImages)
     }
 
-    // Pack the frame images and send as output
+    // Pack the frame images
     packedFrameImages, sectionWidth, sectionHeight := packer.Pack(&frameImages)
-    *packedFrameImagesOut = *packedFrameImages
 
-    // Output the new accumulated image
-    return packer.DrawPackedFrames(packedFrameImages, sectionWidth, sectionHeight)
+    // Output packed frame images and new accumulated image
+    return packedFrameImages, packer.DrawPackedFrames(packedFrameImages, sectionWidth, sectionHeight)
 }
 
 // Gather additional visual data and attach to the main visual data object

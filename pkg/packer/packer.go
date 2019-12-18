@@ -8,22 +8,12 @@ import (
     "sort"
 )
 
-/*
-type TypeSorter []FrameImage
-
-func (f TypeSorter) Len() int           { return len(f) }
-func (f TypeSorter) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
-func (f TypeSorter) Less(i, j int) bool { return f[i].MetaData.Type < f[j].MetaData.Type }
-*/
-
-
 // Sorts frame images by image size (largest to smallest area)
 type SizeSorter []FrameImage
 
 func (f SizeSorter) Len() int           { return len(f) }
 func (f SizeSorter) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 func (f SizeSorter) Less(i, j int) bool { return (f[i].Width * f[i].Height) > (f[j].Width * f[j].Height) }
-
 
 // Pack Frame Images into an expanding surface, attaching Nodes specifying coordinates to every FrameImage in the list,
 // and returning it along with the packed surface's width and height
