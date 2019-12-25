@@ -10,7 +10,7 @@ type GameData struct {
     Stages     StageData    `json:"stages"`
     COs        COData       `json:"COs"`
 
-    AnimationClocks       []AnimationClock `json:"animationClocks"`
+    Clocks                []AnimationClock `json:"clocks"`
     SpriteSheetDimensions SSDimensions     `json:"ssDimensions"`
 }
 

@@ -121,7 +121,7 @@ func attachAdditionalData(gameData *awodatagen.GameData) {
     // Adds animation clocks data
     genio.AttachJSONData(
         awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.AnimClocksFileName),
-        &gameData.AnimationClocks,
+        &gameData.Clocks,
     )
 
     // Palette data
