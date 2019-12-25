@@ -45,7 +45,7 @@ const OtherDir       = "other"
 const PalettesFileName       = "palettes.json"
 const BasePalettesFileName   = "basePalettes.json"
 const StagesFileName         = "stages.json"
-const AnimClocksFileName     = "animationClocks.json"
+const AnimClocksFileName     = "newAnimationClocks.json"
 const TilesClockDataFileName = "tilesClockData.json"
 const TilesAutoVarFileName   = "tilesAutoVarData.json"
 

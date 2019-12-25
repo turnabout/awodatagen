@@ -6,7 +6,7 @@ import (
 )
 
 func attachTilesClockData(tileData *awodatagen.TileData) {
-
+    return
     var tilesClockData map[string]awodatagen.TileClockData
 
     // Fill out map with keys being tile short strings and values being tile clock data

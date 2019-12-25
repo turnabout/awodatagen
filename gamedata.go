@@ -16,8 +16,8 @@ type GameData struct {
 
 // Animation Clock structure
 type AnimationClock struct {
-    ChangingTicks []int   `json:"changingTicks"` // Ticks which update the animations subscribed to this clock
-    SubClocks     [][]int `json:"subClocks"`     // Which indexes animations subscribed to this clock should use
+    Frames []int `json:"frames"` // Frame counts that make the animation clock tick
+    Values []int `json:"values"` // Values emitted by the animation clock when it ticks
 }
 
 // Sprite sheet dimensions
