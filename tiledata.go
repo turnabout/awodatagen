@@ -5,9 +5,14 @@ type TileData []TileTypeData
 
 // Data for a single tile type
 type TileTypeData struct {
-    Variations map[string][]Frame `json:"vars"`
-    ClockData  *TileClockData     `json:"clockData,omitempty"`
-    AutoVars   []AutoVarData      `json:"autoVars"`
+    Variations map[string]TileVarData `json:"vars"`
+    AutoVars   []AutoVarData          `json:"autoVars"`
+}
+
+// Data for a single tile variation belonging to a tile type
+type TileVarData struct {
+    Frames     []Frame `json:"frames"`
+    ClockIndex int     `json:"clock"`
 }
 
 // Data for a tile's clock

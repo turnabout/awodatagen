@@ -27,7 +27,7 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awodatagen.TileData 
 
     // Initialize Variations on every TileTypeData
     for tileType := range tilesVData {
-        tilesVData[tileType].Variations = make(map[string][]awodatagen.Frame)
+        tilesVData[tileType].Variations = make(map[string]awodatagen.TileVarData)
     }
 
     // Process Frame Images
@@ -44,17 +44,17 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awodatagen.TileData 
         tileFrame := frameImg.MetaData.Index
 
         // Get the accumulated Animation slice of this Tile Type's given Variation, or initialize it
-        var animSlice []awodatagen.Frame
+        var tileVarData awodatagen.TileVarData
         var ok bool
 
-        if animSlice, ok = tilesVData[tileType].Variations[tileVar.String()]; !ok {
-            animSlice = make([]awodatagen.Frame, 0)
+        if tileVarData, ok = tilesVData[tileType].Variations[tileVar.String()]; !ok {
+            tileVarData.Frames = make([]awodatagen.Frame, 0)
         }
 
         // Add any Frames missing up until the one we're adding
-        if missingFrames := (tileFrame + 1) - len(animSlice); missingFrames > 0 {
+        if missingFrames := (tileFrame + 1) - len(tileVarData.Frames); missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                animSlice = append(animSlice, awodatagen.Frame{})
+                tileVarData.Frames = append(tileVarData.Frames, awodatagen.Frame{})
             }
         }
 
@@ -73,9 +73,9 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awodatagen.TileData 
             frame.Height = frameImg.Height
         }
 
-        animSlice[tileFrame] = frame
-        tilesVData[tileType].Variations[tileVar.String()] = animSlice
-        tilesVData[tileType].ClockData = nil
+        tileVarData.Frames[tileFrame] = frame
+        tileVarData.ClockIndex = -1
+        tilesVData[tileType].Variations[tileVar.String()] = tileVarData
     }
 
     return &tilesVData
