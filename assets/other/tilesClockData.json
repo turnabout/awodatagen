@@ -1,44 +1,38 @@
 // All clock data attached on tiles
 {
   "Reef": {
-    "clock": 0, // Sea sub clock
-    "defaultSubClock": 0,
-    "varSubClocks": {}
+    "defaultClock": 0, // Sea_Clock_0
+    "varClocks": {}
   },
 
   "Sea": {
-    "clock": 0, // Sea clock
-    "defaultSubClock": 0,
-    "varSubClocks": {
-      "E": 1, // Top: Pyramid2
-      "I": 1  // TopLeft: Pyramid2
+    "defaultClock": 0, // Sea_Clock_0
+    "varClocks": {
+      "Top":     1, // Sea_Clock_1
+      "TopLeft": 1  // Sea_Clock_1
     }
   },
 
   "Shore": {
-    "clock": 0, // Sea clock
-    "defaultSubClock": 1,
-    "varSubClocks": {
-      "n": 1, // TopConnectedFull: Pyramid2
-      "F": 0, // Bottom: Pyramid1
-      "o": 0, // BottomConnectedLeft: Pyramid1
-      "p": 0, // BottomConnectedRight: Pyramid1
-      "1": 0, // TopRightConnectedHorizontal: Pyramid1
-      "y": 0, // TopLeftConnectedHorizontal: Pyramid1
-      "7": 0, // BottomRightConnectedHorizontal: Pyramid1
-      "4": 0  // BottomLeftConnectedHorizontal: Pyramid1
+    "defaultClock": 1, // Sea_Clock_1
+    "varClocks": {
+      "Bottom":                         0, // Sea_Clock_0
+      "BottomConnectedLeft":            0, // Sea_Clock_0
+      "BottomConnectedRight":           0, // Sea_Clock_0
+      "TopRightConnectedHorizontal":    0, // Sea_Clock_0
+      "TopLeftConnectedHorizontal":     0, // Sea_Clock_0
+      "BottomRightConnectedHorizontal": 0, // Sea_Clock_0
+      "BottomLeftConnectedHorizontal":  0  // Sea_Clock_0
     }
   },
 
   "River": {
-    "clock": 1, // River clock
-    "defaultSubClock": 0,
-    "varSubClocks": {}
+    "defaultClock": 0, // River_Clock
+    "varClocks": {}
   },
 
   "BaseSmoke": {
-    "clock": 2, // Base smoke clock
-    "defaultSubClock": 0, // Base smoke
-    "varSubClocks": {}
+    "defaultClock": 0, // Smoke_Clock
+    "varClocks": {}
   }
 }

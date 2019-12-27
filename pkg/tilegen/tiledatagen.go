@@ -74,7 +74,8 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *awodatagen.TileData 
         }
 
         tileVarData.Frames[tileFrame] = frame
-        tileVarData.ClockIndex = -1
+        tileVarData.ClockIndex = nil
+
         tilesVData[tileType].Variations[tileVar.String()] = tileVarData
     }
 

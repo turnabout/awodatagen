@@ -12,14 +12,14 @@ type TileTypeData struct {
 // Data for a single tile variation belonging to a tile type
 type TileVarData struct {
     Frames     []Frame `json:"frames"`
-    ClockIndex int     `json:"clock"`
+    ClockIndex *int    `json:"clock,omitempty"`
 }
 
-// Data for a tile's clock
+// Clock data for a tile type's variations.
+// Not saved as-is on the final JSON output
 type TileClockData struct {
-    Clock           int            `json:"clock"`           // Which sub clock to subscribe to
-    DefaultSubClock int            `json:"defaultSubClock"` // Default sub clocks used by this tile's variations
-    VarSubClocks    map[string]int `json:"varSubClocks"`    // Sub clocks used by this tile's variations
+    DefaultClock int            `json:"defaultClock"` // Default clock used by variations of this tile type
+    VarClocks    map[string]int `json:"varClocks"`    // Specific clocks used by variations, overrides default clock
 }
 
 // Tile auto-vars data

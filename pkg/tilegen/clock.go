@@ -1,6 +1,7 @@
 package tilegen
 
 import (
+    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
 )
@@ -14,13 +15,36 @@ func attachTilesClockData(tileData *awodatagen.TileData) {
         &tilesClockData,
     )
 
-    // Attach tile clock data to tile data object using the map
-    /*
-    for tileStr := range tilesClockData {
+    // Loop filled map & use to fill tile variations' clock data
+    for tileStr, tileTypeClockData := range tilesClockData {
         tileType := awodatagen.TileReverseStrings[tileStr]
-        data := tilesClockData[tileStr]
 
-        (*tileData)[tileType].ClockData = &data
+        fmt.Printf("Default clock for tile type %s: %d\n", tileStr, tileTypeClockData.DefaultClock)
+
+        // Initially set all variations to the default clock value
+        for varStr, varData := range (*tileData)[tileType].Variations {
+
+            // Set variation data clock index to the default clock index
+            clockIndex := tileTypeClockData.DefaultClock
+            varData.ClockIndex = &clockIndex
+
+            // Set back the variation data in the original tile data
+            (*tileData)[tileType].Variations[varStr] = varData
+        }
+
+        // Override the clock for variations that have a specific value
+        for varStr, varClock := range tileTypeClockData.VarClocks {
+
+            // Get the looped variation & data object for this variation
+            loopedVar := awodatagen.TileVarsReverseStrings[varStr]
+            varData := (*tileData)[tileType].Variations[loopedVar.String()]
+
+            // Set the variation data clock index
+            clockIndex := varClock
+            varData.ClockIndex = &clockIndex
+
+            // Set back the variation data in the original tile data
+            (*tileData)[tileType].Variations[loopedVar.String()] = varData
+        }
     }
-    */
 }
