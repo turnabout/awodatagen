@@ -9,7 +9,8 @@
     "defaultClock": 0, // Sea_Clock_0
     "varClocks": {
       "Top":     1, // Sea_Clock_1
-      "TopLeft": 1  // Sea_Clock_1
+      "TopLeft": 1, // Sea_Clock_1
+      "Hole":    2  // Sea_Clock_2
     }
   },
 
@@ -22,17 +23,19 @@
       "TopRightConnectedHorizontal":    0, // Sea_Clock_0
       "TopLeftConnectedHorizontal":     0, // Sea_Clock_0
       "BottomRightConnectedHorizontal": 0, // Sea_Clock_0
-      "BottomLeftConnectedHorizontal":  0  // Sea_Clock_0
+      "BottomLeftConnectedHorizontal":  0, // Sea_Clock_0
+      "TopConnectedLeft":               2, // Sea_Clock_2
+      "TopConnectedRight":              2  // Sea_Clock_2
     }
   },
 
   "River": {
-    "defaultClock": 0, // River_Clock
+    "defaultClock": 3, // River_Clock
     "varClocks": {}
   },
 
   "BaseSmoke": {
-    "defaultClock": 0, // Smoke_Clock
+    "defaultClock": 4, // Smoke_Clock
     "varClocks": {}
   }
 }

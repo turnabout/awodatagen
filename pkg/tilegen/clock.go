@@ -1,7 +1,6 @@
 package tilegen
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
 )
@@ -18,8 +17,6 @@ func attachTilesClockData(tileData *awodatagen.TileData) {
     // Loop filled map & use to fill tile variations' clock data
     for tileStr, tileTypeClockData := range tilesClockData {
         tileType := awodatagen.TileReverseStrings[tileStr]
-
-        fmt.Printf("Default clock for tile type %s: %d\n", tileStr, tileTypeClockData.DefaultClock)
 
         // Initially set all variations to the default clock value
         for varStr, varData := range (*tileData)[tileType].Variations {
