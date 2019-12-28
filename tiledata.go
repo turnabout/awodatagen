@@ -57,11 +57,11 @@ const(
     LandPiece
 
     // Property tiles, represented visually in their own module (properties module)
-    Property_HQ
-    Property_City
-    Property_Base
-    Property_Airport
-    Property_Port
+    PropertyHQ
+    PropertyCity
+    PropertyBase
+    PropertyAirport
+    PropertyPort
 
     // Meta tiles, not represented visually
     OOB
@@ -88,11 +88,11 @@ func (t TileType) String() string {
         "BaseSmoke",
         "Empty",
         "LandPiece",
-        "Property_HQ",
-        "Property_City",
-        "Property_Base",
-        "Property_Airport",
-        "Property_Port",
+        "PropertyHQ",
+        "PropertyCity",
+        "PropertyBase",
+        "PropertyAirport",
+        "PropertyPort",
     }[t]
 }
 

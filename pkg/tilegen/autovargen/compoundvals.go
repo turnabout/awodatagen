@@ -21,6 +21,11 @@ var autoVarCompoundVals = map[string]uint{
         awodatagen.Forest,
         awodatagen.Mountain,
         awodatagen.Silo,
+        awodatagen.PropertyHQ,
+        awodatagen.PropertyCity,
+        awodatagen.PropertyBase,
+        awodatagen.PropertyAirport,
+        awodatagen.PropertyPort,
     }),
 
     "oob": makeCompoundVal([]awodatagen.TileType{
@@ -36,5 +41,10 @@ var autoVarCompoundVals = map[string]uint{
         awodatagen.Pipe,
         awodatagen.PipeFragile,
         awodatagen.Silo,
+        awodatagen.PropertyHQ,
+        awodatagen.PropertyCity,
+        awodatagen.PropertyBase,
+        awodatagen.PropertyAirport,
+        awodatagen.PropertyPort,
     }),
 }
