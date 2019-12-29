@@ -12,6 +12,7 @@ const (
     SymbolTileType = iota
     SymbolCompound
     SymbolANDNOT
+    SymbolOR
     SymbolEmpty
     SymbolUnknown
 )
@@ -49,6 +50,11 @@ func processAdjTileStr(rawString string) uint {
         // If symbol signifies ANDNOT, store that the next operation should use it
         if symbolType == SymbolANDNOT {
             applyANDNOT = true
+            continue
+        }
+
+        // If symbol is OR, just get to the next value
+        if symbolType == SymbolOR {
             continue
         }
 
@@ -97,9 +103,12 @@ func getNextSymbol(rawString string, startIndex int) (int, string) {
 
     // Determine symbol type
     // If first character is a symbol, we can easily determine the symbol type
-    if stringToProcess[0] == '&' {
-        if stringToProcess[1] == '~' {
+    if !unicode.IsLetter(rune(stringToProcess[0])) {
+
+        if stringToProcess[0] == '&' && stringToProcess[1] == '~' {
             return SymbolANDNOT, "&~"
+        } else if stringToProcess[0] == '|' {
+            return SymbolOR, "|"
         }
 
         return SymbolUnknown, ""
@@ -114,14 +123,17 @@ func getNextSymbol(rawString string, startIndex int) (int, string) {
         return SymbolUnknown, ""
     }
 
-    // Loop characters until a symbol is found, or until the rest of the string is processed
+    // Loop characters until a non-letter is found, or until the rest of the string is processed
     for _, char := range stringToProcess {
-        if unicode.IsSymbol(char) {
-            resultCharCount--
+        if !unicode.IsLetter(char) {
             break
         }
 
         resultCharCount++
+    }
+
+    if resultCharCount == 0 {
+        return SymbolEmpty, ""
     }
 
     return symbolType, stringToProcess[0:resultCharCount]
