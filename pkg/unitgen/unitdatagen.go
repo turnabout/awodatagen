@@ -20,8 +20,7 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 // Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
 func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData {
 
-    // Unit Type -> Variation -> Animation -> Animation Frames
-    unitsData := make(awodatagen.UnitData, awodatagen.UnitTypeCount)
+    var unitsData awodatagen.UnitData
 
     for _, frameImg := range *packedFrameImgs {
 
@@ -35,30 +34,30 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
         unitAnim := frameImg.MetaData.Animation
         unitFrame := frameImg.MetaData.Index
 
-        // Check if Variation is missing, add up to it if necessary
-        missingVars := int(unitVar + 1) - len(unitsData[unitType])
+        // Check if variation slice is missing, add up to it if necessary
+        missingVars := int(unitVar + 1) - len(unitsData[unitType].Variations)
 
         if missingVars > 0 {
             for i := 0; i < missingVars; i++ {
-                unitsData[unitType] = append(unitsData[unitType], [][]awodatagen.Frame{})
+                unitsData[unitType].Variations = append(unitsData[unitType].Variations, [][]awodatagen.Frame{})
             }
         }
 
-        // Check if Animation is missing, add up to it if necessary
-        missingAnims := int(unitAnim + 1) - len(unitsData[unitType][unitVar])
+        // Check if animation slice is missing, add up to it if necessary
+        missingAnims := int(unitAnim + 1) - len(unitsData[unitType].Variations[unitVar])
 
         if missingAnims > 0 {
             for i := 0; i < missingAnims; i++ {
-                unitsData[unitType][unitVar] = append(unitsData[unitType][unitVar], []awodatagen.Frame{})
+                unitsData[unitType].Variations[unitVar] = append(unitsData[unitType].Variations[unitVar], []awodatagen.Frame{})
             }
         }
 
-        // Check if Animation Frame is missing, add up to it if necessary
-        missingFrames := int(unitFrame + 1) - len(unitsData[unitType][unitVar][unitAnim])
+        // Check if animation frame is missing, add up to it if necessary
+        missingFrames := int(unitFrame + 1) - len(unitsData[unitType].Variations[unitVar][unitAnim])
 
         if missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                unitsData[unitType][unitVar][unitAnim] = append(unitsData[unitType][unitVar][unitAnim], awodatagen.Frame{})
+                unitsData[unitType].Variations[unitVar][unitAnim] = append(unitsData[unitType].Variations[unitVar][unitAnim], awodatagen.Frame{})
             }
         }
 
@@ -67,7 +66,7 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
             fmt.Printf("%#v\n", frameImg)
         }
 
-        unitsData[unitType][unitVar][unitAnim][unitFrame] = awodatagen.Frame{
+        unitsData[unitType].Variations[unitVar][unitAnim][unitFrame] = awodatagen.Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,

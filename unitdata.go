@@ -1,7 +1,14 @@
 package awodatagen
 
 // Data for all units, attached to game data
-type UnitData [][][][]Frame
+type UnitData [UnitTypeCount]UnitTypeData
+
+// Data for a single unit type
+type UnitTypeData struct {
+
+    // Variation -> Animations -> Animation
+    Variations [][][]Frame `json:"vars"`
+}
 
 // Unit type enum
 type UnitType uint8
