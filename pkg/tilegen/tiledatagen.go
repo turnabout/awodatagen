@@ -4,6 +4,7 @@ import (
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/packer"
     "github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
+    "github.com/turnabout/awodatagen/pkg/tilegen/placementrulesgen"
 )
 
 // Generate Src visual data JSON & sprite sheet
@@ -14,6 +15,7 @@ func GetTileData(packedFrameImgs *[]packer.FrameImage) *awodatagen.TileData {
 
     // Attach additional data to the tiles data: auto-var data, clock data...
     autovargen.AttachTilesAutoVarData(tilesData)
+    placementrulesgen.AttachTilesPlacementRulesData(tilesData)
     attachTilesClockData(tilesData)
 
     return tilesData

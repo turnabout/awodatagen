@@ -47,7 +47,7 @@ func getAutoVarBitsAmount(autoVarData awodatagen.AutoVarData) uint {
     var totalBits uint = 0
 
     for i := 0; i < adjacentTileCount; i++ {
-        totalBits += countBits(uint(autoVarData.AdjacentTiles[i]))
+        totalBits += awodatagen.CountBits(uint(autoVarData.AdjacentTiles[i]))
     }
 
     return totalBits
