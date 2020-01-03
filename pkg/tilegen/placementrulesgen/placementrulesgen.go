@@ -1,7 +1,6 @@
 package placementrulesgen
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
 )
@@ -21,26 +20,32 @@ func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
 
         // Get the actual tile type for this raw data
         var tileType awodatagen.TileType = awodatagen.TileReverseStrings[tileTypeStr]
-        fmt.Printf("%s\n", tileType.String())
 
         // Create initial slice for this tile type's placement rules
-        var placementRules [][]awodatagen.TilePlacementRule
+        var placementRules []awodatagen.TilePlacementRule
 
-
-        // Loop raw rules values, appending every one of them to this tile type's AutoVars field
-        for _, rawTilePlacementRule := range rawPlacementRules {
-
-            fmt.Printf("%s\n", rawTilePlacementRule)
-
-            placementRules = append(placementRules, processRawPlacementRuleBatch(rawPlacementRules))
+        // Loop raw rules & process
+        for _, rawPlacementRule := range rawPlacementRules {
+            placementRules = append(placementRules, processRawPlacementRuleBatch(rawPlacementRule))
         }
+
+        // Store final result in tile data object
+        (*tilesData)[tileType].PlacementRules = placementRules
     }
+
 
 }
 
-func processRawPlacementRuleBatch(rawRules [][]rawTilePlacementRule) []awodatagen.TilePlacementRule {
+func processRawPlacementRuleBatch(rawRule rawTilePlacementRule) awodatagen.TilePlacementRule {
 
-    var result []awodatagen.TilePlacementRule
+    var result []awodatagen.TilePlacementRuleComponent
+
+    // Process every individual placement rule in this batch
+    /*
+    for _, rawRuleComponent := range rawRule {
+
+    }
+    */
 
     /*
         // Create initial result to be filled out

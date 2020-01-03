@@ -5,9 +5,9 @@ type TileData []TileTypeData
 
 // Data for a single tile type
 type TileTypeData struct {
-    Variations map[string]TileVarData  `json:"vars"`
-    AutoVars   []AutoVarData           `json:"autoVars"`
-    PlacementRules [][]TilePlacementRule `json:"placementRuels"`
+    Variations     map[string]TileVarData  `json:"vars"`
+    AutoVars       []AutoVarData           `json:"autoVars"`
+    PlacementRules []TilePlacementRule     `json:"placementRules"`
 }
 
 // Data for a single tile variation belonging to a tile type
@@ -34,7 +34,10 @@ type AutoVarData struct {
 
 // Rule prohibiting tile placement in design room mode
 // Applied to either tiles adjacent to where the tile is placed, or where the tile is placed itself
-type TilePlacementRule struct {
+type TilePlacementRule []TilePlacementRuleComponent
+
+// Component of a rule prohibiting tile placement in design room mode
+type TilePlacementRuleComponent struct {
     OffsetX int `json:"offsetX"` // X offset of the tile this placement rule applies to
     OffsetY int `json:"offsetY"` // Y offset of the tile this placement rule applies to
     Tiles int   `json:"tiles"`   // Bit field describing the tiles the placement rule applies to
