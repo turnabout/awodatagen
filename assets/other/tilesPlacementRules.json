@@ -1,0 +1,144 @@
+// Rules that must not be met in order to place tiles
+// any: all tiles
+// shadowing: tiles that cast a shadow onto some tiles (property|forest|silo|mountain)
+// oob: non-tiles, out of bounds of the game board
+{
+    "River": [
+
+        // Can't be placed directly on top of Sea, Shore, Reef or Bridge
+        [
+            { "position": "Middle", "tiles": "Sea|Shore|Reef|Bridge" }
+        ],
+
+        // Can't be placed in a Top-Left corner of Rivers
+        [
+            { "position": "Top",      "tiles": "River" },
+            { "position": "Left",     "tiles": "River" },
+            { "position": "Top-Left", "tiles": "River" }
+        ],
+
+        // Can't be placed in a Top-Right corner of Rivers
+        [
+            { "position": "Top",       "tiles": "River" },
+            { "position": "Right",     "tiles": "River" },
+            { "position": "Top-Right", "tiles": "River" }
+        ],
+
+        // Can't be placed in a Bottom-Left corner of Rivers
+        [
+            { "position": "Bottom",      "tiles": "River" },
+            { "position": "Left",        "tiles": "River" },
+            { "position": "Bottom-Left", "tiles": "River" }
+        ],
+
+        // Can't be placed in a Bottom-Right corner of Rivers
+        [
+            { "position": "Bottom",       "tiles": "River" },
+            { "position": "Right",        "tiles": "River" },
+            { "position": "Bottom-Right", "tiles": "River" }
+        ],
+
+        // Can't be placed surrounded by Seas
+        [
+            { "position": "Top",    "tiles": "Sea|oob" },
+            { "position": "Left",   "tiles": "Sea|oob" },
+            { "position": "Right",  "tiles": "Sea|oob" },
+            { "position": "Bottom", "tiles": "Sea|oob" }
+        ]
+    ],
+
+    "Shore": [
+        // Can't be placed on top of Land, River or Reef
+        [
+            { "position": "Middle", "tiles": "land|River|Reef"}
+        ],
+
+        // Can't be placed on top of a tile that isn't land-connected
+        [
+            { "position": "Top",    "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Left",   "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Right",  "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Bottom", "tiles": "Sea|oob|Reef|Shore" }
+        ],
+
+        // Can't be placed on top of a tile that is land-connected only ver
+        [
+            { "position": "Top",    "tiles": "land|River" },
+            { "position": "Left",   "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Right",  "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Bottom", "tiles": "land|River" }
+        ],
+
+        // Can't be placed on top of a tile that is land-connected only hor
+        [
+            { "position": "Top",     "tiles": "Sea|oob|Reef|Shore" },
+            { "position": "Left",    "tiles": "land|River" },
+            { "position": "Right",   "tiles": "land|River" },
+            { "position": "Bottom",  "tiles": "Sea|oob|Reef|Shore" }
+        ],
+
+        // Can't be placed on top of a tile that is land-connected all directions
+        [
+            { "position": "Top",     "tiles": "land|River" },
+            { "position": "Left",    "tiles": "land|River" },
+            { "position": "Right",   "tiles": "land|River" },
+            { "position": "Bottom",  "tiles": "land|River" }
+        ]
+    ],
+
+    "Reef": [
+
+        // Can't be placed on top of Land or River
+        [
+            { "position": "Middle", "tiles": "land|River"}
+        ],
+
+        // Can't be placed on top of a tile connected with any land
+        [
+            { "position": "Top",    "tiles": "land|River" },
+            { "position": "Left",   "tiles": "land|River" },
+            { "position": "Right",  "tiles": "land|River" },
+            { "position": "Bottom", "tiles": "land|River" }
+        ]
+    ],
+
+    "Bridge": [
+        // Can't be placed on land
+        [
+            { "position": "Middle", "tiles": "land"}
+        ],
+
+        // Can't be placed on sea that isn't connected with land
+        [
+            { "position": "Middle", "tiles": "Sea|Reef|Shore"},
+            { "position": "Top",    "tiles": "Sea|River|Reef|Shore" },
+            { "position": "Left",   "tiles": "Sea|River|Reef|Shore" },
+            { "position": "Right",  "tiles": "Sea|River|Reef|Shore" },
+            { "position": "Bottom", "tiles": "Sea|River|Reef|Shore" }
+        ],
+
+        // Can't be placed on a river tile top-left corner
+        [
+            { "position": "Bottom", "tiles": "River" },
+            { "position": "Right",  "tiles": "River" }
+        ],
+
+        // Can't be placed on a river tile top-right corner
+        [
+            { "position": "Bottom", "tiles": "River" },
+            { "position": "Left",   "tiles": "River" }
+        ],
+
+        // Can't be placed on a river tile bottom-left corner
+        [
+            { "position": "Top",   "tiles": "River" },
+            { "position": "Right", "tiles": "River" }
+        ],
+
+        // Can't be placed on a river tile bottom-right corner
+        [
+            { "position": "Top",   "tiles": "River" },
+            { "position": "Left",  "tiles": "River" }
+        ]
+    ]
+}

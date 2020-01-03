@@ -42,12 +42,13 @@ const CODir          = "co"
 const OtherDir       = "other"
 
 // Names of extra data files
-const PalettesFileName       = "palettes.json"
-const BasePalettesFileName   = "basePalettes.json"
-const StagesFileName         = "stages.json"
-const ClocksFileName         = "clocks.json"
-const TilesClockDataFileName = "tilesClockData.json"
-const TilesAutoVarFileName   = "tilesAutoVarData.json"
+const PalettesFileName              = "palettes.json"
+const BasePalettesFileName          = "basePalettes.json"
+const StagesFileName                = "stages.json"
+const ClocksFileName                = "clocks.json"
+const TilesClockDataFileName        = "tilesClockData.json"
+const TilesAutoVarFileName          = "tilesAutoVarData.json"
+const TilesPlacementRulesFileName   = "tilesPlacementRules.json"
 
 
 //

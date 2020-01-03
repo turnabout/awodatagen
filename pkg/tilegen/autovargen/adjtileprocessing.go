@@ -18,7 +18,7 @@ const (
 )
 
 // Processes an adjacent tile string into an adjacent tile bit field
-func processAdjTileStr(rawString string) uint {
+func ProcessAdjTileStr(rawString string) uint {
 
     // Loop every symbol and use them to determine the bit field
     var symbolType int

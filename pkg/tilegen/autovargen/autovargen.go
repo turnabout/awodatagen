@@ -67,7 +67,7 @@ func processRawAutoVar(rawAutoVarData rawAutoVarData) awodatagen.AutoVarData {
 
     // Process every adjacent tile string into a bit field number representing acceptable tile types
     for i := 0; i < adjacentTileCount; i++ {
-        result.AdjacentTiles[i] = processAdjTileStr(rawAutoVarData.AdjacentTiles[i])
+        result.AdjacentTiles[i] = ProcessAdjTileStr(rawAutoVarData.AdjacentTiles[i])
     }
 
     return result
