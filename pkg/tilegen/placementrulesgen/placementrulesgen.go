@@ -1,9 +1,23 @@
 package placementrulesgen
 
 import (
+    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
 )
+
+// Raw placement rule positions and their corresponding X/Y offset values
+var rawPlacementRulePositions = map[string][2]int{
+    "Middle":      { 0,  0},
+    "TopLeft":     {-1, -1},
+    "TopRight":    { 1, -1},
+    "BottomLeft":  {-1,  1},
+    "BottomRight": { 1,  1},
+    "Bottom":      { 0,  1},
+    "Right":       { 1,  0},
+    "Top":         { 0, -1},
+    "Left":        {-1,  0},
+}
 
 func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
 
@@ -26,41 +40,33 @@ func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
 
         // Loop raw rules & process
         for _, rawPlacementRule := range rawPlacementRules {
-            placementRules = append(placementRules, processRawPlacementRuleBatch(rawPlacementRule))
+            placementRules = append(placementRules, processPlacementRule(rawPlacementRule))
         }
 
         // Store final result in tile data object
         (*tilesData)[tileType].PlacementRules = placementRules
     }
-
-
 }
 
-func processRawPlacementRuleBatch(rawRule rawTilePlacementRule) awodatagen.TilePlacementRule {
+// Process a raw tile placement rule into an exportable tile placement rule
+func processPlacementRule(rawRule rawTilePlacementRule) awodatagen.TilePlacementRule {
 
     var result []awodatagen.TilePlacementRuleComponent
 
     // Process every individual placement rule in this batch
-    /*
     for _, rawRuleComponent := range rawRule {
-
+        fmt.Printf("%s\n", rawRuleComponent.Position)
+        fmt.Printf("%d, %d\n\n", rawPlacementRulePositions[rawRuleComponent.Position][0], rawPlacementRulePositions[rawRuleComponent.Position][1])
+        result = append(
+            result,
+            awodatagen.TilePlacementRuleComponent{
+                OffsetX: rawPlacementRulePositions[rawRuleComponent.Position][0],
+                OffsetY: rawPlacementRulePositions[rawRuleComponent.Position][1],
+                Tiles: 0,
+                // result.AdjacentTiles[i] = ProcessAdjTileStr(rawAutoVarData.AdjacentTiles[i])
+            },
+        )
     }
-    */
-
-    /*
-        // Create initial result to be filled out
-        result := awodatagen.AutoVarData{
-            TileVar: tileVar.String(),
-            AdjacentTiles: [4]uint{0, 0, 0, 0},
-        }
-
-        // Process every adjacent tile string into a bit field number representing acceptable tile types
-        for i := 0; i < adjacentTileCount; i++ {
-            result.AdjacentTiles[i] = ProcessAdjTileStr(rawAutoVarData.AdjacentTiles[i])
-        }
-
-        return result
-    */
 
     return result
 }
