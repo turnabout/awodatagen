@@ -1,9 +1,9 @@
 package placementrulesgen
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
 )
 
 // Raw placement rule positions and their corresponding X/Y offset values
@@ -55,15 +55,12 @@ func processPlacementRule(rawRule rawTilePlacementRule) awodatagen.TilePlacement
 
     // Process every individual placement rule in this batch
     for _, rawRuleComponent := range rawRule {
-        fmt.Printf("%s\n", rawRuleComponent.Position)
-        fmt.Printf("%d, %d\n\n", rawPlacementRulePositions[rawRuleComponent.Position][0], rawPlacementRulePositions[rawRuleComponent.Position][1])
         result = append(
             result,
             awodatagen.TilePlacementRuleComponent{
                 OffsetX: rawPlacementRulePositions[rawRuleComponent.Position][0],
                 OffsetY: rawPlacementRulePositions[rawRuleComponent.Position][1],
-                Tiles: 0,
-                // result.AdjacentTiles[i] = ProcessAdjTileStr(rawAutoVarData.AdjacentTiles[i])
+                Tiles: autovargen.ProcessAdjTileStr(rawRuleComponent.Tiles),
             },
         )
     }

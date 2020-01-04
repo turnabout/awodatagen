@@ -38,9 +38,9 @@ type TilePlacementRule []TilePlacementRuleComponent
 
 // Component of a rule prohibiting tile placement in design room mode
 type TilePlacementRuleComponent struct {
-    OffsetX int `json:"offsetX"` // X offset of the tile this placement rule applies to
-    OffsetY int `json:"offsetY"` // Y offset of the tile this placement rule applies to
-    Tiles int   `json:"tiles"`   // Bit field describing the tiles the placement rule applies to
+    OffsetX int  `json:"offsetX"` // X offset of the tile this placement rule applies to
+    OffsetY int  `json:"offsetY"` // Y offset of the tile this placement rule applies to
+    Tiles   uint `json:"tiles"`   // Bit field describing the tiles the placement rule applies to
 }
 
 // Tile type
