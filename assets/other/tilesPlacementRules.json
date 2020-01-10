@@ -88,9 +88,30 @@
         // Can't be placed on top of a sea tile that is diagonal to land (top-right)
         [
 
-            { "position": "Top",       "tiles": "sea" },
-            { "position": "Right",     "tiles": "sea" },
+            { "position": "Top",      "tiles": "sea"  },
+            { "position": "Right",    "tiles": "sea"  },
             { "position": "TopRight", "tiles": "land" }
+        ],
+        // Can't be placed on top of a sea tile that is diagonal to land (bottom-right)
+        [
+
+            { "position": "Bottom",      "tiles": "sea"  },
+            { "position": "Right",       "tiles": "sea"  },
+            { "position": "BottomRight", "tiles": "land" }
+        ],
+        // Can't be placed on top of a sea tile that is diagonal to land (bottom-left)
+        [
+
+            { "position": "Bottom",     "tiles": "sea" },
+            { "position": "Left",       "tiles": "sea" },
+            { "position": "BottomLeft", "tiles": "land" }
+        ],
+        // Can't be placed on top of a sea tile that is diagonal to land (top-left)
+        [
+
+            { "position": "Top",     "tiles": "sea" },
+            { "position": "Left",    "tiles": "sea" },
+            { "position": "TopLeft", "tiles": "land" }
         ]
     ],
 
