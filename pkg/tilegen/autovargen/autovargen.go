@@ -19,11 +19,6 @@ func AttachTilesAutoVarData(tilesData *awodatagen.TileData) {
         // Get the actual tile type for this raw data
         var tileType awodatagen.TileType = awodatagen.TileReverseStrings[tileTypeStr]
 
-        // TODO: remove temporary debug condition
-        if tileType != awodatagen.Forest && tileType != awodatagen.Plain && tileType != awodatagen.Bridge && tileType != awodatagen.River && tileType != awodatagen.Sea {
-            continue
-        }
-
         // Create initial slice containing this tile type's auto-var data
         var tileAutoVar []awodatagen.AutoVarData
 

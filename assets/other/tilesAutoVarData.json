@@ -7,46 +7,61 @@
         {"TileVar": "Default",         "Tiles": ["any", "any", "any", "any"]},
         {"TileVar": "ShadowedDefault", "Tiles": ["any", "any", "any", "shadowing"]}
     ],
+
     "Forest": [
-        {"TileVar": "TopLeft",            "Tiles": ["any&~Forest", "Forest",      "Forest",      "any&~Forest"]},
-        {"TileVar": "Top",                "Tiles": ["any&~Forest", "Forest",      "Forest",      "Forest"]},
-        {"TileVar": "TopRight",           "Tiles": ["any&~Forest", "any&~Forest", "Forest",      "Forest"]},
-        {"TileVar": "Left",            "Tiles": ["Forest",      "Forest",      "Forest",      "any&~Forest"]},
-        {"TileVar": "Middle",             "Tiles": ["Forest",      "Forest",      "Forest",      "Forest"]},
-        {"TileVar": "Right",           "Tiles": ["Forest",      "any&~Forest", "Forest",      "Forest"]},
-        {"TileVar": "BottomLeft",         "Tiles": ["Forest",      "Forest",      "any&~Forest", "any&~Forest"]},
-        {"TileVar": "Bottom",             "Tiles": ["Forest",      "Forest",      "any&~Forest", "Forest"]},
-        {"TileVar": "BottomRight",        "Tiles": ["Forest",      "any&~Forest", "any&~Forest", "Forest"]},
-        {"TileVar": "ShadowedTopLeft",    "Tiles": ["any&~Forest", "Forest",      "Forest",      "shadowing&~Forest"]},
-        {"TileVar": "ShadowedLeft",       "Tiles": ["Forest",      "Forest",      "Forest",      "shadowing&~Forest"]},
-        {"TileVar": "ShadowedBottomLeft", "Tiles": ["Forest",      "Forest",      "any&~Forest", "shadowing&~Forest"]},
+        // {"TileVar": "TopLeft",            "Tiles": ["any&~Forest", "Forest",      "Forest",      "any&~Forest"]},
+        // {"TileVar": "Top",                "Tiles": ["any&~Forest", "Forest",      "Forest",      "Forest"]},
+        // {"TileVar": "TopRight",           "Tiles": ["any&~Forest", "any&~Forest", "Forest",      "Forest"]},
+        // {"TileVar": "Left",            "Tiles": ["Forest",      "Forest",      "Forest",      "any&~Forest"]},
+        // {"TileVar": "Middle",             "Tiles": ["Forest",      "Forest",      "Forest",      "Forest"]},
+        // {"TileVar": "Right",           "Tiles": ["Forest",      "any&~Forest", "Forest",      "Forest"]},
+        // {"TileVar": "BottomLeft",         "Tiles": ["Forest",      "Forest",      "any&~Forest", "any&~Forest"]},
+        // {"TileVar": "Bottom",             "Tiles": ["Forest",      "Forest",      "any&~Forest", "Forest"]},
+        // {"TileVar": "BottomRight",        "Tiles": ["Forest",      "any&~Forest", "any&~Forest", "Forest"]},
+        // {"TileVar": "ShadowedTopLeft",    "Tiles": ["any&~Forest", "Forest",      "Forest",      "shadowing&~Forest"]},
+        // {"TileVar": "ShadowedLeft",       "Tiles": ["Forest",      "Forest",      "Forest",      "shadowing&~Forest"]},
+        // {"TileVar": "ShadowedBottomLeft", "Tiles": ["Forest",      "Forest",      "any&~Forest", "shadowing&~Forest"]},
+
         {"TileVar": "Default",            "Tiles": ["any", "any", "any", "any"]},
         {"TileVar": "ShadowedDefault",    "Tiles": ["any", "any", "any", "shadowing"]}
     ],
+
     "Mountain": [
         {"TileVar": "Default", "Tiles": ["Plain", "any", "any", "any"]},
         {"TileVar": "Small",   "Tiles": ["any", "any", "any", "any"]}
     ],
+
     "Road": [
-        {"TileVar": "BottomLeft",          "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomRight",         "Tiles": ["", "", "", ""]},
-        {"TileVar": "Horizontal",          "Tiles": ["", "", "", ""]},
-        {"TileVar": "Middle",              "Tiles": ["", "", "", ""]},
-        {"TileVar": "TBottom",             "Tiles": ["", "", "", ""]},
-        {"TileVar": "TLeft",               "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeft",             "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRight",            "Tiles": ["", "", "", ""]},
-        {"TileVar": "TRight",              "Tiles": ["", "", "", ""]},
-        {"TileVar": "TTop",                "Tiles": ["", "", "", ""]},
-        {"TileVar": "Vertical",            "Tiles": ["", "", "", ""]},
-        {"TileVar": "VerticalEnd",         "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedBottomLeft",  "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedHorizontal",  "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedTLeft",       "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedTopLeft",     "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedVertical",    "Tiles": ["", "", "", ""]},
-        {"TileVar": "ShadowedVerticalEnd", "Tiles": ["", "", "", ""]}
+        {"TileVar": "Horizontal",          "Tiles": ["any", "any", "any", "any"]},
+
+        {"TileVar": "Vertical",            "Tiles": ["Road", "any", "any",  "any"]},
+        {"TileVar": "Vertical",            "Tiles": ["any",  "any", "Road", "any"]},
+        {"TileVar": "Vertical",            "Tiles": ["Road", "any", "Road", "any"]},
+
+        {"TileVar": "VerticalEnd",         "Tiles": ["any&~Road", "any", "any", "any"]},
+
+        {"TileVar": "BottomLeft",          "Tiles": ["Road",      "Road",      "any&~Road", "any&~Road"]},
+        {"TileVar": "BottomRight",         "Tiles": ["Road",      "any&~Road", "any&~Road", "Road"]},
+        {"TileVar": "Middle",              "Tiles": ["Road",      "Road",      "Road",      "Road"]},
+        {"TileVar": "TBottom",             "Tiles": ["Road",      "Road",      "any&~Road", "Road"]},
+        {"TileVar": "TLeft",               "Tiles": ["Road",      "Road",      "Road",      "any&~Road"]},
+        {"TileVar": "TopLeft",             "Tiles": ["any&~Road", "Road",      "Road",      "any&~Road"]},
+        {"TileVar": "TopRight",            "Tiles": ["any&~Road", "any&~Road", "Road",      "Road"]},
+        {"TileVar": "TRight",              "Tiles": ["Road",      "any&~Road", "Road",      "Road"]},
+        {"TileVar": "TTop",                "Tiles": ["any&~Road", "Road",      "Road",      "Road"]},
+
+        {"TileVar": "ShadowedBottomLeft",  "Tiles": ["Road",      "shadowing", "any&~Road", "any&~Road"]},
+        {"TileVar": "ShadowedHorizontal",  "Tiles": ["any",       "shadowing", "any",       "any"]},
+        {"TileVar": "ShadowedTLeft",       "Tiles": ["Road",      "shadowing", "Road",      "any&~Road"]},
+        {"TileVar": "ShadowedTopLeft",     "Tiles": ["any&~Road", "shadowing", "Road",      "any&~Road"]},
+
+        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "shadowing", "any",  "any"]},
+        {"TileVar": "ShadowedVertical",    "Tiles": ["any",  "shadowing", "Road", "any"]},
+        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "shadowing", "Road", "any"]},
+
+        {"TileVar": "ShadowedVerticalEnd", "Tiles": ["any&~Road", "shadowing", "any", "any"]}
     ],
+
     "Bridge": [
         {"TileVar": "Horizontal", "Tiles": ["any",  "land", "any",  "any"]},
         {"TileVar": "Horizontal", "Tiles": ["any",  "any",  "any",  "land"]},
@@ -54,6 +69,7 @@
         {"TileVar": "Vertical",   "Tiles": ["any",  "any",  "land", "any"]},
         {"TileVar": "Horizontal", "Tiles": ["any",  "any",  "any",  "any"]}
     ],
+
     "River": [
         {"TileVar": "BottomLeft",     "Tiles": ["River",      "River",      "any&~River", "any&~River"]},
         {"TileVar": "BottomRight",    "Tiles": ["River",      "any&~River", "any&~River", "River"]},
@@ -73,6 +89,7 @@
         // {"TileVar": "WaterfallUp",    "Tiles": ["Sea",        "any&~River", "River",      "any&~River"] },
         {"TileVar": "Horizontal",     "Tiles": ["any",        "any",        "any",        "any"]}
     ],
+
     "Sea": [
         {"TileVar": "Bottom",         "Tiles": ["sea",  "sea",  "land", "sea"]},
         {"TileVar": "BottomLeft",     "Tiles": ["sea",  "sea",  "land", "land"]},
@@ -91,61 +108,78 @@
         {"TileVar": "TopLeft",        "Tiles": ["land", "sea",  "sea",  "land"]},
         {"TileVar": "TopRight",       "Tiles": ["land", "land", "sea",  "sea"]}
     ],
+
     "Reef": [
         {"TileVar": "Default", "Tiles": ["any", "any", "any", "any"]}
     ],
+
     "Shore": [
-        {"TileVar": "Bottom",                        "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomConnectedFull",           "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomConnectedLeft",           "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomConnectedRight",          "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomLeft",                    "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomLeftConnectedFull",       "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomLeftConnectedHorizontal", "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomLeftConnectedVertical",   "Tiles": ["", "", "", ""]},
-        {"TileVar": "Left",                       "Tiles": ["", "", "", ""]},
-        {"TileVar": "Right",                      "Tiles": ["", "", "", ""]},
-        {"TileVar": "HoleBottom",                    "Tiles": ["", "", "", ""]},
-        {"TileVar": "HoleLeft",                      "Tiles": ["", "", "", ""]},
-        {"TileVar": "HoleRight",                     "Tiles": ["", "", "", ""]},
-        {"TileVar": "HoleTop",                       "Tiles": ["", "", "", ""]},
-        {"TileVar": "LeftConnectedBottom",           "Tiles": ["", "", "", ""]},
-        {"TileVar": "LeftConnectedFull",             "Tiles": ["", "", "", ""]},
-        {"TileVar": "LeftConnectedTop",              "Tiles": ["", "", "", ""]},
-        {"TileVar": "RightConnectedBottom",          "Tiles": ["", "", "", ""]},
-        {"TileVar": "RightConnectedFull",            "Tiles": ["", "", "", ""]},
-        {"TileVar": "RightConnectedTop",             "Tiles": ["", "", "", ""]},
-        {"TileVar": "Top",                           "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopConnectedFull",              "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopConnectedLeft",              "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopConnectedRight",             "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeft",                       "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeftConnectedFull",          "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeftConnectedHorizontal",    "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeftConnectedVertical",      "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRight",                      "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRightConnectedFull",         "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRightConnectedHorizontal",   "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRightConnectedVertical",     "Tiles": ["", "", "", ""]}
+        {"TileVar": "Bottom",                        "Tiles": ["Sea|Reef", "Sea|Reef", "land", "Sea|Reef"]},
+        {"TileVar": "BottomConnectedFull",           "Tiles": ["Sea|Reef", "Shore",    "land", "Shore"]},
+        {"TileVar": "BottomConnectedLeft",           "Tiles": ["Sea|Reef", "Sea|Reef", "land", "Shore"]},
+        {"TileVar": "BottomConnectedRight",          "Tiles": ["Sea|Reef", "Shore",    "land", "Sea|Reef"]},
+
+        {"TileVar": "BottomLeft",                    "Tiles": ["Sea|Reef", "Sea|Reef", "land", "land"]},
+        {"TileVar": "BottomLeftConnectedFull",       "Tiles": ["Shore",    "Shore",    "land", "land"]},
+        {"TileVar": "BottomLeftConnectedHorizontal", "Tiles": ["Sea|Reef", "Shore",    "land", "land"]},
+        {"TileVar": "BottomLeftConnectedVertical",   "Tiles": ["Shore",    "Sea|Reef", "land", "land"]},
+
+        {"TileVar": "BottomRight",                    "Tiles": ["Sea|Reef", "land", "land", "Sea|Reef"]},
+        {"TileVar": "BottomRightConnectedFull",       "Tiles": ["Shore",    "land", "land", "Shore"]},
+        {"TileVar": "BottomRightConnectedHorizontal", "Tiles": ["Sea|Reef", "land", "land", "Shore"]},
+        {"TileVar": "BottomRightConnectedVertical",   "Tiles": ["Shore",    "land", "land", "Sea|Reef"]},
+
+        {"TileVar": "Left",                          "Tiles": ["Sea|Reef", "Sea|Reef", "Sea|Reef", "land"]},
+        {"TileVar": "LeftConnectedBottom",           "Tiles": ["Sea|Reef", "Sea|Reef", "Shore", "land"]},
+        {"TileVar": "LeftConnectedFull",             "Tiles": ["Shore", "Sea|Reef", "Shore", "land"]},
+        {"TileVar": "LeftConnectedTop",              "Tiles": ["Shore", "Sea|Reef", "Shore", "land"]},
+
+        {"TileVar": "Right",                         "Tiles": ["Sea|Reef", "land", "Sea|Reef", "Sea|Reef"]},
+        {"TileVar": "RightConnectedBottom",          "Tiles": ["Sea|Reef", "land", "Shore",    "Sea|Reef"]},
+        {"TileVar": "RightConnectedFull",            "Tiles": ["Shore",    "land", "Shore",    "Sea|Reef"]},
+        {"TileVar": "RightConnectedTop",             "Tiles": ["Shore",    "land", "Sea|Reef", "Sea|Reef"]},
+
+        {"TileVar": "HoleBottom",                    "Tiles": ["Sea",  "land", "land", "land"]},
+        {"TileVar": "HoleLeft",                      "Tiles": ["land", "Sea",  "land", "land"]},
+        {"TileVar": "HoleRight",                     "Tiles": ["land", "land", "land", "Sea"]},
+        {"TileVar": "HoleTop",                       "Tiles": ["land", "land", "Sea",  "land"]},
+
+        {"TileVar": "Top",                           "Tiles": ["land", "Sea|Reef", "Sea|Reef", "Sea|Reef"]},
+        {"TileVar": "TopConnectedFull",              "Tiles": ["land", "Shore",    "Sea|Reef", "Shore"]},
+        {"TileVar": "TopConnectedLeft",              "Tiles": ["land", "Sea|Reef", "Sea|Reef", "Shore"]},
+        {"TileVar": "TopConnectedRight",             "Tiles": ["land", "Shore",    "Sea|Reef", "Sea|Reef"]},
+
+        {"TileVar": "TopLeft",                       "Tiles": ["land", "Sea|Reef", "Sea|Reef", "land"]},
+        {"TileVar": "TopLeftConnectedFull",          "Tiles": ["land", "Shore",    "Shore",    "land"]},
+        {"TileVar": "TopLeftConnectedHorizontal",    "Tiles": ["land", "Shore",    "Sea|Reef", "land"]},
+        {"TileVar": "TopLeftConnectedVertical",      "Tiles": ["land", "Sea|Reef", "Shore",    "land"]},
+
+        {"TileVar": "TopRight",                      "Tiles": ["land", "land", "Sea|Reef", "Sea|Reef"]},
+        {"TileVar": "TopRightConnectedFull",         "Tiles": ["land", "land", "Shore",    "Shore"]},
+        {"TileVar": "TopRightConnectedHorizontal",   "Tiles": ["land", "land", "Sea|Reef", "Shore"]},
+        {"TileVar": "TopRightConnectedVertical",     "Tiles": ["land", "land", "Shore",    "Sea|Reef"]}
     ],
+
     "Pipe": [
-        {"TileVar": "Bottom",      "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomLeft",  "Tiles": ["", "", "", ""]},
-        {"TileVar": "BottomRight", "Tiles": ["", "", "", ""]},
-        {"TileVar": "Left",     "Tiles": ["", "", "", ""]},
-        {"TileVar": "Right",    "Tiles": ["", "", "", ""]},
-        {"TileVar": "Horizontal",  "Tiles": ["", "", "", ""]},
-        {"TileVar": "Top",         "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopLeft",     "Tiles": ["", "", "", ""]},
-        {"TileVar": "TopRight",    "Tiles": ["", "", "", ""]},
-        {"TileVar": "Vertical",    "Tiles": ["", "", "", ""]}
+        {"TileVar": "Bottom",      "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "BottomLeft",  "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "BottomRight", "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "Left",        "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "Right",       "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "Horizontal",  "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "Top",         "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "TopLeft",     "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "TopRight",    "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "Vertical",    "Tiles": ["any", "any", "any", "any"]}
     ],
+
     "PipeFragile": [
-        {"TileVar": "HorizontalClosed", "Tiles": ["", "", "", ""]},
-        {"TileVar": "HorizontalOpen",   "Tiles": ["", "", "", ""]},
-        {"TileVar": "VerticalClosed",   "Tiles": ["", "", "", ""]},
-        {"TileVar": "VerticalOpen",     "Tiles": ["", "", "", ""]}
+        {"TileVar": "HorizontalClosed", "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "HorizontalOpen",   "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "VerticalClosed",   "Tiles": ["any", "any", "any", "any"]},
+        {"TileVar": "VerticalOpen",     "Tiles": ["any", "any", "any", "any"]}
     ],
+
     "Silo": [
         {"TileVar": "Default", "Tiles": ["any", "any", "any", "any"]}
     ]
