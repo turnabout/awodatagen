@@ -27,7 +27,7 @@
     ],
 
     "Mountain": [
-        {"TileVar": "Default", "Tiles": ["Plain", "any", "any", "any"]},
+        {"TileVar": "Default", "Tiles": ["Plain|Mountain", "any", "any", "any"]},
         {"TileVar": "Small",   "Tiles": ["any", "any", "any", "any"]}
     ],
 
@@ -132,7 +132,7 @@
         {"TileVar": "Left",                          "Tiles": ["Sea|Reef", "Sea|Reef", "Sea|Reef", "land"]},
         {"TileVar": "LeftConnectedBottom",           "Tiles": ["Sea|Reef", "Sea|Reef", "Shore", "land"]},
         {"TileVar": "LeftConnectedFull",             "Tiles": ["Shore", "Sea|Reef", "Shore", "land"]},
-        {"TileVar": "LeftConnectedTop",              "Tiles": ["Shore", "Sea|Reef", "Shore", "land"]},
+        {"TileVar": "LeftConnectedTop",              "Tiles": ["Shore", "Sea|Reef", "Sea|Reef", "land"]},
 
         {"TileVar": "Right",                         "Tiles": ["Sea|Reef", "land", "Sea|Reef", "Sea|Reef"]},
         {"TileVar": "RightConnectedBottom",          "Tiles": ["Sea|Reef", "land", "Shore",    "Sea|Reef"]},
