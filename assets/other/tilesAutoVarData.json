@@ -34,8 +34,11 @@
     "Road": [
         {"TileVar": "Horizontal",          "Tiles": ["any", "any", "any", "any"]},
 
+        {"TileVar": "Horizontal",          "Tiles": ["any", "Road", "any", "any"]},
+        {"TileVar": "Horizontal",          "Tiles": ["any", "any", "any", "Road"]},
+        {"TileVar": "Horizontal",          "Tiles": ["any", "Road", "any", "Road"]},
+
         {"TileVar": "Vertical",            "Tiles": ["Road", "any", "any",  "any"]},
-        {"TileVar": "Vertical",            "Tiles": ["any",  "any", "Road", "any"]},
         {"TileVar": "Vertical",            "Tiles": ["Road", "any", "Road", "any"]},
 
         {"TileVar": "VerticalEnd",         "Tiles": ["any&~Road", "any", "any", "any"]},
@@ -50,16 +53,18 @@
         {"TileVar": "TRight",              "Tiles": ["Road",      "any&~Road", "Road",      "Road"]},
         {"TileVar": "TTop",                "Tiles": ["any&~Road", "Road",      "Road",      "Road"]},
 
-        {"TileVar": "ShadowedBottomLeft",  "Tiles": ["Road",      "shadowing", "any&~Road", "any&~Road"]},
-        {"TileVar": "ShadowedHorizontal",  "Tiles": ["any",       "shadowing", "any",       "any"]},
-        {"TileVar": "ShadowedTLeft",       "Tiles": ["Road",      "shadowing", "Road",      "any&~Road"]},
-        {"TileVar": "ShadowedTopLeft",     "Tiles": ["any&~Road", "shadowing", "Road",      "any&~Road"]},
+        {"TileVar": "ShadowedBottomLeft",  "Tiles": ["Road",      "Road",      "any&~Road", "shadowing"]},
+        {"TileVar": "ShadowedTLeft",       "Tiles": ["Road",      "Road",      "Road",      "shadowing"]},
+        {"TileVar": "ShadowedTopLeft",     "Tiles": ["any&~Road", "Road",      "Road",      "shadowing"]},
 
-        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "shadowing", "any",  "any"]},
-        {"TileVar": "ShadowedVertical",    "Tiles": ["any",  "shadowing", "Road", "any"]},
-        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "shadowing", "Road", "any"]},
+        {"TileVar": "ShadowedHorizontal",  "Tiles": ["any", "Road", "any", "shadowing"]},
+        {"TileVar": "ShadowedHorizontal",  "Tiles": ["any", "any", "any", "shadowing"]},
+        {"TileVar": "ShadowedHorizontal",  "Tiles": ["any", "Road", "any", "shadowing"]},
 
-        {"TileVar": "ShadowedVerticalEnd", "Tiles": ["any&~Road", "shadowing", "any", "any"]}
+        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "any", "any",  "shadowing"]},
+        {"TileVar": "ShadowedVertical",    "Tiles": ["Road", "any", "Road", "shadowing"]},
+
+        {"TileVar": "ShadowedVerticalEnd", "Tiles": ["any&~Road", "any", "any", "shadowing"]}
     ],
 
     "Bridge": [
