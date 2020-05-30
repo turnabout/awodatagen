@@ -2,7 +2,7 @@ package awodatagen
 
 import (
     "fmt"
-    "go/build"
+    "log"
     "os"
     "path"
     "path/filepath"
@@ -34,15 +34,15 @@ func LogFatal(msgs []string) {
 // Gets the full path to a directory in the project's inputs
 func GetInputPath(paths ...string) string {
 
-    // Get $GOPATH
-    goPath := os.Getenv("GOPATH")
+    // Get cwd as a base path
+    cwd, err := os.Getwd()
 
-    if goPath == "" {
-        goPath = build.Default.GOPATH
+    if err != nil {
+        log.Fatal(err)
     }
 
     // Use the project's assets path as a base
-    baseDirPath := path.Join(filepath.ToSlash(goPath), "src", "github.com", "turnabout", "awodatagen", assetsDirName)
+    baseDirPath := path.Join(filepath.ToSlash(cwd), assetsDirName)
 
     // Add up all given directories to make up the full path
     var result string = baseDirPath
