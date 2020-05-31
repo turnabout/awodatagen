@@ -8,11 +8,14 @@ package awodatagen
 // Environment variables
 //
 
-// Environment variable holding the path where the sprite sheet should be output
+// Env variable holding the path where the sprite sheet should be output
 const SSOutputEnvVar = "AWO_SPRITESHEET"
 
-// Environment variable holding the path where the data file should be output
+// Env variable holding the path where the data file should be output
 const JSONOutputEnvVar = "AWO_JSON"
+
+// Env variable holding absolute path to directory containing the raw assets
+const AssetsDirPath = "AWO_ASSETS_PATH"
 
 
 //

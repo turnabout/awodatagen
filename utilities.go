@@ -2,12 +2,14 @@ package awodatagen
 
 import (
     "fmt"
-    "log"
     "os"
     "path"
     "path/filepath"
     "runtime/debug"
 )
+
+// Full, absolute path to the project's directory containing the raw assets
+var assetsFullPath string
 
 func LogFatalIfErr(err error, msgs ...string) {
     if err != nil {
@@ -31,21 +33,28 @@ func LogFatal(msgs []string) {
 
 }
 
+// Attempt to set the full "assets" path from an environment variable
+// If it doesn't exist, use the CWD as the base path to assets
+func init() {
+    var envExists bool
+
+    if assetsFullPath, envExists = os.LookupEnv(AssetsDirPath); !envExists {
+        cwd, err := os.Getwd()
+
+        if err != nil {
+            LogFatalIfErr(err)
+        }
+
+        // Use the project's assets path as a base
+        assetsFullPath = path.Join(filepath.ToSlash(cwd), assetsDirName)
+    }
+}
+
 // Gets the full path to a directory in the project's inputs
 func GetInputPath(paths ...string) string {
 
-    // Get cwd as a base path
-    cwd, err := os.Getwd()
-
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    // Use the project's assets path as a base
-    baseDirPath := path.Join(filepath.ToSlash(cwd), assetsDirName)
-
     // Add up all given directories to make up the full path
-    var result string = baseDirPath
+    result := assetsFullPath
 
     for _, loopedPath := range paths {
         result = path.Join(result, loopedPath)
