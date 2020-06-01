@@ -27,7 +27,12 @@ func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []awodatagen.Un
         // Loop variations
         for unitVar := awodatagen.ArmyTypeFirst; unitVar <= awodatagen.ArmyTypeLast; unitVar++ {
 
-            varDir := awodatagen.GetInputPath( awodatagen.UnitsDir, unitType.String(), unitVar.String() )
+            varDir := awodatagen.GetInputPath(
+                awodatagen.UnitsDir,
+                unitType.String(),
+                awodatagen.FramesDir,
+                unitVar.String(),
+            )
 
             // Ignore this variation if it does not exist on this unit
             if _, err := os.Stat(varDir); os.IsNotExist(err) {

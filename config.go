@@ -43,6 +43,7 @@ const PropertiesDir  = "properties"
 const UIDir          = "ui"
 const CODir          = "co"
 const OtherDir       = "other"
+const FramesDir      = "frames"
 
 // Names of extra data files
 const PalettesFileName              = "palettes.json"
