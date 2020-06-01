@@ -6,6 +6,16 @@ import (
     "github.com/turnabout/awodatagen/pkg/packer"
 )
 
+type rawUnitData struct {
+    MovementType    string `json:"movementType"`
+    Movement        uint8  `json:"movement"`
+    Vision          uint8  `json:"vision"`
+    Fuel            uint8  `json:"fuel"`
+    Ammo            uint8  `json:"ammo"`
+    WeaponPrimary   string `json:"weaponPrimary"`
+    WeaponSecondary string `json:"weaponSecondary"`
+}
+
 // Generates units game data.
 func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 
@@ -22,6 +32,10 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
 
     var unitsData awodatagen.UnitData
 
+    // Load data from the unit's source, raw JSON data
+    // TODO
+
+    // Add frames
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-unit frame images
@@ -39,7 +53,10 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
 
         if missingVars > 0 {
             for i := 0; i < missingVars; i++ {
-                unitsData[unitType].Variations = append(unitsData[unitType].Variations, [][]awodatagen.Frame{})
+                unitsData[unitType].Variations = append(
+                    unitsData[unitType].Variations,
+                    [][]awodatagen.Frame{},
+                )
             }
         }
 
@@ -48,7 +65,10 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
 
         if missingAnims > 0 {
             for i := 0; i < missingAnims; i++ {
-                unitsData[unitType].Variations[unitVar] = append(unitsData[unitType].Variations[unitVar], []awodatagen.Frame{})
+                unitsData[unitType].Variations[unitVar] = append(
+                    unitsData[unitType].Variations[unitVar],
+                    []awodatagen.Frame{},
+                )
             }
         }
 

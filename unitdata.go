@@ -5,6 +5,13 @@ type UnitData [UnitTypeCount]UnitTypeData
 
 // Data for a single unit type
 type UnitTypeData struct {
+	MovementType    MovementType `json:"movementType"`
+	Movement        uint8        `json:"movement"`
+	Vision          uint8        `json:"vision"`
+    Fuel            uint8        `json:"fuel"`
+    Ammo            uint8        `json:"ammo"`
+	WeaponPrimary   WeaponType   `json:"weaponPrimary"`
+    WeaponSecondary WeaponType   `json:"weaponSecondary"`
 
     // Variation -> Animations -> Animation
     Variations [][][]Frame `json:"vars"` // TODO: Rename to "frames"
@@ -98,4 +105,30 @@ const ArmyTypeCount = ArmyTypeLast + 1
 
 func (v ArmyType) String() string {
     return [...]string{"OS", "BM", "GE", "YC", "BH"}[v]
+}
+
+// Movement type enum
+type MovementType uint8
+
+const (
+    Foot MovementType = iota
+    HeavyFoot
+)
+
+// Map for looking up a Weapon Type using its corresponding string
+var MovementTypeReverseStrings = map[string]MovementType {
+    "Foot": Foot,
+    "HeavyFoot": HeavyFoot,
+}
+
+// Weapon type enum
+type WeaponType uint8
+
+const (
+    MachineGun WeaponType = iota
+)
+
+// Map for looking up a Weapon Type using its corresponding string
+var WeaponTypeReverseStrings = map[string]WeaponType {
+    "MachineGun": MachineGun,
 }

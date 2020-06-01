@@ -1,0 +1,9 @@
+{
+    "movementType": "Foot",
+    "movement": 3,
+    "vision": 2,
+    "fuel": 99,
+    "ammo": 0,
+    "weaponPrimary": null,
+    "weaponSecondary": "MachineGun"
+}
