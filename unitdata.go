@@ -7,7 +7,7 @@ type UnitData [UnitTypeCount]UnitTypeData
 type UnitTypeData struct {
 
     // Variation -> Animations -> Animation
-    Variations [][][]Frame `json:"vars"`
+    Variations [][][]Frame `json:"vars"` // TODO: Rename to "frames"
 }
 
 // Unit type enum
