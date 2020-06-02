@@ -3,6 +3,6 @@
     "movement": 5,
     "vision": 2,
     "fuel": 99,
-    "weaponPrimary": "WeaponCannonRangedMk2",
+    "weaponPrimary": "CannonRangedMk2",
     "weaponSecondary": null
 }

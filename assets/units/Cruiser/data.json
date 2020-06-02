@@ -3,6 +3,6 @@
     "movement": 6,
     "vision": 3,
     "fuel": 99,
-    "weaponPrimary": "WeaponMissilesMk3",
+    "weaponPrimary": "MissilesMk3",
     "weaponSecondary": "AntiAirGun"
 }

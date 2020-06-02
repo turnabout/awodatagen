@@ -3,6 +3,6 @@
     "movement": 5,
     "vision": 1,
     "fuel": 50,
-    "weaponPrimary": "WeaponCannonMk2",
-    "weaponSecondary": "WeaponMachineGunMk3"
+    "weaponPrimary": "CannonMk2",
+    "weaponSecondary": "MachineGunMk3"
 }

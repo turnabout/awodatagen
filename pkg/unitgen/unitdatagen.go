@@ -3,7 +3,9 @@ package unitgen
 import (
     "fmt"
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "os"
 )
 
 type rawUnitData struct {
@@ -11,7 +13,6 @@ type rawUnitData struct {
     Movement        uint8  `json:"movement"`
     Vision          uint8  `json:"vision"`
     Fuel            uint8  `json:"fuel"`
-    Ammo            uint8  `json:"ammo"`
     WeaponPrimary   string `json:"weaponPrimary"`
     WeaponSecondary string `json:"weaponSecondary"`
 }
@@ -31,9 +32,6 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData {
 
     var unitsData awodatagen.UnitData
-
-    // Load data from the unit's source, raw JSON data
-    // TODO
 
     // Add frames
     for _, frameImg := range *packedFrameImgs {
@@ -92,6 +90,83 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
             Width: frameImg.Width,
             Height: frameImg.Height,
         }
+    }
+
+    // Load other data from the unit's source, raw JSON data
+    for unitType := awodatagen.UnitTypeFirst; unitType <= awodatagen.UnitTypeLast; unitType++ {
+        var rawData rawUnitData
+
+        rawDataPath := awodatagen.GetInputPath(
+            awodatagen.UnitsDir,
+            unitType.String(),
+            awodatagen.UnitDataFileName,
+        )
+
+        // Ensure raw data file exists
+        if _, err := os.Stat(rawDataPath); os.IsNotExist(err) {
+            awodatagen.LogFatal(
+            	[]string{
+                    fmt.Sprintf(
+                        "Unit '%s' raw data file path '%s' is invalid",
+                        unitType.String(),
+                        rawDataPath,
+                    ),
+                },
+            )
+        }
+
+        genio.AttachJSONData(rawDataPath, &rawData)
+        unitsData[unitType].Fuel = rawData.Fuel
+        unitsData[unitType].Movement = rawData.Movement
+        unitsData[unitType].Vision = rawData.Vision
+
+        var weaponPrimary awodatagen.WeaponType
+        var weaponSecondary awodatagen.WeaponType
+        var movementType awodatagen.MovementType
+        var ok bool
+
+        weaponPrimary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponPrimary]
+
+        if !ok && rawData.WeaponPrimary != "" {
+            awodatagen.LogFatal(
+                []string{
+                    fmt.Sprintf(
+                        "Missing or invalid primary weapon type '%s' on unit '%s'",
+                        rawData.WeaponPrimary,
+                        unitType.String(),
+                    ),
+                },
+            )
+        }
+
+        weaponSecondary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponSecondary]
+        if !ok && rawData.WeaponSecondary != "" {
+            awodatagen.LogFatal(
+                []string{
+                    fmt.Sprintf(
+                        "Missing or invalid secondary weapon type '%s' on unit '%s'",
+                        rawData.WeaponSecondary,
+                        unitType.String(),
+                    ),
+                },
+            )
+        }
+
+        if movementType, ok = awodatagen.MovementTypeReverseStrings[rawData.MovementType]; !ok {
+            awodatagen.LogFatal(
+                []string{
+                    fmt.Sprintf(
+                        "Missing or invalid movement type '%s' on unit '%s'",
+                        rawData.MovementType,
+                        unitType.String(),
+                    ),
+                },
+            )
+        }
+
+        unitsData[unitType].WeaponPrimary = weaponPrimary
+        unitsData[unitType].WeaponSecondary = weaponSecondary
+        unitsData[unitType].MovementType = movementType
     }
 
     return &unitsData

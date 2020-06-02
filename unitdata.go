@@ -9,7 +9,6 @@ type UnitTypeData struct {
 	Movement        uint8        `json:"movement"`
 	Vision          uint8        `json:"vision"`
     Fuel            uint8        `json:"fuel"`
-    Ammo            uint8        `json:"ammo"`
 	WeaponPrimary   WeaponType   `json:"weaponPrimary"`
     WeaponSecondary WeaponType   `json:"weaponSecondary"`
 

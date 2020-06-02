@@ -53,6 +53,7 @@ const ClocksFileName                = "clocks.json"
 const TilesClockDataFileName        = "tilesClockData.json"
 const TilesAutoVarFileName          = "tilesAutoVarData.json"
 const TilesPlacementRulesFileName   = "tilesPlacementRules.json"
+const UnitDataFileName              = "data.json"
 
 
 //

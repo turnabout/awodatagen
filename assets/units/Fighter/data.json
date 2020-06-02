@@ -3,6 +3,6 @@
     "movement": 9,
     "vision": 2,
     "fuel": 99,
-    "weaponPrimary": "WeaponMissilesMk2",
+    "weaponPrimary": "MissilesMk2",
     "weaponSecondary": null
 }
