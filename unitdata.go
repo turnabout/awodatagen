@@ -182,3 +182,8 @@ var WeaponTypeReverseStrings = map[string]WeaponType {
     "Bazooka":           WeaponBazooka,
     "Vulcan":            WeaponVulcan,
 }
+
+type WeaponTypeData struct {
+    RangeMin uint8 `json:"rangeMin"`
+    RangeMax uint8 `json:"rangeMax"`
+}

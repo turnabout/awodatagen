@@ -44,6 +44,7 @@ const UIDir          = "ui"
 const CODir          = "co"
 const OtherDir       = "other"
 const FramesDir      = "frames"
+const WeaponTypesDir = "weaponTypes"
 
 // Names of extra data files
 const PalettesFileName              = "palettes.json"
