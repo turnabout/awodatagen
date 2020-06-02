@@ -1,0 +1,8 @@
+{
+    "movementType": "Treads",
+    "movement": 6,
+    "vision": 1,
+    "fuel": 99,
+    "weaponPrimary": "WeaponCannonMk3",
+    "weaponSecondary": "WeaponMachineGunMk4"
+}

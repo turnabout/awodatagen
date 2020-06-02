@@ -1,0 +1,8 @@
+{
+    "movementType": "Air",
+    "movement": 7,
+    "vision": 2,
+    "fuel": 99,
+    "weaponPrimary": "Bombs",
+    "weaponSecondary": null
+}

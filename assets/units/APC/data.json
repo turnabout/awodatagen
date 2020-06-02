@@ -1,0 +1,8 @@
+{
+    "movementType": "Treads",
+    "movement": 6,
+    "vision": 1,
+    "fuel": 70,
+    "weaponPrimary": null,
+    "weaponSecondary": null
+}

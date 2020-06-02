@@ -1,0 +1,8 @@
+{
+    "movementType": "Naval",
+    "movement": 6,
+    "vision": 3,
+    "fuel": 99,
+    "weaponPrimary": "WeaponMissilesMk3",
+    "weaponSecondary": "AntiAirGun"
+}

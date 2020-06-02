@@ -1,0 +1,8 @@
+{
+    "movementType": "Tires",
+    "movement": 5,
+    "vision": 1,
+    "fuel": 50,
+    "weaponPrimary": "Rockets",
+    "weaponSecondary": null
+}

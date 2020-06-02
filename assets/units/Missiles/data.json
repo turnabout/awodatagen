@@ -1,0 +1,8 @@
+{
+    "movementType": "Tires",
+    "movement": 4,
+    "vision": 5,
+    "fuel": 50,
+    "weaponPrimary": "MissilesRangedMk1",
+    "weaponSecondary": null
+}

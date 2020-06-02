@@ -1,0 +1,8 @@
+{
+    "movementType": "Naval",
+    "movement": 6,
+    "vision": 1,
+    "fuel": 99,
+    "weaponPrimary": null,
+    "weaponSecondary": null
+}

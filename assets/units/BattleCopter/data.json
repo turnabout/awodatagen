@@ -1,0 +1,8 @@
+{
+    "movementType": "Air",
+    "movement": 6,
+    "vision": 3,
+    "fuel": 99,
+    "weaponPrimary": "WeaponMissilesMk1",
+    "weaponSecondary": "WeaponMachineGunMk2"
+}

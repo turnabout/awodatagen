@@ -1,0 +1,8 @@
+{
+    "movementType": "HeavyFoot",
+    "movement": 2,
+    "vision": 2,
+    "fuel": 70,
+    "weaponPrimary": "Bazooka",
+    "weaponSecondary": "MachineGun"
+}
