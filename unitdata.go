@@ -1,7 +1,11 @@
 package awodatagen
 
+type UnitData struct {
+    UnitTypesData UnitTypesData `json:"types"`
+}
+
 // Data for all units, attached to game data
-type UnitData [UnitTypeCount]UnitTypeData
+type UnitTypesData [UnitTypeCount]UnitTypeData
 
 // Data for a single unit type
 type UnitTypeData struct {

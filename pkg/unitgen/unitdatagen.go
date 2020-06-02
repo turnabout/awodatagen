@@ -20,18 +20,18 @@ type rawUnitData struct {
 // Generates units game data.
 func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 
-    var unitsData *awodatagen.UnitData = getBaseUnitData(packedFrameImgs)
+    var unitData awodatagen.UnitData
+
+    unitData.UnitTypesData = *getUnitTypesData(packedFrameImgs)
 
 
-    attachExtraUnitsVData(unitsData)
-
-    return unitsData
+    return &unitData
 }
 
 // Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
-func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData {
+func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitTypesData {
 
-    var unitsData awodatagen.UnitData
+    var unitsData awodatagen.UnitTypesData
 
     // Add frames
     for _, frameImg := range *packedFrameImgs {
@@ -170,11 +170,4 @@ func getBaseUnitData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitData 
     }
 
     return &unitsData
-}
-
-// Attach extra data stored away in JSON files
-func attachExtraUnitsVData(vData *awodatagen.UnitData) {
-    // unitsDir := baseDirPath + inputsDirName + unitsDir
-    // attachJSONData(unitsDir + palettesFileName, &vData.Palettes)
-    // attachJSONData(unitsDir + basePaletteFileName, &vData.BasePalette)
 }
