@@ -23,12 +23,14 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
     var unitData awodatagen.UnitData
 
     unitData.UnitTypesData = *getUnitTypesData(packedFrameImgs)
+    unitData.WeaponTypesData = *getWeaponTypesData()
 
 
     return &unitData
 }
 
-// Generates the origin visual data (units' visual data on the raw sprite sheet) using packed Frame Images
+// Generates all unit types data, including origin visual data (units' visual data on the raw
+// sprite sheet) using packed Frame Images
 func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitTypesData {
 
     var unitsData awodatagen.UnitTypesData
@@ -170,4 +172,34 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
     }
 
     return &unitsData
+}
+
+// Generates all weapon types data
+func getWeaponTypesData() *[awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData {
+    var data [awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData
+
+    for weapon := awodatagen.WeaponTypeFirst; weapon <= awodatagen.WeaponTypeLast; weapon++ {
+        dataPath := awodatagen.GetInputPath(
+            awodatagen.UnitsDir,
+            awodatagen.WeaponTypesDir,
+            weapon.String() + ".json",
+        )
+
+        // Ensure data file exists
+        if _, err := os.Stat(dataPath); os.IsNotExist(err) {
+            awodatagen.LogFatal(
+                []string{
+                    fmt.Sprintf(
+                        "Weapon type '%s' raw data file path '%s' is invalid",
+                        weapon.String(),
+                        dataPath,
+                    ),
+                },
+            )
+        }
+
+        genio.AttachJSONData(dataPath, &data[weapon])
+	}
+
+    return &data
 }

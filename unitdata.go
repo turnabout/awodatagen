@@ -1,7 +1,8 @@
 package awodatagen
 
 type UnitData struct {
-    UnitTypesData UnitTypesData `json:"types"`
+    UnitTypesData UnitTypesData                     `json:"unitTypes"`
+    WeaponTypesData [WeaponTypeCount]WeaponTypeData `json:"weaponTypes"`
 }
 
 // Data for all units, attached to game data
@@ -159,6 +160,34 @@ const (
     WeaponBazooka                         // Mech primary
     WeaponVulcan                          // AntiAir primary
 )
+
+func (v WeaponType) String() string {
+    return [...]string{
+        "MachineGunMk1",
+        "MachineGunMk2",
+        "MachineGunMk3",
+        "MachineGunMk4",
+        "CannonRangedMk1",
+        "CannonRangedMk2",
+        "CannonMk1",
+        "CannonMk2",
+        "CannonMk3",
+        "MissilesRangedMk1",
+        "MissilesMk1",
+        "MissilesMk2",
+        "MissilesMk3",
+        "Bombs",
+        "Rockets",
+        "Torpedoes",
+        "AntiAirGun",
+        "Bazooka",
+        "Vulcan",
+    }[v]
+}
+
+const WeaponTypeFirst = WeaponMachineGunMk1
+const WeaponTypeLast  = WeaponVulcan
+const WeaponTypeCount = WeaponTypeLast + 1
 
 // Map for looking up a Weapon Type using its corresponding string
 var WeaponTypeReverseStrings = map[string]WeaponType {
