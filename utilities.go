@@ -11,26 +11,19 @@ import (
 // Full, absolute path to the project's directory containing the raw assets
 var assetsFullPath string
 
-func LogFatalIfErr(err error, msgs ...string) {
+func LogFatalIfErr(err error) {
     if err != nil {
-        data := append([]string{err.Error()}, msgs...)
-        LogFatal(data)
+        LogFatalF("Error: %s", err.Error())
     }
 }
 
-func LogFatal(msgs []string) {
-
+// Helper to log a fatal error with a stack trace, then exit the program
+func LogFatalF(format string, a ...interface{}) {
     fmt.Println("Fatal error:")
-
-    for _, loopedMsg := range msgs {
-        fmt.Println(loopedMsg)
-    }
-
+    fmt.Printf(format, a)
     fmt.Println("Stack trace:")
     debug.PrintStack()
-
     os.Exit(1)
-
 }
 
 // Attempt to set the full "assets" path from an environment variable

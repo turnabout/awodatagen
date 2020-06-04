@@ -1,7 +1,6 @@
 package cogen
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
@@ -44,13 +43,9 @@ func getCOTypeFrameImgs(
     var ok bool
 
     if CO, ok = awodatagen.COReverseStrings[CODirName]; !ok {
-        awodatagen.LogFatal(
-            []string{
-                fmt.Sprintf(
-                    "Found CO at '%s', doesn't match any CO set in CO enumeration\n",
-                    COTypePath,
-                ),
-            },
+        awodatagen.LogFatalF(
+             "Found CO at '%s', doesn't match any CO set in CO enumeration\n",
+            COTypePath,
         )
     }
 
@@ -66,13 +61,9 @@ func getCOTypeFrameImgs(
         cleanFileName := strings.TrimSuffix(img.Name(), filepath.Ext(img.Name()))
 
         if frameType, ok = awodatagen.COFrameTypeReverseStrings[cleanFileName]; !ok {
-            awodatagen.LogFatal(
-                []string{
-                    fmt.Sprintf(
-                        "Found CO image at '%s', doesn't match any valid CO frame type\n",
-                        path.Join(COTypePath, img.Name()),
-                    ),
-                },
+            awodatagen.LogFatalF(
+                "Found CO image at '%s' doesn't match any valid CO frame type\n",
+                path.Join(COTypePath, img.Name()),
             )
         }
 

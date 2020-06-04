@@ -2,7 +2,6 @@
 package genio
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "image"
     "os"
@@ -14,12 +13,10 @@ func GetImage(path string) image.Image {
 
     // Ensure image is a png
     if extension := filepath.Ext(path); extension != ".png" {
-        awodatagen.LogFatal([]string{
-            fmt.Sprintf(
-                "Tried to get an image with extension '%s', only '.png' is valid",
-                filepath.Ext(path),
-            ),
-        })
+        awodatagen.LogFatalF(
+             "Tried to get an image with extension '%s', only '.png' is valid",
+            filepath.Ext(path),
+        )
     }
 
     // Load image file

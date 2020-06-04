@@ -1,7 +1,6 @@
 package autovargen
 
 import (
-    "fmt"
     "github.com/turnabout/awodatagen"
     "unicode"
     "unicode/utf8"
@@ -37,14 +36,12 @@ func ProcessAdjTileStr(rawString string) uint {
         }
 
         if symbolType == SymbolUnknown {
-            errMsg := fmt.Sprintf(
-                "Tile autovar: unknown symbol type '%d' in symbol string '%s' from full raw string string '%s'",
+            awodatagen.LogFatalF(
+                  "Tile autovar: unknown symbol type '%d' in symbol string '%s' from full raw string string '%s'",
                 symbolType,
                 symbolString,
                 rawString,
             )
-
-            awodatagen.LogFatal([]string{errMsg})
         }
 
         // If symbol signifies ANDNOT, store that the next operation should use it
@@ -69,10 +66,10 @@ func ProcessAdjTileStr(rawString string) uint {
             appliedVal = uint(autoVarCompoundVals[symbolString])
             break
         default:
-            awodatagen.LogFatal([]string{
-                fmt.Sprintf("tilesAutoVar: Unknown symbol '%d'\n", symbolType),
-            })
-            break
+            awodatagen.LogFatalF(
+                  "tilesAutoVar: Unknown symbol '%d'\n",
+                symbolType,
+            )
         }
 
         // Apply the value to the resulting bit field

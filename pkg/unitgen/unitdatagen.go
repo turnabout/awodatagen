@@ -106,14 +106,10 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
 
         // Ensure raw data file exists
         if _, err := os.Stat(rawDataPath); os.IsNotExist(err) {
-            awodatagen.LogFatal(
-            	[]string{
-                    fmt.Sprintf(
-                        "Unit '%s' raw data file path '%s' is invalid",
-                        unitType.String(),
-                        rawDataPath,
-                    ),
-                },
+            awodatagen.LogFatalF(
+                  "Unit '%s' raw data file path '%s' is invalid",
+                unitType.String(),
+                rawDataPath,
             )
         }
 
@@ -130,39 +126,27 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
         weaponPrimary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponPrimary]
 
         if !ok && rawData.WeaponPrimary != "" {
-            awodatagen.LogFatal(
-                []string{
-                    fmt.Sprintf(
-                        "Missing or invalid primary weapon type '%s' on unit '%s'",
-                        rawData.WeaponPrimary,
-                        unitType.String(),
-                    ),
-                },
+            awodatagen.LogFatalF(
+                  "Missing or invalid primary weapon type '%s' on unit '%s'",
+                rawData.WeaponPrimary,
+                unitType.String(),
             )
         }
 
         weaponSecondary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponSecondary]
         if !ok && rawData.WeaponSecondary != "" {
-            awodatagen.LogFatal(
-                []string{
-                    fmt.Sprintf(
-                        "Missing or invalid secondary weapon type '%s' on unit '%s'",
-                        rawData.WeaponSecondary,
-                        unitType.String(),
-                    ),
-                },
+            awodatagen.LogFatalF(
+                  "Missing or invalid secondary weapon type '%s' on unit '%s'",
+                rawData.WeaponSecondary,
+                unitType.String(),
             )
         }
 
         if movementType, ok = awodatagen.MovementTypeReverseStrings[rawData.MovementType]; !ok {
-            awodatagen.LogFatal(
-                []string{
-                    fmt.Sprintf(
-                        "Missing or invalid movement type '%s' on unit '%s'",
-                        rawData.MovementType,
-                        unitType.String(),
-                    ),
-                },
+            awodatagen.LogFatalF(
+                "Missing or invalid movement type '%s' on unit '%s'",
+                rawData.MovementType,
+                unitType.String(),
             )
         }
 
@@ -187,14 +171,10 @@ func getWeaponTypesData() *[awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData
 
         // Ensure data file exists
         if _, err := os.Stat(dataPath); os.IsNotExist(err) {
-            awodatagen.LogFatal(
-                []string{
-                    fmt.Sprintf(
-                        "Weapon type '%s' raw data file path '%s' is invalid",
-                        weapon.String(),
-                        dataPath,
-                    ),
-                },
+            awodatagen.LogFatalF(
+                  "Weapon type '%s' raw data file path '%s' is invalid",
+                weapon.String(),
+                dataPath,
             )
         }
 

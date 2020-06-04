@@ -37,7 +37,14 @@ func AttachJSONData(jsonPath string , v interface{}) {
 
     // Unmarshal and store the result
     err = json.Unmarshal(re.ReplaceAll(data, []byte("")), v)
-    awodatagen.LogFatalIfErr(err, jsonPath)
+
+    if err != nil {
+        awodatagen.LogFatalF(
+            "Error: %s\n JSON path: %s\n",
+            err.Error(),
+            jsonPath,
+        )
+    }
 }
 
 // Output the visuals data JSON
