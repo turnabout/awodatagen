@@ -26,7 +26,7 @@ const AssetsDirPath = "AWO_ASSETS_PATH"
 const SSOutputDefaultName = "spritesheet.png"
 
 // Default name for the data file output
-const JSONOutputDefaultName = "visuals.json"
+const JSONOutputDefaultName = "gamedata.json"
 
 
 //
