@@ -1,0 +1,78 @@
+{
+    "MachineGunMk1": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MachineGunMk2": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MachineGunMk3": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MachineGunMk4": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "CannonRangedMk1": {
+        "rangeMin": 2,
+        "rangeMax": 3
+    },
+    "CannonRangedMk2": {
+        "rangeMin": 2,
+        "rangeMax": 6
+    },
+    "CannonMk1": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "CannonMk2": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "CannonMk3": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MissilesRangedMk1": {
+        "rangeMin": 3,
+        "rangeMax": 5
+    },
+    "MissilesMk1": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MissilesMk2": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "MissilesMk3": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "Bombs": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "Rockets": {
+        "rangeMin": 3,
+        "rangeMax": 5
+    },
+    "Torpedoes": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "AntiAirGun": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "Bazooka": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    },
+    "Vulcan": {
+        "rangeMin": 1,
+        "rangeMax": 1
+    }
+}
