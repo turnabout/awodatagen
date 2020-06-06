@@ -2,9 +2,9 @@ package framedata
 
 // Frame data
 type Frame struct {
-	X int      `json:"x"`
-	Y int      `json:"y"`
-	Width int  `json:"w,omitempty"`
+	X      int `json:"x"`
+	Y      int `json:"y"`
+	Width  int `json:"w,omitempty"`
 	Height int `json:"h,omitempty"`
 }
 
@@ -13,7 +13,7 @@ type Frame struct {
 // game data they belong to later on.
 type FrameType uint8
 
-const(
+const (
 	UnitDataType FrameType = iota
 	TileDataType
 	PropertyDataType

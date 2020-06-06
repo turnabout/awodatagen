@@ -1,197 +1,196 @@
 package unitgen
 
 import (
-    "fmt"
-    "github.com/turnabout/awodatagen"
-    "github.com/turnabout/awodatagen/pkg/framedata"
-    "github.com/turnabout/awodatagen/pkg/genio"
-    "github.com/turnabout/awodatagen/pkg/packer"
-    "os"
+	"fmt"
+	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/pkg/framedata"
+	"github.com/turnabout/awodatagen/pkg/genio"
+	"github.com/turnabout/awodatagen/pkg/packer"
+	"os"
 )
 
 type rawUnitData struct {
-    MovementType    string `json:"movementType"`
-    Movement        uint8  `json:"movement"`
-    Vision          uint8  `json:"vision"`
-    Fuel            uint8  `json:"fuel"`
-    WeaponPrimary   string `json:"weaponPrimary"`
-    WeaponSecondary string `json:"weaponSecondary"`
+	MovementType    string `json:"movementType"`
+	Movement        uint8  `json:"movement"`
+	Vision          uint8  `json:"vision"`
+	Fuel            uint8  `json:"fuel"`
+	WeaponPrimary   string `json:"weaponPrimary"`
+	WeaponSecondary string `json:"weaponSecondary"`
 }
 
 // Generates units game data.
-func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *UnitData {
+func GetUnitData(packedFrameImgs *[]packer.FrameImage) *UnitData {
 
-    var unitData UnitData
+	var unitData UnitData
 
-    unitData.UnitTypesData = *getUnitTypesData(packedFrameImgs)
-    unitData.WeaponTypesData = *getWeaponTypesData()
+	unitData.UnitTypesData = *getUnitTypesData(packedFrameImgs)
+	unitData.WeaponTypesData = *getWeaponTypesData()
 
-
-    return &unitData
+	return &unitData
 }
 
 // Generates all unit types data, including origin visual data (units' visual data on the raw
 // sprite sheet) using packed Frame Images
 func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 
-    var unitsData UnitTypesData
+	var unitsData UnitTypesData
 
-    // Add frames
-    for _, frameImg := range *packedFrameImgs {
+	// Add frames
+	for _, frameImg := range *packedFrameImgs {
 
-        // Ignore non-unit frame images
-        if frameImg.MetaData.FrameImageDataType != uint8(framedata.UnitDataType) {
-            continue
-        }
+		// Ignore non-unit frame images
+		if frameImg.MetaData.FrameImageDataType != uint8(framedata.UnitDataType) {
+			continue
+		}
 
-        unitType := frameImg.MetaData.Type
-        unitVar := frameImg.MetaData.Variation
-        unitAnim := frameImg.MetaData.Animation
-        unitFrame := frameImg.MetaData.Index
+		unitType := frameImg.MetaData.Type
+		unitVar := frameImg.MetaData.Variation
+		unitAnim := frameImg.MetaData.Animation
+		unitFrame := frameImg.MetaData.Index
 
-        // Check if variation slice is missing, add up to it if necessary
-        missingVars := int(unitVar + 1) - len(unitsData[unitType].Variations)
+		// Check if variation slice is missing, add up to it if necessary
+		missingVars := int(unitVar+1) - len(unitsData[unitType].Variations)
 
-        if missingVars > 0 {
-            for i := 0; i < missingVars; i++ {
-                unitsData[unitType].Variations = append(
-                    unitsData[unitType].Variations,
-                    [][]framedata.Frame{},
-                )
-            }
-        }
+		if missingVars > 0 {
+			for i := 0; i < missingVars; i++ {
+				unitsData[unitType].Variations = append(
+					unitsData[unitType].Variations,
+					[][]framedata.Frame{},
+				)
+			}
+		}
 
-        // Check if animation slice is missing, add up to it if necessary
-        missingAnims := int(unitAnim + 1) - len(unitsData[unitType].Variations[unitVar])
+		// Check if animation slice is missing, add up to it if necessary
+		missingAnims := int(unitAnim+1) - len(unitsData[unitType].Variations[unitVar])
 
-        if missingAnims > 0 {
-            for i := 0; i < missingAnims; i++ {
-                unitsData[unitType].Variations[unitVar] = append(
-                    unitsData[unitType].Variations[unitVar],
-                    []framedata.Frame{},
-                )
-            }
-        }
+		if missingAnims > 0 {
+			for i := 0; i < missingAnims; i++ {
+				unitsData[unitType].Variations[unitVar] = append(
+					unitsData[unitType].Variations[unitVar],
+					[]framedata.Frame{},
+				)
+			}
+		}
 
-        // Check if animation frame is missing, add up to it if necessary
-        missingFrames := int(unitFrame + 1) - len(unitsData[unitType].Variations[unitVar][unitAnim])
+		// Check if animation frame is missing, add up to it if necessary
+		missingFrames := int(unitFrame+1) - len(unitsData[unitType].Variations[unitVar][unitAnim])
 
-        if missingFrames > 0 {
-            for i := 0; i < missingFrames; i++ {
-                unitsData[unitType].Variations[unitVar][unitAnim] = append(unitsData[unitType].Variations[unitVar][unitAnim], framedata.Frame{})
-            }
-        }
+		if missingFrames > 0 {
+			for i := 0; i < missingFrames; i++ {
+				unitsData[unitType].Variations[unitVar][unitAnim] = append(unitsData[unitType].Variations[unitVar][unitAnim], framedata.Frame{})
+			}
+		}
 
-        // Store data
-        if frameImg.X == 48 && frameImg.Y == 64 {
-            fmt.Printf("%#v\n", frameImg)
-        }
+		// Store data
+		if frameImg.X == 48 && frameImg.Y == 64 {
+			fmt.Printf("%#v\n", frameImg)
+		}
 
-        unitsData[unitType].Variations[unitVar][unitAnim][unitFrame] = framedata.Frame{
-            X: frameImg.X,
-            Y: frameImg.Y,
-            Width: frameImg.Width,
-            Height: frameImg.Height,
-        }
-    }
+		unitsData[unitType].Variations[unitVar][unitAnim][unitFrame] = framedata.Frame{
+			X:      frameImg.X,
+			Y:      frameImg.Y,
+			Width:  frameImg.Width,
+			Height: frameImg.Height,
+		}
+	}
 
-    // Load other data from the unit's source, raw JSON data
-    for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
-        var rawData rawUnitData
+	// Load other data from the unit's source, raw JSON data
+	for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
+		var rawData rawUnitData
 
-        rawDataPath := awodatagen.GetInputPath(
-            awodatagen.UnitsDir,
-            unitType.String(),
-            awodatagen.UnitDataFileName,
-        )
+		rawDataPath := awodatagen.GetInputPath(
+			awodatagen.UnitsDir,
+			unitType.String(),
+			awodatagen.UnitDataFileName,
+		)
 
-        // Ensure raw data file exists
-        if _, err := os.Stat(rawDataPath); os.IsNotExist(err) {
-            awodatagen.LogFatalF(
-                  "Unit '%s' raw data file path '%s' is invalid",
-                unitType.String(),
-                rawDataPath,
-            )
-        }
+		// Ensure raw data file exists
+		if _, err := os.Stat(rawDataPath); os.IsNotExist(err) {
+			awodatagen.LogFatalF(
+				"Unit '%s' raw data file path '%s' is invalid",
+				unitType.String(),
+				rawDataPath,
+			)
+		}
 
-        genio.AttachJSONData(rawDataPath, &rawData)
-        unitsData[unitType].Fuel = rawData.Fuel
-        unitsData[unitType].Movement = rawData.Movement
-        unitsData[unitType].Vision = rawData.Vision
+		genio.AttachJSONData(rawDataPath, &rawData)
+		unitsData[unitType].Fuel = rawData.Fuel
+		unitsData[unitType].Movement = rawData.Movement
+		unitsData[unitType].Vision = rawData.Vision
 
-        var weaponPrimary WeaponType
-        var weaponSecondary WeaponType
-        var movementType MovementType
-        var ok bool
+		var weaponPrimary WeaponType
+		var weaponSecondary WeaponType
+		var movementType MovementType
+		var ok bool
 
-        weaponPrimary, ok = WeaponTypeReverseStrings[rawData.WeaponPrimary]
+		weaponPrimary, ok = WeaponTypeReverseStrings[rawData.WeaponPrimary]
 
-        if !ok && rawData.WeaponPrimary != "" {
-            awodatagen.LogFatalF(
-                  "Missing or invalid primary weapon type '%s' on unit '%s'",
-                rawData.WeaponPrimary,
-                unitType.String(),
-            )
-        }
+		if !ok && rawData.WeaponPrimary != "" {
+			awodatagen.LogFatalF(
+				"Missing or invalid primary weapon type '%s' on unit '%s'",
+				rawData.WeaponPrimary,
+				unitType.String(),
+			)
+		}
 
-        weaponSecondary, ok = WeaponTypeReverseStrings[rawData.WeaponSecondary]
-        if !ok && rawData.WeaponSecondary != "" {
-            awodatagen.LogFatalF(
-                  "Missing or invalid secondary weapon type '%s' on unit '%s'",
-                rawData.WeaponSecondary,
-                unitType.String(),
-            )
-        }
+		weaponSecondary, ok = WeaponTypeReverseStrings[rawData.WeaponSecondary]
+		if !ok && rawData.WeaponSecondary != "" {
+			awodatagen.LogFatalF(
+				"Missing or invalid secondary weapon type '%s' on unit '%s'",
+				rawData.WeaponSecondary,
+				unitType.String(),
+			)
+		}
 
-        if movementType, ok = MovementTypeReverseStrings[rawData.MovementType]; !ok {
-            awodatagen.LogFatalF(
-                "Missing or invalid movement type '%s' on unit '%s'",
-                rawData.MovementType,
-                unitType.String(),
-            )
-        }
+		if movementType, ok = MovementTypeReverseStrings[rawData.MovementType]; !ok {
+			awodatagen.LogFatalF(
+				"Missing or invalid movement type '%s' on unit '%s'",
+				rawData.MovementType,
+				unitType.String(),
+			)
+		}
 
-        unitsData[unitType].WeaponPrimary = weaponPrimary
-        unitsData[unitType].WeaponSecondary = weaponSecondary
-        unitsData[unitType].MovementType = movementType
-    }
+		unitsData[unitType].WeaponPrimary = weaponPrimary
+		unitsData[unitType].WeaponSecondary = weaponSecondary
+		unitsData[unitType].MovementType = movementType
+	}
 
-    return &unitsData
+	return &unitsData
 }
 
 // Generates all weapon types data
 func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 
 	// Get raw weapon types data map
-    var rawData map[string]WeaponTypeData
+	var rawData map[string]WeaponTypeData
 
-    dataPath := awodatagen.GetInputPath(
-        awodatagen.UnitsDir,
-        awodatagen.WeaponTypesFileName,
-    )
+	dataPath := awodatagen.GetInputPath(
+		awodatagen.UnitsDir,
+		awodatagen.WeaponTypesFileName,
+	)
 
-    if _, err := os.Stat(dataPath); os.IsNotExist(err) {
-        awodatagen.LogFatalF("Weapon types file path '%s' invalid", dataPath)
-    }
+	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
+		awodatagen.LogFatalF("Weapon types file path '%s' invalid", dataPath)
+	}
 
-    genio.AttachJSONData(dataPath, &rawData)
+	genio.AttachJSONData(dataPath, &rawData)
 
-    // Transform raw map into processed array
-    var data [WeaponTypeCount]WeaponTypeData
+	// Transform raw map into processed array
+	var data [WeaponTypeCount]WeaponTypeData
 
-    for wTypeStr, wData := range rawData {
-        var wType WeaponType
-        var ok bool
+	for wTypeStr, wData := range rawData {
+		var wType WeaponType
+		var ok bool
 
-        if wType, ok = WeaponTypeReverseStrings[wTypeStr]; !ok {
-            awodatagen.LogFatalF(
-                "Unknown weapon type '%s' found in data",
-                wTypeStr,
-            )
-        }
+		if wType, ok = WeaponTypeReverseStrings[wTypeStr]; !ok {
+			awodatagen.LogFatalF(
+				"Unknown weapon type '%s' found in data",
+				wTypeStr,
+			)
+		}
 
-        data[wType] = wData
-    }
+		data[wType] = wData
+	}
 
-    return &data
+	return &data
 }

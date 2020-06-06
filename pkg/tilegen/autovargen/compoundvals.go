@@ -6,23 +6,23 @@ import (
 
 // Outputs bit field from multiple tile types, used to populate autoVarCompoundVals
 func makeCompoundVal(values []tiledata.TileType) uint {
-    var result uint = 0
+	var result uint = 0
 
-    for _, val := range values {
-        result |= (1 << val)
-    }
+	for _, val := range values {
+		result |= (1 << val)
+	}
 
-    return result
+	return result
 }
 
 // Values corresponding to auto var compound symbols
 var autoVarCompoundVals = map[string]uint{
 
-    // All tiles
-    "any": 0xFFFFFFFF,
+	// All tiles
+	"any": 0xFFFFFFFF,
 
-    // Tiles that cast a shadow onto certain tiles to their right
-    "shadowing": makeCompoundVal([]tiledata.TileType{
+	// Tiles that cast a shadow onto certain tiles to their right
+	"shadowing": makeCompoundVal([]tiledata.TileType{
 		tiledata.Forest,
 		tiledata.Mountain,
 		tiledata.Silo,
@@ -31,15 +31,15 @@ var autoVarCompoundVals = map[string]uint{
 		tiledata.PropertyBase,
 		tiledata.PropertyAirport,
 		tiledata.PropertyPort,
-    }),
+	}),
 
-    // Out of bounds tile
-    "oob": makeCompoundVal([]tiledata.TileType{
+	// Out of bounds tile
+	"oob": makeCompoundVal([]tiledata.TileType{
 		tiledata.OOB,
-    }),
+	}),
 
-    // Tiles that make up the land
-    "land": makeCompoundVal([]tiledata.TileType{
+	// Tiles that make up the land
+	"land": makeCompoundVal([]tiledata.TileType{
 		tiledata.Plain,
 		tiledata.Forest,
 		tiledata.Mountain,
@@ -53,13 +53,13 @@ var autoVarCompoundVals = map[string]uint{
 		tiledata.PropertyBase,
 		tiledata.PropertyAirport,
 		tiledata.PropertyPort,
-    }),
+	}),
 
-    // Tiles that make up the sea
-    "sea": makeCompoundVal([]tiledata.TileType{
+	// Tiles that make up the sea
+	"sea": makeCompoundVal([]tiledata.TileType{
 		tiledata.Sea,
 		tiledata.Shore,
 		tiledata.Reef,
 		tiledata.OOB,
-    }),
+	}),
 }

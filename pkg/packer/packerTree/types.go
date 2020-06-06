@@ -4,8 +4,8 @@ package packerTree
 // Represents a slot inside the sprite sheet that can be taken up.
 // Can be split up into and linked to further nodes, one underneath it and another to its right.
 type PackerNode struct {
-    X, Y, Width, Height int
-    Used bool
-    Down *PackerNode
-    Right *PackerNode
+	X, Y, Width, Height int
+	Used                bool
+	Down                *PackerNode
+	Right               *PackerNode
 }
