@@ -7,6 +7,7 @@ import (
     "github.com/turnabout/awodatagen/pkg/gamedata"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/palettegen"
     "github.com/turnabout/awodatagen/pkg/propertygen"
     "github.com/turnabout/awodatagen/pkg/tilegen"
     "github.com/turnabout/awodatagen/pkg/uigen"
@@ -126,6 +127,5 @@ func attachAdditionalData(gameData *gamedata.GameData) {
     )
 
     // Palette data
-    // TODO: Return palette data instead of attaching
-    // palettegen.AttachPaletteData(gameData)
+    gameData.Palettes = *palettegen.GetPaletteData()
 }

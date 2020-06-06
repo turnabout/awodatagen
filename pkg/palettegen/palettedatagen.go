@@ -1,18 +1,16 @@
 package palettegen
 
-// TODO: Return palette data instead of attaching
-/*
 import (
     "github.com/turnabout/awodatagen"
-    "github.com/turnabout/awodatagen/pkg/gamedata"
     "github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/propertygen"
     "github.com/turnabout/awodatagen/pkg/unitgen"
 )
 
-func AttachPaletteData(vData *gamedata.GameData) {
+func GetPaletteData() *PaletteData {
     var basePalettes map[string]Palette
     var rawPalettes []Palette
+    var data PaletteData
 
     genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.BasePalettesFileName), &basePalettes )
     genio.AttachJSONData( awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.PalettesFileName), &rawPalettes )
@@ -26,8 +24,8 @@ func AttachPaletteData(vData *gamedata.GameData) {
         var unitPalette Palette = rawPalettes[i * 2]
         var unitDonePalette Palette = rawPalettes[(i * 2) + 1]
 
-        vData.Palettes = append(vData.Palettes, *makePalette(&baseUnitPalette, &unitPalette))
-        vData.Palettes = append(vData.Palettes, *makePalette(&baseUnitDonePalette, &unitDonePalette))
+        data = append(data, *makePalette(&baseUnitPalette, &unitPalette))
+        data = append(data, *makePalette(&baseUnitDonePalette, &unitDonePalette))
     }
 
     // Tile palettes
@@ -40,8 +38,8 @@ func AttachPaletteData(vData *gamedata.GameData) {
         var tilePalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2)]
         var tileFogPalette Palette = rawPalettes[int(tilePalettesStart) + (int(i) * 2) + 1]
 
-        vData.Palettes = append(vData.Palettes, *makePalette(&baseTilePalette, &tilePalette))
-        vData.Palettes = append(vData.Palettes, *makePalette(&baseTileFogPalette, &tileFogPalette))
+        data = append(data, *makePalette(&baseTilePalette, &tilePalette))
+        data = append(data, *makePalette(&baseTileFogPalette, &tileFogPalette))
     }
 
     // Property palettes
@@ -52,8 +50,10 @@ func AttachPaletteData(vData *gamedata.GameData) {
     for i := unitgen.ArmyTypeFirst; i <= unitgen.ArmyTypeLast+ 2; i++ {
         var propPalette Palette = rawPalettes[propertyPalettesStart + int(i)]
 
-        vData.Palettes = append(vData.Palettes, *makePalette(&basePropertyPalette, &propPalette))
+        data = append(data, *makePalette(&basePropertyPalette, &propPalette))
     }
+
+    return &data
 }
 
 // Create palette struct using a base and a main Palette raw data
@@ -71,4 +71,3 @@ func makePalette(basePalette *Palette, mainPalette *Palette) *Palette {
 
     return &resPalette
 }
- */
