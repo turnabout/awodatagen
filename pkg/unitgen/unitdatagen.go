@@ -3,6 +3,7 @@ package unitgen
 import (
     "fmt"
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/framedata"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
     "os"
@@ -18,9 +19,9 @@ type rawUnitData struct {
 }
 
 // Generates units game data.
-func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
+func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *UnitData {
 
-    var unitData awodatagen.UnitData
+    var unitData UnitData
 
     unitData.UnitTypesData = *getUnitTypesData(packedFrameImgs)
     unitData.WeaponTypesData = *getWeaponTypesData()
@@ -31,15 +32,15 @@ func GetUnitData(packedFrameImgs *[]packer.FrameImage)  *awodatagen.UnitData {
 
 // Generates all unit types data, including origin visual data (units' visual data on the raw
 // sprite sheet) using packed Frame Images
-func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitTypesData {
+func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 
-    var unitsData awodatagen.UnitTypesData
+    var unitsData UnitTypesData
 
     // Add frames
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-unit frame images
-        if frameImg.MetaData.FrameImageDataType != uint8(awodatagen.UnitDataType) {
+        if frameImg.MetaData.FrameImageDataType != uint8(framedata.UnitDataType) {
             continue
         }
 
@@ -55,7 +56,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
             for i := 0; i < missingVars; i++ {
                 unitsData[unitType].Variations = append(
                     unitsData[unitType].Variations,
-                    [][]awodatagen.Frame{},
+                    [][]framedata.Frame{},
                 )
             }
         }
@@ -67,7 +68,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
             for i := 0; i < missingAnims; i++ {
                 unitsData[unitType].Variations[unitVar] = append(
                     unitsData[unitType].Variations[unitVar],
-                    []awodatagen.Frame{},
+                    []framedata.Frame{},
                 )
             }
         }
@@ -77,7 +78,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
 
         if missingFrames > 0 {
             for i := 0; i < missingFrames; i++ {
-                unitsData[unitType].Variations[unitVar][unitAnim] = append(unitsData[unitType].Variations[unitVar][unitAnim], awodatagen.Frame{})
+                unitsData[unitType].Variations[unitVar][unitAnim] = append(unitsData[unitType].Variations[unitVar][unitAnim], framedata.Frame{})
             }
         }
 
@@ -86,7 +87,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
             fmt.Printf("%#v\n", frameImg)
         }
 
-        unitsData[unitType].Variations[unitVar][unitAnim][unitFrame] = awodatagen.Frame{
+        unitsData[unitType].Variations[unitVar][unitAnim][unitFrame] = framedata.Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,
@@ -95,7 +96,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
     }
 
     // Load other data from the unit's source, raw JSON data
-    for unitType := awodatagen.UnitTypeFirst; unitType <= awodatagen.UnitTypeLast; unitType++ {
+    for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
         var rawData rawUnitData
 
         rawDataPath := awodatagen.GetInputPath(
@@ -118,12 +119,12 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
         unitsData[unitType].Movement = rawData.Movement
         unitsData[unitType].Vision = rawData.Vision
 
-        var weaponPrimary awodatagen.WeaponType
-        var weaponSecondary awodatagen.WeaponType
-        var movementType awodatagen.MovementType
+        var weaponPrimary WeaponType
+        var weaponSecondary WeaponType
+        var movementType MovementType
         var ok bool
 
-        weaponPrimary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponPrimary]
+        weaponPrimary, ok = WeaponTypeReverseStrings[rawData.WeaponPrimary]
 
         if !ok && rawData.WeaponPrimary != "" {
             awodatagen.LogFatalF(
@@ -133,7 +134,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
             )
         }
 
-        weaponSecondary, ok = awodatagen.WeaponTypeReverseStrings[rawData.WeaponSecondary]
+        weaponSecondary, ok = WeaponTypeReverseStrings[rawData.WeaponSecondary]
         if !ok && rawData.WeaponSecondary != "" {
             awodatagen.LogFatalF(
                   "Missing or invalid secondary weapon type '%s' on unit '%s'",
@@ -142,7 +143,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
             )
         }
 
-        if movementType, ok = awodatagen.MovementTypeReverseStrings[rawData.MovementType]; !ok {
+        if movementType, ok = MovementTypeReverseStrings[rawData.MovementType]; !ok {
             awodatagen.LogFatalF(
                 "Missing or invalid movement type '%s' on unit '%s'",
                 rawData.MovementType,
@@ -159,10 +160,10 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *awodatagen.UnitType
 }
 
 // Generates all weapon types data
-func getWeaponTypesData() *[awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData {
+func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 
 	// Get raw weapon types data map
-    var rawData map[string]awodatagen.WeaponTypeData
+    var rawData map[string]WeaponTypeData
 
     dataPath := awodatagen.GetInputPath(
         awodatagen.UnitsDir,
@@ -176,13 +177,13 @@ func getWeaponTypesData() *[awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData
     genio.AttachJSONData(dataPath, &rawData)
 
     // Transform raw map into processed array
-    var data [awodatagen.WeaponTypeCount]awodatagen.WeaponTypeData
+    var data [WeaponTypeCount]WeaponTypeData
 
     for wTypeStr, wData := range rawData {
-        var wType awodatagen.WeaponType
+        var wType WeaponType
         var ok bool
 
-        if wType, ok = awodatagen.WeaponTypeReverseStrings[wTypeStr]; !ok {
+        if wType, ok = WeaponTypeReverseStrings[wTypeStr]; !ok {
             awodatagen.LogFatalF(
                 "Unknown weapon type '%s' found in data",
                 wTypeStr,

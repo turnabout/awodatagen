@@ -1,40 +1,41 @@
 package cogen
 
 import (
-    "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/framedata"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/unitgen"
 )
 
 // Generates the CO-related game data
-func GetCOData(packedFrameImgs *[]packer.FrameImage) *awodatagen.COData {
-    var COData *awodatagen.COData = getCOBaseData(packedFrameImgs)
+func GetCOData(packedFrameImgs *[]packer.FrameImage) *COData {
+    var COData *COData = getCOBaseData(packedFrameImgs)
 
     return COData
 }
 
-func getCOBaseData(packedFrameImgs *[]packer.FrameImage) *awodatagen.COData {
+func getCOBaseData(packedFrameImgs *[]packer.FrameImage) *COData {
 
     // CO -> CO Type Data
-    data := make(awodatagen.COData, awodatagen.COCount)
+    data := make(COData, COCount)
 
     // Process frame images
     for _, frameImg := range *packedFrameImgs {
 
         // Ignore non-CO frame images
-        if frameImg.MetaData.FrameImageDataType != uint8(awodatagen.CODataType) {
+        if frameImg.MetaData.FrameImageDataType != uint8(framedata.CODataType) {
             continue
         }
 
         // Get metadata on the CO this frame image represents
-        CO := awodatagen.CO(frameImg.MetaData.Type)
-        army := awodatagen.ArmyType(frameImg.MetaData.Variation)
-        frameType := awodatagen.COFrameType(frameImg.MetaData.Index)
+        CO := CO(frameImg.MetaData.Type)
+        army := unitgen.ArmyType(frameImg.MetaData.Variation)
+        frameType := COFrameType(frameImg.MetaData.Index)
 
         // Set data on this CO
         data[CO].Name = CO.String()
         data[CO].Army = army
 
-        data[CO].Frames[frameType] = awodatagen.Frame{
+        data[CO].Frames[frameType] = framedata.Frame{
             X: frameImg.X,
             Y: frameImg.Y,
             Width: frameImg.Width,

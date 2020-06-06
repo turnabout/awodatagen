@@ -1,13 +1,18 @@
-package awodatagen
+package cogen
+
+import (
+    "github.com/turnabout/awodatagen/pkg/framedata"
+    "github.com/turnabout/awodatagen/pkg/unitgen"
+)
 
 // Data for all COs, attached to game data
 type COData []COTypeData
 
 // Data for a single CO type
 type COTypeData struct {
-    Name string                    `json:"name"`
-    Army ArmyType                  `json:"army"`
-    Frames [COFrameTypeCount]Frame `json:"frames"`
+    Name   string                           `json:"name"`
+    Army   unitgen.ArmyType                 `json:"army"`
+    Frames [COFrameTypeCount]framedata.Frame `json:"frames"`
 }
 
 // CO enum
@@ -64,26 +69,26 @@ func (c CO) String() string {
 }
 
 // Map for looking up a CO using its corresponding string
-var COReverseStrings = map[string]CO {
-    "Andy": Andy,
-    "Max": Max,
-    "Sami": Sami,
-    "Nell": Nell,
-    "Hachi": Hachi,
-    "Olaf": Olaf,
-    "Grit": Grit,
-    "Colin": Colin,
-    "Eagle": Eagle,
-    "Drake": Drake,
-    "Jess": Jess,
+var COReverseStrings = map[string]CO{
+    "Andy":   Andy,
+    "Max":    Max,
+    "Sami":   Sami,
+    "Nell":   Nell,
+    "Hachi":  Hachi,
+    "Olaf":   Olaf,
+    "Grit":   Grit,
+    "Colin":  Colin,
+    "Eagle":  Eagle,
+    "Drake":  Drake,
+    "Jess":   Jess,
     "Kanbei": Kanbei,
-    "Sonja": Sonja,
+    "Sonja":  Sonja,
     "Sensei": Sensei,
-    "Flak": Flak,
-    "Adder": Adder,
-    "Lash": Lash,
-    "Hawke": Hawke,
-    "Sturm": Sturm,
+    "Flak":   Flak,
+    "Adder":  Adder,
+    "Lash":   Lash,
+    "Hawke":  Hawke,
+    "Sturm":  Sturm,
 }
 
 // CO frame type enum (all possible CO images)
@@ -102,8 +107,8 @@ const COFrameTypeCount = COFrameTypeLast + 1
 
 // Map for looking up a CO face type using its corresponding string
 var COFrameTypeReverseStrings = map[string]COFrameType{
-    "Body": Body,
+    "Body":        Body,
     "FaceNeutral": FaceNeutral,
-    "FaceGood": FaceGood,
-    "FaceBad": FaceBad,
+    "FaceGood":    FaceGood,
+    "FaceBad":     FaceBad,
 }

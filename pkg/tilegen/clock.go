@@ -3,10 +3,11 @@ package tilegen
 import (
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
 )
 
-func attachTilesClockData(tileData *awodatagen.TileData) {
-    var tilesClockData map[string]awodatagen.TileClockData
+func attachTilesClockData(tileData *tiledata.TileData) {
+    var tilesClockData map[string]tiledata.TileClockData
 
     // Fill out map with keys being tile short strings and values being tile clock data
     genio.AttachJSONData(
@@ -16,7 +17,7 @@ func attachTilesClockData(tileData *awodatagen.TileData) {
 
     // Loop filled map & use to fill tile variations' clock data
     for tileStr, tileTypeClockData := range tilesClockData {
-        tileType := awodatagen.TileReverseStrings[tileStr]
+        tileType := tiledata.TileReverseStrings[tileStr]
 
         // Initially set all variations to the default clock value
         for varStr, varData := range (*tileData)[tileType].Variations {
@@ -33,7 +34,7 @@ func attachTilesClockData(tileData *awodatagen.TileData) {
         for varStr, varClock := range tileTypeClockData.VarClocks {
 
             // Get the looped variation & data object for this variation
-            loopedVar := awodatagen.TileVarsReverseStrings[varStr]
+            loopedVar := tiledata.TileVarsReverseStrings[varStr]
             varData := (*tileData)[tileType].Variations[loopedVar.String()]
 
             // Set the variation data clock index

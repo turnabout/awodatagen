@@ -3,11 +3,12 @@ package autovargen
 import (
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
     "sort"
 )
 
 // Attach auto-var data to tile data object
-func AttachTilesAutoVarData(tilesData *awodatagen.TileData) {
+func AttachTilesAutoVarData(tilesData *tiledata.TileData) {
     var rawData rawAutoVarsData
 
     // Load raw auto var data file into structure
@@ -17,10 +18,10 @@ func AttachTilesAutoVarData(tilesData *awodatagen.TileData) {
     for tileTypeStr, tileTypeAutoVars := range rawData {
 
         // Get the actual tile type for this raw data
-        var tileType awodatagen.TileType = awodatagen.TileReverseStrings[tileTypeStr]
+        var tileType tiledata.TileType = tiledata.TileReverseStrings[tileTypeStr]
 
         // Create initial slice containing this tile type's auto-var data
-        var tileAutoVar []awodatagen.AutoVarData
+        var tileAutoVar []tiledata.AutoVarData
 
         // Loop auto var values, appending every one of them to this tile type's AutoVars field
         for _, rawAutoVarData := range tileTypeAutoVars {
@@ -38,7 +39,7 @@ func AttachTilesAutoVarData(tilesData *awodatagen.TileData) {
 }
 
 // Gets the total amount of active bits in an auto var data struct
-func getAutoVarBitsAmount(autoVarData awodatagen.AutoVarData) uint {
+func getAutoVarBitsAmount(autoVarData tiledata.AutoVarData) uint {
     var totalBits uint = 0
 
     for i := 0; i < adjacentTileCount; i++ {
@@ -49,13 +50,13 @@ func getAutoVarBitsAmount(autoVarData awodatagen.AutoVarData) uint {
 }
 
 // Processes raw auto-var data into a finished auto-var data struct
-func processRawAutoVar(rawAutoVarData rawAutoVarData) awodatagen.AutoVarData {
+func processRawAutoVar(rawAutoVarData rawAutoVarData) tiledata.AutoVarData {
 
     // Get the tile variation corresponding to the raw auto-var data full string
-    var tileVar awodatagen.TileVariation = awodatagen.TileVarsReverseStrings[rawAutoVarData.TileVar]
+    var tileVar tiledata.TileVariation = tiledata.TileVarsReverseStrings[rawAutoVarData.TileVar]
 
     // Create initial result to be filled out
-    result := awodatagen.AutoVarData{
+    result := tiledata.AutoVarData{
         TileVar: tileVar.String(),
         AdjacentTiles: [4]uint{0, 0, 0, 0},
     }

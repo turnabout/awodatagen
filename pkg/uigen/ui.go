@@ -1,15 +1,14 @@
 package uigen
 
 import (
-    "github.com/turnabout/awodatagen"
     "log"
 )
 
-func getUiElementByString(str string) awodatagen.UIElement {
+func getUiElementByString(str string) UIElement {
     var ok bool
-    var uiElement awodatagen.UIElement
+    var uiElement UIElement
 
-    if uiElement, ok = awodatagen.UIElementsReverseStrings[str]; !ok {
+    if uiElement, ok = UIElementsReverseStrings[str]; !ok {
         log.Fatalf("UI Element string '%s' not part of the UiElement enum\n", str)
     }
 

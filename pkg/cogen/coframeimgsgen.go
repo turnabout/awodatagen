@@ -2,8 +2,10 @@ package cogen
 
 import (
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/framedata"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/unitgen"
     "io/ioutil"
     "path"
     "path/filepath"
@@ -13,7 +15,7 @@ import (
 func GetCOFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop army types
-    for COArmy := awodatagen.ArmyTypeFirst; COArmy < awodatagen.ArmyTypeCount; COArmy++ {
+    for COArmy := unitgen.ArmyTypeFirst; COArmy < unitgen.ArmyTypeCount; COArmy++ {
 
         // Get directory for COs of this army type & loop contents
         COArmyDirPath := awodatagen.GetInputPath(awodatagen.CODir, COArmy.String())
@@ -36,13 +38,13 @@ func getCOTypeFrameImgs(
     frameImgs *[]packer.FrameImage,
     COTypePath string,
     CODirName string,
-    COArmyType awodatagen.ArmyType,
+    COArmyType unitgen.ArmyType,
 ) {
 
-    var CO awodatagen.CO
+    var CO CO
     var ok bool
 
-    if CO, ok = awodatagen.COReverseStrings[CODirName]; !ok {
+    if CO, ok = COReverseStrings[CODirName]; !ok {
         awodatagen.LogFatalF(
              "Found CO at '%s', doesn't match any CO set in CO enumeration\n",
             COTypePath,
@@ -54,13 +56,13 @@ func getCOTypeFrameImgs(
 
     // Add all images of this CO to the frame images
     for _, img := range imgs {
-        var frameType awodatagen.COFrameType
+        var frameType COFrameType
         var ok bool
 
         // Ensure the looped image is a possible CO frame type image
         cleanFileName := strings.TrimSuffix(img.Name(), filepath.Ext(img.Name()))
 
-        if frameType, ok = awodatagen.COFrameTypeReverseStrings[cleanFileName]; !ok {
+        if frameType, ok = COFrameTypeReverseStrings[cleanFileName]; !ok {
             awodatagen.LogFatalF(
                 "Found CO image at '%s' doesn't match any valid CO frame type\n",
                 path.Join(COTypePath, img.Name()),
@@ -77,7 +79,7 @@ func getCOTypeFrameImgs(
                 Type: uint8(CO),
                 Variation: uint8(COArmyType),
                 Index: int(frameType),
-                FrameImageDataType: uint8(awodatagen.CODataType),
+                FrameImageDataType: uint8(framedata.CODataType),
             },
         })
     }

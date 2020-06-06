@@ -1,7 +1,11 @@
-package awodatagen
+package propertygen
+
+import (
+    "github.com/turnabout/awodatagen/pkg/framedata"
+)
 
 // Data for all property tiles, attached to game data
-type PropertyData [][][]Frame
+type PropertyData [][][]framedata.Frame
 
 // Property type enum
 type PropertyType uint8

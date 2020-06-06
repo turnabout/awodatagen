@@ -47,10 +47,10 @@ func AttachJSONData(jsonPath string , v interface{}) {
     }
 }
 
-// Output the visuals data JSON
-func OutputJSON(visualData *awodatagen.GameData) {
-    // data, err := json.Marshal(visualData)
-    data, err := json.MarshalIndent(visualData, "", "\t")
+// Output data JSON
+func OutputJSON(jsonData interface{}) {
+    // data, err := json.Marshal(jsonData)
+    data, err := json.MarshalIndent(jsonData, "", "\t")
 
     awodatagen.LogFatalIfErr(err)
 

@@ -1,7 +1,11 @@
-package awodatagen
+package unitgen
+
+import (
+    "github.com/turnabout/awodatagen/pkg/framedata"
+)
 
 type UnitData struct {
-    UnitTypesData UnitTypesData                     `json:"unitTypes"`
+    UnitTypesData   UnitTypesData                   `json:"unitTypes"`
     WeaponTypesData [WeaponTypeCount]WeaponTypeData `json:"weaponTypes"`
 }
 
@@ -18,7 +22,7 @@ type UnitTypeData struct {
     WeaponSecondary WeaponType   `json:"weaponSecondary"`
 
     // Variation -> Animations -> Animation
-    Variations [][][]Frame `json:"vars"` // TODO: Rename to "frames"
+    Variations [][][]framedata.Frame `json:"vars"` // TODO: Rename to "frames"
 }
 
 // Unit type enum
@@ -124,13 +128,13 @@ const (
 )
 
 // Map for looking up a Weapon Type using its corresponding string
-var MovementTypeReverseStrings = map[string]MovementType {
-    "Foot": Foot,
+var MovementTypeReverseStrings = map[string]MovementType{
+    "Foot":      Foot,
     "HeavyFoot": HeavyFoot,
-    "Treads": Treads,
-    "Tires": Tires,
-    "Air": Air,
-    "Naval": Naval,
+    "Treads":    Treads,
+    "Tires":     Tires,
+    "Air":       Air,
+    "Naval":     Naval,
 }
 
 // Weapon type enum
@@ -190,7 +194,7 @@ const WeaponTypeLast  = WeaponVulcan
 const WeaponTypeCount = WeaponTypeLast + 1
 
 // Map for looking up a Weapon Type using its corresponding string
-var WeaponTypeReverseStrings = map[string]WeaponType {
+var WeaponTypeReverseStrings = map[string]WeaponType{
     "MachineGunMk1":     WeaponMachineGunMk1,
     "MachineGunMk2":     WeaponMachineGunMk2,
     "MachineGunMk3":     WeaponMachineGunMk3,

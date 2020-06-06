@@ -2,8 +2,10 @@ package propertygen
 
 import (
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/framedata"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/unitgen"
     "os"
 )
 
@@ -11,14 +13,14 @@ import (
 func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop Weather Variations
-    for weatherVar := awodatagen.PropWeatherVarFirst; weatherVar <= awodatagen.PropWeatherVarLast; weatherVar++ {
+    for weatherVar := PropWeatherVarFirst; weatherVar <= PropWeatherVarLast; weatherVar++ {
 
         // Loop Property Types
-        for propType := awodatagen.PropTypeFirst; propType <= awodatagen.PropTypeLast; propType++ {
+        for propType := PropTypeFirst; propType <= PropTypeLast; propType++ {
             // propDir := getFullProjectPath(propertiesDir) + weatherVar.String() + "/" + propType.String() + "/"
 
             // Loop army variations
-            for unitVar := awodatagen.ArmyTypeFirst; unitVar <= awodatagen.ArmyTypeLast; unitVar++ {
+            for unitVar := unitgen.ArmyTypeFirst; unitVar <= unitgen.ArmyTypeLast; unitVar++ {
 
                 fullPath := awodatagen.GetInputPath(
                     awodatagen.PropertiesDir,
@@ -42,7 +44,7 @@ func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
                         Type:               uint8(propType),
                         Variation:          uint8(weatherVar),
                         Animation:          uint8(unitVar),
-                        FrameImageDataType: uint8(awodatagen.PropertyDataType),
+                        FrameImageDataType: uint8(framedata.PropertyDataType),
                     },
                 })
             }

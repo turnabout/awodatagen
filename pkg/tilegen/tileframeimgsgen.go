@@ -2,8 +2,10 @@ package tilegen
 
 import (
     "github.com/turnabout/awodatagen"
-    "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/framedata"
+	"github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
+    "github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
     "io/ioutil"
     "log"
     "os"
@@ -15,7 +17,7 @@ import (
 func GetTileFrameImgs(frameImgs *[]packer.FrameImage) {
 
     // Loop basic (non-property) tile types
-    for tile := awodatagen.NeutralTileTypeFirst; tile < awodatagen.NeutralTileTypeCount; tile++ {
+    for tile := tiledata.NeutralTileTypeFirst; tile < tiledata.NeutralTileTypeCount; tile++ {
         tileDir := awodatagen.GetInputPath( awodatagen.TilesDir, tile.String() )
 
         files, err := ioutil.ReadDir(tileDir)
@@ -36,13 +38,13 @@ func GetTileFrameImgs(frameImgs *[]packer.FrameImage) {
 // Gather frame images from a single level tile (variations are single images) and attach to given Frame Images
 func gatherSingleLvlTileFrameImgs(
     frameImgs *[]packer.FrameImage,
-    tile awodatagen.TileType,
+    tile tiledata.TileType,
     tileDir string,
     files []os.FileInfo,
 ) {
     for _, file := range files {
         // Get the Tile Variation corresponding to this image file
-        tileVar := awodatagen.TileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
+        tileVar := tiledata.TileVarsReverseStrings[strings.TrimSuffix(file.Name(), path.Ext(file.Name()))]
 
         // Add this file's image data to its corresponding tile variation
         imageObj := genio.GetImage(path.Join(tileDir, file.Name()))
@@ -55,7 +57,7 @@ func gatherSingleLvlTileFrameImgs(
                 Type:           uint8(tile),
                 Variation:      uint8(tileVar),
                 Index:          0,
-                FrameImageDataType: uint8(awodatagen.TileDataType),
+                FrameImageDataType: uint8(framedata.TileDataType),
             },
         })
     }
@@ -64,13 +66,13 @@ func gatherSingleLvlTileFrameImgs(
 // Gather frame images from a double level tile (variations are directories of images) and attach to given Frame Images
 func gatherDoubleLvlTileFrameImgs(
     frameImgs *[]packer.FrameImage,
-    tile awodatagen.TileType,
+    tile tiledata.TileType,
     tileDir string, dirs []os.FileInfo,
 ) {
     // Loop every variation directory
     for _, dir := range dirs {
         // Get the Tile Variation corresponding to this image file
-        tileVar := awodatagen.TileVarsReverseStrings[dir.Name()]
+        tileVar := tiledata.TileVarsReverseStrings[dir.Name()]
 
         varDir := path.Join(tileDir, dir.Name());
         varFiles, err := ioutil.ReadDir(varDir)
@@ -92,7 +94,7 @@ func gatherDoubleLvlTileFrameImgs(
                     Type:               uint8(tile),
                     Variation:          uint8(tileVar),
                     Index:              index,
-                    FrameImageDataType: uint8(awodatagen.TileDataType),
+                    FrameImageDataType: uint8(framedata.TileDataType),
                 },
             })
         }

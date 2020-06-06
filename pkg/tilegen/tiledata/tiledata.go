@@ -1,19 +1,23 @@
-package awodatagen
+package tiledata
+
+import (
+    "github.com/turnabout/awodatagen/pkg/framedata"
+)
 
 // Data for all tiles, attached to game data
 type TileData []TileTypeData
 
 // Data for a single tile type
 type TileTypeData struct {
-    Variations     map[string]TileVarData  `json:"vars"`
-    AutoVars       []AutoVarData           `json:"autoVars"`
-    PlacementRules []TilePlacementRule     `json:"placementRules"`
+    Variations     map[string]TileVarData `json:"vars"`
+    AutoVars       []AutoVarData          `json:"autoVars"`
+    PlacementRules []TilePlacementRule    `json:"placementRules"`
 }
 
 // Data for a single tile variation belonging to a tile type
 type TileVarData struct {
-    Frames     []Frame `json:"frames"`
-    ClockIndex *int    `json:"clock,omitempty"`
+    Frames     []framedata.Frame `json:"frames"`
+    ClockIndex *int             `json:"clock,omitempty"`
 }
 
 // Clock data for a tile type's variations.
@@ -214,96 +218,96 @@ func (v TileVariation) String() string {
 }
 
 // Map for looking up a Tile Type using its corresponding full string
-var TileReverseStrings = map[string]TileType {
+var TileReverseStrings = map[string]TileType{
 
     // Basic neutral tiles, represented visually
-    "Plain": Plain,
-    "Forest": Forest,
-    "Mountain": Mountain,
-    "Road": Road,
-    "Bridge": Bridge,
-    "River": River,
-    "Sea": Sea,
-    "Reef": Reef,
-    "Shore": Shore,
-    "Pipe": Pipe,
+    "Plain":       Plain,
+    "Forest":      Forest,
+    "Mountain":    Mountain,
+    "Road":        Road,
+    "Bridge":      Bridge,
+    "River":       River,
+    "Sea":         Sea,
+    "Reef":        Reef,
+    "Shore":       Shore,
+    "Pipe":        Pipe,
     "PipeFragile": PipeFragile,
-    "Silo": Silo,
+    "Silo":        Silo,
 
     // Additional neutral tiles, represented visually (standard size)
     "BaseSmoke": BaseSmoke,
-    "Empty": Empty,
+    "Empty":     Empty,
 
     // Additional neutral tiles, represented visually (non-standard size)
     "LandPiece": LandPiece,
 }
 
 // Map for looking up a Tile Variation using its corresponding full string
-var TileVarsReverseStrings = map[string]TileVariation {
-    "Default": Default,
-    "Horizontal": Horizontal,
-    "Vertical": Vertical,
-    "VerticalEnd": VerticalEnd,
-    "Top": Top,
-    "Bottom": Bottom,
-    "Left": DirLeft,
-    "Right": DirRight,
-    "TopLeft": TopLeft,
-    "TopRight": TopRight,
-    "BottomLeft": BottomLeft,
-    "BottomRight": BottomRight,
-    "Middle": Middle,
-    "ShadowedDefault": ShadowedDefault,
-    "ShadowedTopLeft": ShadowedTopLeft,
-    "ShadowedBottomLeft": ShadowedBottomLeft,
-    "ShadowedLeft": ShadowedLeft,
-    "ShadowedHorizontal": ShadowedHorizontal,
-    "ShadowedVertical": ShadowedVertical,
-    "ShadowedVerticalEnd": ShadowedVerticalEnd,
-    "ShadowedTLeft": ShadowedTLeft,
-    "TTop": TTop,
-    "TBottom": TBottom,
-    "TLeft": TLeft,
-    "TRight": TRight,
-    "Small": Small,
-    "WaterfallUp": WaterfallUp,
-    "WaterfallDown": WaterfallDown,
-    "WaterfallLeft": WaterfallLeft,
-    "WaterfallRight": WaterfallRight,
-    "Hole": Hole,
-    "HoleHorizontal": HoleHorizontal,
-    "HoleVertical": HoleVertical,
-    "HoleLeft": HoleLeft,
-    "HoleRight": HoleRight,
-    "HoleTop": HoleTop,
-    "HoleBottom": HoleBottom,
-    "TopConnectedLeft": TopConnectedLeft,
-    "TopConnectedRight": TopConnectedRight,
-    "TopConnectedFull": TopConnectedFull,
-    "BottomConnectedLeft": BottomConnectedLeft,
-    "BottomConnectedRight": BottomConnectedRight,
-    "BottomConnectedFull": BottomConnectedFull,
-    "LeftConnectedTop": LeftConnectedTop,
-    "LeftConnectedBottom": LeftConnectedBottom,
-    "LeftConnectedFull": LeftConnectedFull,
-    "RightConnectedTop": RightConnectedTop,
-    "RightConnectedBottom": RightConnectedBottom,
-    "RightConnectedFull": RightConnectedFull,
-    "TopLeftConnectedVertical": TopLeftConnectedVertical,
-    "TopLeftConnectedHorizontal": TopLeftConnectedHorizontal,
-    "TopLeftConnectedFull": TopLeftConnectedFull,
-    "TopRightConnectedVertical": TopRightConnectedVertical,
-    "TopRightConnectedHorizontal": TopRightConnectedHorizontal,
-    "TopRightConnectedFull": TopRightConnectedFull,
-    "BottomLeftConnectedVertical": BottomLeftConnectedVertical,
-    "BottomLeftConnectedHorizontal": BottomLeftConnectedHorizontal,
-    "BottomLeftConnectedFull": BottomLeftConnectedFull,
-    "BottomRightConnectedVertical": BottomRightConnectedVertical,
+var TileVarsReverseStrings = map[string]TileVariation{
+    "Default":                        Default,
+    "Horizontal":                     Horizontal,
+    "Vertical":                       Vertical,
+    "VerticalEnd":                    VerticalEnd,
+    "Top":                            Top,
+    "Bottom":                         Bottom,
+    "Left":                           DirLeft,
+    "Right":                          DirRight,
+    "TopLeft":                        TopLeft,
+    "TopRight":                       TopRight,
+    "BottomLeft":                     BottomLeft,
+    "BottomRight":                    BottomRight,
+    "Middle":                         Middle,
+    "ShadowedDefault":                ShadowedDefault,
+    "ShadowedTopLeft":                ShadowedTopLeft,
+    "ShadowedBottomLeft":             ShadowedBottomLeft,
+    "ShadowedLeft":                   ShadowedLeft,
+    "ShadowedHorizontal":             ShadowedHorizontal,
+    "ShadowedVertical":               ShadowedVertical,
+    "ShadowedVerticalEnd":            ShadowedVerticalEnd,
+    "ShadowedTLeft":                  ShadowedTLeft,
+    "TTop":                           TTop,
+    "TBottom":                        TBottom,
+    "TLeft":                          TLeft,
+    "TRight":                         TRight,
+    "Small":                          Small,
+    "WaterfallUp":                    WaterfallUp,
+    "WaterfallDown":                  WaterfallDown,
+    "WaterfallLeft":                  WaterfallLeft,
+    "WaterfallRight":                 WaterfallRight,
+    "Hole":                           Hole,
+    "HoleHorizontal":                 HoleHorizontal,
+    "HoleVertical":                   HoleVertical,
+    "HoleLeft":                       HoleLeft,
+    "HoleRight":                      HoleRight,
+    "HoleTop":                        HoleTop,
+    "HoleBottom":                     HoleBottom,
+    "TopConnectedLeft":               TopConnectedLeft,
+    "TopConnectedRight":              TopConnectedRight,
+    "TopConnectedFull":               TopConnectedFull,
+    "BottomConnectedLeft":            BottomConnectedLeft,
+    "BottomConnectedRight":           BottomConnectedRight,
+    "BottomConnectedFull":            BottomConnectedFull,
+    "LeftConnectedTop":               LeftConnectedTop,
+    "LeftConnectedBottom":            LeftConnectedBottom,
+    "LeftConnectedFull":              LeftConnectedFull,
+    "RightConnectedTop":              RightConnectedTop,
+    "RightConnectedBottom":           RightConnectedBottom,
+    "RightConnectedFull":             RightConnectedFull,
+    "TopLeftConnectedVertical":       TopLeftConnectedVertical,
+    "TopLeftConnectedHorizontal":     TopLeftConnectedHorizontal,
+    "TopLeftConnectedFull":           TopLeftConnectedFull,
+    "TopRightConnectedVertical":      TopRightConnectedVertical,
+    "TopRightConnectedHorizontal":    TopRightConnectedHorizontal,
+    "TopRightConnectedFull":          TopRightConnectedFull,
+    "BottomLeftConnectedVertical":    BottomLeftConnectedVertical,
+    "BottomLeftConnectedHorizontal":  BottomLeftConnectedHorizontal,
+    "BottomLeftConnectedFull":        BottomLeftConnectedFull,
+    "BottomRightConnectedVertical":   BottomRightConnectedVertical,
     "BottomRightConnectedHorizontal": BottomRightConnectedHorizontal,
-    "BottomRightConnectedFull": BottomRightConnectedFull,
-    "HorizontalClosed": HorizontalClosed,
-    "HorizontalOpen": HorizontalOpen,
-    "VerticalClosed": VerticalClosed,
-    "VerticalOpen": VerticalOpen,
-    "Used": Used,
+    "BottomRightConnectedFull":       BottomRightConnectedFull,
+    "HorizontalClosed":               HorizontalClosed,
+    "HorizontalOpen":                 HorizontalOpen,
+    "VerticalClosed":                 VerticalClosed,
+    "VerticalOpen":                   VerticalOpen,
+    "Used":                           Used,
 }

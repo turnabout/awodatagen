@@ -1,9 +1,10 @@
 package placementrulesgen
 
 import (
-    "github.com/turnabout/awodatagen"
-    "github.com/turnabout/awodatagen/pkg/genio"
-    "github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
+	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/pkg/genio"
+	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
+	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
 )
 
 // Raw placement rule positions and their corresponding X/Y offset values
@@ -19,7 +20,7 @@ var rawPlacementRulePositions = map[string][2]int{
     "Left":        {-1,  0},
 }
 
-func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
+func AttachTilesPlacementRulesData(tilesData *tiledata.TileData) {
 
     // Load raw auto var data file into structure
     var rawData rawTilePlacementRules
@@ -33,10 +34,10 @@ func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
     for tileTypeStr, rawPlacementRules := range rawData {
 
         // Get the actual tile type for this raw data
-        var tileType awodatagen.TileType = awodatagen.TileReverseStrings[tileTypeStr]
+        var tileType tiledata.TileType = tiledata.TileReverseStrings[tileTypeStr]
 
         // Create initial slice for this tile type's placement rules
-        var placementRules []awodatagen.TilePlacementRule
+        var placementRules []tiledata.TilePlacementRule
 
         // Loop raw rules & process
         for _, rawPlacementRule := range rawPlacementRules {
@@ -49,15 +50,15 @@ func AttachTilesPlacementRulesData(tilesData *awodatagen.TileData) {
 }
 
 // Process a raw tile placement rule into an exportable tile placement rule
-func processPlacementRule(rawRule rawTilePlacementRule) awodatagen.TilePlacementRule {
+func processPlacementRule(rawRule rawTilePlacementRule) tiledata.TilePlacementRule {
 
-    var result []awodatagen.TilePlacementRuleComponent
+    var result []tiledata.TilePlacementRuleComponent
 
     // Process every individual placement rule in this batch
     for _, rawRuleComponent := range rawRule {
         result = append(
             result,
-            awodatagen.TilePlacementRuleComponent{
+            tiledata.TilePlacementRuleComponent{
                 OffsetX: rawPlacementRulePositions[rawRuleComponent.Position][0],
                 OffsetY: rawPlacementRulePositions[rawRuleComponent.Position][1],
                 Tiles: autovargen.ProcessAdjTileStr(rawRuleComponent.Tiles),

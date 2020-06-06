@@ -3,9 +3,10 @@ package main
 import (
     "github.com/turnabout/awodatagen"
     "github.com/turnabout/awodatagen/pkg/cogen"
+    "github.com/turnabout/awodatagen/pkg/framedata"
+    "github.com/turnabout/awodatagen/pkg/gamedata"
     "github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
-    "github.com/turnabout/awodatagen/pkg/palettegen"
     "github.com/turnabout/awodatagen/pkg/propertygen"
     "github.com/turnabout/awodatagen/pkg/tilegen"
     "github.com/turnabout/awodatagen/pkg/uigen"
@@ -24,14 +25,14 @@ func main() {
     packedFrameImages, ssImg := gatherFrameImages()
 
     // Create game data object using the frame images
-    var gameData = awodatagen.GameData{
+    var gameData = gamedata.GameData{
         Tiles:      *tilegen.GetTileData(packedFrameImages),
         Properties: *propertygen.GetPropertyData(packedFrameImages),
         Units:      *unitgen.GetUnitData(packedFrameImages),
         UI:         *uigen.GetUIData(packedFrameImages),
         COs:        *cogen.GetCOData(packedFrameImages),
 
-        SpriteSheetDimensions: awodatagen.SSDimensions{
+        SpriteSheetDimensions: gamedata.SSDimensions{
             Width: ssImg.Bounds().Max.X,
             Height: ssImg.Bounds().Max.Y,
         },
@@ -92,7 +93,7 @@ func gatherStepFrameImages(
             Width: accumImg.Bounds().Max.X,
             Height: accumImg.Bounds().Max.Y,
             MetaData: packer.FrameImageMetaData{
-                FrameImageDataType: uint8(awodatagen.OtherDataType),
+                FrameImageDataType: uint8(framedata.OtherDataType),
             },
         })
     }
@@ -110,7 +111,7 @@ func gatherStepFrameImages(
 }
 
 // Gather additional visual data and attach to the main visual data object
-func attachAdditionalData(gameData *awodatagen.GameData) {
+func attachAdditionalData(gameData *gamedata.GameData) {
 
     // Adds default stages data
     genio.AttachJSONData(
@@ -125,5 +126,6 @@ func attachAdditionalData(gameData *awodatagen.GameData) {
     )
 
     // Palette data
-    palettegen.AttachPaletteData(gameData)
+    // TODO: Return palette data instead of attaching
+    // palettegen.AttachPaletteData(gameData)
 }

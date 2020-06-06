@@ -2,6 +2,7 @@ package autovargen
 
 import (
     "github.com/turnabout/awodatagen"
+    "github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
     "unicode"
     "unicode/utf8"
 )
@@ -60,7 +61,7 @@ func ProcessAdjTileStr(rawString string) uint {
 
         switch symbolType {
         case SymbolTileType:
-            appliedVal = 1 << uint(awodatagen.TileReverseStrings[symbolString])
+            appliedVal = 1 << uint(tiledata.TileReverseStrings[symbolString])
             break
         case SymbolCompound:
             appliedVal = uint(autoVarCompoundVals[symbolString])

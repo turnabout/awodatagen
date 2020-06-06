@@ -2,7 +2,8 @@ package unitgen
 
 import (
     "github.com/turnabout/awodatagen"
-    "github.com/turnabout/awodatagen/pkg/genio"
+    "github.com/turnabout/awodatagen/pkg/framedata"
+	"github.com/turnabout/awodatagen/pkg/genio"
     "github.com/turnabout/awodatagen/pkg/packer"
     "io/ioutil"
     "os"
@@ -11,21 +12,21 @@ import (
 
 // Gets frame images from all non-idle unit images
 func GetUnitNonIdleFrameImgs(frameImgs *[]packer.FrameImage) {
-    getUnitFrameImgs(frameImgs, []awodatagen.UnitAnimation{awodatagen.Right, awodatagen.Up, awodatagen.Down})
+    getUnitFrameImgs(frameImgs, []UnitAnimation{Right, Up, Down})
 }
 
 // Gets frame images from all idle unit images
 func GetUnitIdleFrameImgs(frameImgs *[]packer.FrameImage) {
-    getUnitFrameImgs(frameImgs, []awodatagen.UnitAnimation{awodatagen.Idle})
+    getUnitFrameImgs(frameImgs, []UnitAnimation{Idle})
 }
 
 // Gets frame images for all unit images of the given unit animations
-func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []awodatagen.UnitAnimation) {
+func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []UnitAnimation) {
     // Loop units
-    for unitType := awodatagen.UnitTypeFirst; unitType <= awodatagen.UnitTypeLast; unitType++ {
+    for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
 
         // Loop variations
-        for unitVar := awodatagen.ArmyTypeFirst; unitVar <= awodatagen.ArmyTypeLast; unitVar++ {
+        for unitVar := ArmyTypeFirst; unitVar <= ArmyTypeLast; unitVar++ {
 
             varDir := awodatagen.GetInputPath(
                 awodatagen.UnitsDir,
@@ -55,9 +56,9 @@ func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []awodatagen.Un
 
 // Gets frame images from a unit animation
 func getAnimFrameImgs(
-    uType awodatagen.UnitType,
-    uVar awodatagen.ArmyType,
-    uAnim awodatagen.UnitAnimation,
+    uType UnitType,
+    uVar ArmyType,
+    uAnim UnitAnimation,
     animDir string,
     frameImgs *[]packer.FrameImage,
 ) {
@@ -77,7 +78,7 @@ func getAnimFrameImgs(
                 Variation:          uint8(uVar),
                 Animation:          uint8(uAnim),
                 Index:              index,
-                FrameImageDataType: uint8(awodatagen.UnitDataType),
+                FrameImageDataType: uint8(framedata.UnitDataType),
             },
         })
     }
