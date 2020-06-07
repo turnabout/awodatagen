@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/genio"
+	"github.com/turnabout/awodatagen/internal/packer"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/cogen"
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/gamedata"
-	"github.com/turnabout/awodatagen/pkg/genio"
-	"github.com/turnabout/awodatagen/pkg/packer"
 	"github.com/turnabout/awodatagen/pkg/palettegen"
 	"github.com/turnabout/awodatagen/pkg/propertygen"
 	"github.com/turnabout/awodatagen/pkg/tilegen"
 	"github.com/turnabout/awodatagen/pkg/uigen"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
-	"github.com/turnabout/awodatagen/pkg/utilities"
 	"image"
 	"log"
 )

@@ -1,8 +1,8 @@
 package autovargen
 
 import (
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
-	"github.com/turnabout/awodatagen/pkg/utilities"
 	"unicode"
 	"unicode/utf8"
 )

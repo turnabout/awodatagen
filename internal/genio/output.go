@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/turnabout/awodatagen"
-	"github.com/turnabout/awodatagen/pkg/utilities"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"image"
 	"image/png"
 	"io/ioutil"

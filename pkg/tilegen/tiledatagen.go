@@ -2,8 +2,8 @@ package tilegen
 
 import (
 	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/pkg/framedata"
-	"github.com/turnabout/awodatagen/pkg/packer"
 	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/placementrulesgen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"

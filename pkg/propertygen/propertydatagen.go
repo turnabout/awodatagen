@@ -1,8 +1,8 @@
 package propertygen
 
 import (
+	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/pkg/framedata"
-	"github.com/turnabout/awodatagen/pkg/packer"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
 )
 

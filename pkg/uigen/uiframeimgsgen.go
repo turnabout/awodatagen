@@ -2,10 +2,10 @@ package uigen
 
 import (
 	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/genio"
+	"github.com/turnabout/awodatagen/internal/packer"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/framedata"
-	"github.com/turnabout/awodatagen/pkg/genio"
-	"github.com/turnabout/awodatagen/pkg/packer"
-	"github.com/turnabout/awodatagen/pkg/utilities"
 	"io/ioutil"
 	"log"
 	"path"

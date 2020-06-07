@@ -2,7 +2,7 @@
 package packer
 
 import (
-	"github.com/turnabout/awodatagen/pkg/packer/packerTree"
+	"github.com/turnabout/awodatagen/internal/packer/packerTree"
 	"log"
 	"runtime/debug"
 	"sort"

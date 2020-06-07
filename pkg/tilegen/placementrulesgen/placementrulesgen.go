@@ -2,10 +2,10 @@ package placementrulesgen
 
 import (
 	"github.com/turnabout/awodatagen"
-	"github.com/turnabout/awodatagen/pkg/genio"
+	"github.com/turnabout/awodatagen/internal/genio"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
-	"github.com/turnabout/awodatagen/pkg/utilities"
 )
 
 // Raw placement rule positions and their corresponding X/Y offset values

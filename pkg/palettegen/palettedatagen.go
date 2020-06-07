@@ -2,10 +2,10 @@ package palettegen
 
 import (
 	"github.com/turnabout/awodatagen"
-	"github.com/turnabout/awodatagen/pkg/genio"
+	"github.com/turnabout/awodatagen/internal/genio"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/propertygen"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
-	"github.com/turnabout/awodatagen/pkg/utilities"
 )
 
 func GetPaletteData() *PaletteData {

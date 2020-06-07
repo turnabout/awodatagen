@@ -2,7 +2,7 @@
 package genio
 
 import (
-	"github.com/turnabout/awodatagen/pkg/utilities"
+	"github.com/turnabout/awodatagen/internal/utilities"
 	"image"
 	"os"
 	"path/filepath"
