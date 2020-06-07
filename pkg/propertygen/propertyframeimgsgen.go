@@ -4,7 +4,6 @@ import (
 	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
-	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
 	"os"
@@ -23,7 +22,7 @@ func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
 			// Loop army variations
 			for unitVar := unitgen.ArmyTypeFirst; unitVar <= unitgen.ArmyTypeLast; unitVar++ {
 
-				fullPath := utilities.GetInputPath(
+				fullPath := genio.GetInputPath(
 					config.PropertiesDir,
 					weatherVar.String(),
 					propType.String(),

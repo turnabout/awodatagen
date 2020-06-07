@@ -99,7 +99,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 	for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
 		var rawData rawUnitData
 
-		rawDataPath := utilities.GetInputPath(
+		rawDataPath := genio.GetInputPath(
 			config.UnitsDir,
 			unitType.String(),
 			config.UnitDataFileName,
@@ -165,7 +165,7 @@ func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 	// Get raw weapon types data map
 	var rawData map[string]WeaponTypeData
 
-	dataPath := utilities.GetInputPath(
+	dataPath := genio.GetInputPath(
 		config.UnitsDir,
 		config.WeaponTypesFileName,
 	)

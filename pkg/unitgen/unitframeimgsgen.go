@@ -29,7 +29,7 @@ func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []UnitAnimation
 		// Loop variations
 		for unitVar := ArmyTypeFirst; unitVar <= ArmyTypeLast; unitVar++ {
 
-			varDir := utilities.GetInputPath(
+			varDir := genio.GetInputPath(
 				config.UnitsDir,
 				unitType.String(),
 				config.FramesDir,

@@ -3,7 +3,6 @@ package placementrulesgen
 import (
 	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
-	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
 )
@@ -27,7 +26,7 @@ func AttachTilesPlacementRulesData(tilesData *tiledata.TileData) {
 	var rawData rawTilePlacementRules
 
 	genio.AttachJSONData(
-		utilities.GetInputPath(config.OtherDir, config.TilesPlacementRulesFileName),
+		genio.GetInputPath(config.OtherDir, config.TilesPlacementRulesFileName),
 		&rawData,
 	)
 

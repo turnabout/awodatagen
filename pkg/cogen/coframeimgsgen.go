@@ -19,7 +19,7 @@ func GetCOFrameImgs(frameImgs *[]packer.FrameImage) {
 	for COArmy := unitgen.ArmyTypeFirst; COArmy < unitgen.ArmyTypeCount; COArmy++ {
 
 		// Get directory for COs of this army type & loop contents
-		COArmyDirPath := utilities.GetInputPath(config.CODir, COArmy.String())
+		COArmyDirPath := genio.GetInputPath(config.CODir, COArmy.String())
 		subDirs, err := ioutil.ReadDir(COArmyDirPath)
 		utilities.LogFatalIfErr(err)
 

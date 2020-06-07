@@ -4,7 +4,6 @@ import (
 	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
-	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/cogen"
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/gamedata"
@@ -117,13 +116,13 @@ func attachAdditionalData(gameData *gamedata.GameData) {
 
 	// Adds default stages data
 	genio.AttachJSONData(
-		utilities.GetInputPath(config.OtherDir, config.StagesFileName),
+		genio.GetInputPath(config.OtherDir, config.StagesFileName),
 		&gameData.Stages,
 	)
 
 	// Adds animation clocks data
 	genio.AttachJSONData(
-		utilities.GetInputPath(config.OtherDir, config.ClocksFileName),
+		genio.GetInputPath(config.OtherDir, config.ClocksFileName),
 		&gameData.Clocks,
 	)
 

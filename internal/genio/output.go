@@ -1,4 +1,3 @@
-// Functions used to process outputs
 package genio
 
 import (

@@ -4,7 +4,6 @@ import (
 	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
-	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
 	"io/ioutil"
@@ -19,7 +18,7 @@ func GetTileFrameImgs(frameImgs *[]packer.FrameImage) {
 
 	// Loop basic (non-property) tile types
 	for tile := tiledata.NeutralTileTypeFirst; tile < tiledata.NeutralTileTypeCount; tile++ {
-		tileDir := utilities.GetInputPath(config.TilesDir, tile.String())
+		tileDir := genio.GetInputPath(config.TilesDir, tile.String())
 
 		files, err := ioutil.ReadDir(tileDir)
 

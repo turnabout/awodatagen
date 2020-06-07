@@ -17,7 +17,7 @@ import (
 func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
 
 	// Gather frame images from the elements found in the UI directory
-	UIDirElements, err := ioutil.ReadDir(utilities.GetInputPath(config.UIDir))
+	UIDirElements, err := ioutil.ReadDir(genio.GetInputPath(config.UIDir))
 	utilities.LogFatalIfErr(err)
 
 	for _, UIDirElement := range UIDirElements {
@@ -25,11 +25,11 @@ func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
 			gatherUISubDirFrameImgs(
 				frameImgs,
 				UIDirElement.Name(),
-				utilities.GetInputPath(config.UIDir, UIDirElement.Name()),
+				genio.GetInputPath(config.UIDir, UIDirElement.Name()),
 			)
 		} else {
 			appendUIFrameImgs(
-				utilities.GetInputPath(config.UIDir),
+				genio.GetInputPath(config.UIDir),
 				UIDirElement.Name(),
 				0,
 				UIElementNone,
