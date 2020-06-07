@@ -1,7 +1,7 @@
 package tilegen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
@@ -68,11 +68,11 @@ func getBaseTileData(packedFrameImgs *[]packer.FrameImage) *tiledata.TileData {
 		}
 
 		// To save space in the JSON file, omit adding SrcWidth/SrcHeight if they're the regular Tile sizes
-		if frameImg.Width != awodatagen.RegularTileDimension {
+		if frameImg.Width != config.RegularTileDimension {
 			frame.Width = frameImg.Width
 		}
 
-		if frameImg.Height != awodatagen.RegularTileDimension {
+		if frameImg.Height != config.RegularTileDimension {
 			frame.Height = frameImg.Height
 		}
 

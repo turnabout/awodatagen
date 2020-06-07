@@ -1,7 +1,7 @@
 //
 // Configuration for the project
 //
-package awodatagen
+package config
 
 //
 // Environment variables

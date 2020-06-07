@@ -1,7 +1,7 @@
 package autovargen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
@@ -13,7 +13,7 @@ func AttachTilesAutoVarData(tilesData *tiledata.TileData) {
 	var rawData rawAutoVarsData
 
 	// Load raw auto var data file into structure
-	genio.AttachJSONData(utilities.GetInputPath(awodatagen.OtherDir, awodatagen.TilesAutoVarFileName), &rawData)
+	genio.AttachJSONData(utilities.GetInputPath(config.OtherDir, config.TilesAutoVarFileName), &rawData)
 
 	// Loop every tile type in the raw data
 	for tileTypeStr, tileTypeAutoVars := range rawData {

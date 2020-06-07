@@ -1,7 +1,7 @@
 package cogen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/internal/utilities"
@@ -19,7 +19,7 @@ func GetCOFrameImgs(frameImgs *[]packer.FrameImage) {
 	for COArmy := unitgen.ArmyTypeFirst; COArmy < unitgen.ArmyTypeCount; COArmy++ {
 
 		// Get directory for COs of this army type & loop contents
-		COArmyDirPath := utilities.GetInputPath(awodatagen.CODir, COArmy.String())
+		COArmyDirPath := utilities.GetInputPath(config.CODir, COArmy.String())
 		subDirs, err := ioutil.ReadDir(COArmyDirPath)
 		utilities.LogFatalIfErr(err)
 

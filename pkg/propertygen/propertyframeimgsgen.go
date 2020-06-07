@@ -1,7 +1,7 @@
 package propertygen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/internal/utilities"
@@ -24,7 +24,7 @@ func GetPropertyFrameImgs(frameImgs *[]packer.FrameImage) {
 			for unitVar := unitgen.ArmyTypeFirst; unitVar <= unitgen.ArmyTypeLast; unitVar++ {
 
 				fullPath := utilities.GetInputPath(
-					awodatagen.PropertiesDir,
+					config.PropertiesDir,
 					weatherVar.String(),
 					propType.String(),
 					unitVar.String(),

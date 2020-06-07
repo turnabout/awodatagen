@@ -1,7 +1,7 @@
 package unitgen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/internal/utilities"
@@ -30,9 +30,9 @@ func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []UnitAnimation
 		for unitVar := ArmyTypeFirst; unitVar <= ArmyTypeLast; unitVar++ {
 
 			varDir := utilities.GetInputPath(
-				awodatagen.UnitsDir,
+				config.UnitsDir,
 				unitType.String(),
-				awodatagen.FramesDir,
+				config.FramesDir,
 				unitVar.String(),
 			)
 

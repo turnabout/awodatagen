@@ -4,7 +4,7 @@ package genio
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/utilities"
 	"image"
 	"image/png"
@@ -60,8 +60,8 @@ func OutputJSON(jsonData interface{}) {
 	var envExists bool
 
 	// If environment variable doesn't exist, output in this directory directly
-	if jsonOutputPath, envExists = os.LookupEnv(awodatagen.JSONOutputEnvVar); !envExists {
-		jsonOutputPath = path.Join(".", awodatagen.JSONOutputDefaultName)
+	if jsonOutputPath, envExists = os.LookupEnv(config.JSONOutputEnvVar); !envExists {
+		jsonOutputPath = path.Join(".", config.JSONOutputDefaultName)
 	}
 
 	err = ioutil.WriteFile(jsonOutputPath, data, 0644)
@@ -77,8 +77,8 @@ func OutputSpriteSheet(ss *image.RGBA) {
 	var envExists bool
 
 	// If environment variable doesn't exist, output in this directory directly
-	if ssOutputPath, envExists = os.LookupEnv(awodatagen.SSOutputEnvVar); !envExists {
-		ssOutputPath = path.Join(".", awodatagen.SSOutputDefaultName)
+	if ssOutputPath, envExists = os.LookupEnv(config.SSOutputEnvVar); !envExists {
+		ssOutputPath = path.Join(".", config.SSOutputDefaultName)
 	}
 
 	writeImage(ssOutputPath, ss)

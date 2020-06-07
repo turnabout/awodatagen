@@ -2,7 +2,7 @@ package unitgen
 
 import (
 	"fmt"
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/packer"
 	"github.com/turnabout/awodatagen/internal/utilities"
@@ -100,9 +100,9 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 		var rawData rawUnitData
 
 		rawDataPath := utilities.GetInputPath(
-			awodatagen.UnitsDir,
+			config.UnitsDir,
 			unitType.String(),
-			awodatagen.UnitDataFileName,
+			config.UnitDataFileName,
 		)
 
 		// Ensure raw data file exists
@@ -166,8 +166,8 @@ func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 	var rawData map[string]WeaponTypeData
 
 	dataPath := utilities.GetInputPath(
-		awodatagen.UnitsDir,
-		awodatagen.WeaponTypesFileName,
+		config.UnitsDir,
+		config.WeaponTypesFileName,
 	)
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {

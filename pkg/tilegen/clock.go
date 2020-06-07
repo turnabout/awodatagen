@@ -1,7 +1,7 @@
 package tilegen
 
 import (
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"github.com/turnabout/awodatagen/internal/genio"
 	"github.com/turnabout/awodatagen/internal/utilities"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
@@ -12,7 +12,7 @@ func attachTilesClockData(tileData *tiledata.TileData) {
 
 	// Fill out map with keys being tile short strings and values being tile clock data
 	genio.AttachJSONData(
-		utilities.GetInputPath(awodatagen.OtherDir, awodatagen.TilesClockDataFileName),
+		utilities.GetInputPath(config.OtherDir, config.TilesClockDataFileName),
 		&tilesClockData,
 	)
 

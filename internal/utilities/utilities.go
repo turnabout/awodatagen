@@ -2,7 +2,7 @@ package utilities
 
 import (
 	"fmt"
-	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/internal/config"
 	"os"
 	"path"
 	"path/filepath"
@@ -32,7 +32,7 @@ func LogFatalF(format string, a ...interface{}) {
 func init() {
 	var envExists bool
 
-	if assetsFullPath, envExists = os.LookupEnv(awodatagen.AssetsDirPath); !envExists {
+	if assetsFullPath, envExists = os.LookupEnv(config.AssetsDirPath); !envExists {
 		cwd, err := os.Getwd()
 
 		if err != nil {
@@ -40,7 +40,7 @@ func init() {
 		}
 
 		// Use the project's assets path as a base
-		assetsFullPath = path.Join(filepath.ToSlash(cwd), awodatagen.AssetsDirName)
+		assetsFullPath = path.Join(filepath.ToSlash(cwd), config.AssetsDirName)
 	}
 }
 
