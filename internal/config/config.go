@@ -1,61 +1,58 @@
-//
-// Configuration for the project
-//
 package config
 
-//
-// Environment variables
-//
+const (
 
-// Env variable holding the path where the sprite sheet should be output
-const SSOutputEnvVar = "AWO_SPRITESHEET"
+	//
+	// Environment variables
+	//
 
-// Env variable holding the path where the data file should be output
-const JSONOutputEnvVar = "AWO_JSON"
+	// Env variable holding the path where the sprite sheet should be output
+	SSOutputEnvVar = "AWO_SPRITESHEET"
 
-// Env variable holding absolute path to directory containing the raw assets
-const AssetsDirPath = "AWO_ASSETS_PATH"
+	// Env variable holding the path where the data file should be output
+	JSONOutputEnvVar = "AWO_JSON"
 
-//
-// Output paths
-//
+	// Env variable holding absolute path to directory containing the raw assets
+	AssetsDirPath = "AWO_ASSETS_PATH"
 
-// Default name for the sprite sheet output
-const SSOutputDefaultName = "spritesheet.png"
+	// Output paths
+	// Default name for the sprite sheet output
+	SSOutputDefaultName = "spritesheet.png"
 
-// Default name for the data file output
-const JSONOutputDefaultName = "gamedata.json"
+	// Default name for the data file output
+	JSONOutputDefaultName = "gamedata.json"
 
-//
-// Input paths
-//
+	//
+	// Input paths
+	//
 
-// Base inputs directory, containing all images & data files
-const AssetsDirName = "assets"
+	// Base inputs directory, containing all images & data files
+	AssetsDirName = "assets"
 
-// Inputs subdirectories
-const UnitsDir = "units"
-const TilesDir = "tiles"
-const PropertiesDir = "properties"
-const UIDir = "ui"
-const CODir = "co"
-const OtherDir = "other"
-const FramesDir = "frames"
+	// Inputs subdirectories
+	UnitsDir      = "units"
+	TilesDir      = "tiles"
+	PropertiesDir = "properties"
+	UIDir         = "ui"
+	CODir         = "co"
+	OtherDir      = "other"
+	FramesDir     = "frames"
 
-// Names of extra data files
-const PalettesFileName = "palettes.json"
-const BasePalettesFileName = "basePalettes.json"
-const StagesFileName = "stages.json"
-const ClocksFileName = "clocks.json"
-const TilesClockDataFileName = "tilesClockData.json"
-const TilesAutoVarFileName = "tilesAutoVarData.json"
-const TilesPlacementRulesFileName = "tilesPlacementRules.json"
-const UnitDataFileName = "data.json"
-const WeaponTypesFileName = "weaponTypes.json"
+	// Input data files
+	PalettesFileName            = "palettes.json"
+	BasePalettesFileName        = "basePalettes.json"
+	StagesFileName              = "stages.json"
+	ClocksFileName              = "clocks.json"
+	TilesClockDataFileName      = "tilesClockData.json"
+	TilesAutoVarFileName        = "tilesAutoVarData.json"
+	TilesPlacementRulesFileName = "tilesPlacementRules.json"
+	UnitDataFileName            = "data.json"
+	WeaponTypesFileName         = "weaponTypes.json"
 
-//
-// Other configuration
-//
+	//
+	// Other configuration
+	//
 
-// Size of a regular tile
-const RegularTileDimension int = 16
+	// Size of a regular tile
+	RegularTileDimension int = 16
+)
