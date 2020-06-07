@@ -31,7 +31,7 @@ const JSONOutputDefaultName = "gamedata.json"
 //
 
 // Base inputs directory, containing all images & data files
-const assetsDirName = "assets"
+const AssetsDirName = "assets"
 
 // Inputs subdirectories
 const UnitsDir = "units"

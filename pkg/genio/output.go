@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/turnabout/awodatagen"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"image"
 	"image/png"
 	"io/ioutil"
@@ -30,7 +31,7 @@ func writeImage(path string, outputImg image.Image) {
 // Attach the JSON data at the given file path and stores the result in the value pointed to by v
 func AttachJSONData(jsonPath string, v interface{}) {
 	data, err := ioutil.ReadFile(jsonPath)
-	awodatagen.LogFatalIfErr(err)
+	utilities.LogFatalIfErr(err)
 
 	// Make Regexp used to remove comments
 	re := regexp.MustCompile(`//.*`)
@@ -39,7 +40,7 @@ func AttachJSONData(jsonPath string, v interface{}) {
 	err = json.Unmarshal(re.ReplaceAll(data, []byte("")), v)
 
 	if err != nil {
-		awodatagen.LogFatalF(
+		utilities.LogFatalF(
 			"Error: %s\n JSON path: %s\n",
 			err.Error(),
 			jsonPath,
@@ -52,7 +53,7 @@ func OutputJSON(jsonData interface{}) {
 	// data, err := json.Marshal(jsonData)
 	data, err := json.MarshalIndent(jsonData, "", "\t")
 
-	awodatagen.LogFatalIfErr(err)
+	utilities.LogFatalIfErr(err)
 
 	// Use either the awodatagen JSON environment variable path or this directory as a default
 	var jsonOutputPath string
@@ -64,7 +65,7 @@ func OutputJSON(jsonData interface{}) {
 	}
 
 	err = ioutil.WriteFile(jsonOutputPath, data, 0644)
-	awodatagen.LogFatalIfErr(err)
+	utilities.LogFatalIfErr(err)
 
 	fmt.Printf("Output %s\n", jsonOutputPath)
 }

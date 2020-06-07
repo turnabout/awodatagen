@@ -5,6 +5,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/propertygen"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 )
 
 func GetPaletteData() *PaletteData {
@@ -12,8 +13,8 @@ func GetPaletteData() *PaletteData {
 	var rawPalettes []Palette
 	var data PaletteData
 
-	genio.AttachJSONData(awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.BasePalettesFileName), &basePalettes)
-	genio.AttachJSONData(awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.PalettesFileName), &rawPalettes)
+	genio.AttachJSONData(utilities.GetInputPath(awodatagen.OtherDir, awodatagen.BasePalettesFileName), &basePalettes)
+	genio.AttachJSONData(utilities.GetInputPath(awodatagen.OtherDir, awodatagen.PalettesFileName), &rawPalettes)
 
 	// Generate final palette data
 	// Unit palettes

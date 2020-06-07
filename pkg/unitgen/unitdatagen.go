@@ -6,6 +6,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/packer"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"os"
 )
 
@@ -98,7 +99,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 	for unitType := UnitTypeFirst; unitType <= UnitTypeLast; unitType++ {
 		var rawData rawUnitData
 
-		rawDataPath := awodatagen.GetInputPath(
+		rawDataPath := utilities.GetInputPath(
 			awodatagen.UnitsDir,
 			unitType.String(),
 			awodatagen.UnitDataFileName,
@@ -106,7 +107,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 
 		// Ensure raw data file exists
 		if _, err := os.Stat(rawDataPath); os.IsNotExist(err) {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Unit '%s' raw data file path '%s' is invalid",
 				unitType.String(),
 				rawDataPath,
@@ -126,7 +127,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 		weaponPrimary, ok = WeaponTypeReverseStrings[rawData.WeaponPrimary]
 
 		if !ok && rawData.WeaponPrimary != "" {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Missing or invalid primary weapon type '%s' on unit '%s'",
 				rawData.WeaponPrimary,
 				unitType.String(),
@@ -135,7 +136,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 
 		weaponSecondary, ok = WeaponTypeReverseStrings[rawData.WeaponSecondary]
 		if !ok && rawData.WeaponSecondary != "" {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Missing or invalid secondary weapon type '%s' on unit '%s'",
 				rawData.WeaponSecondary,
 				unitType.String(),
@@ -143,7 +144,7 @@ func getUnitTypesData(packedFrameImgs *[]packer.FrameImage) *UnitTypesData {
 		}
 
 		if movementType, ok = MovementTypeReverseStrings[rawData.MovementType]; !ok {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Missing or invalid movement type '%s' on unit '%s'",
 				rawData.MovementType,
 				unitType.String(),
@@ -164,13 +165,13 @@ func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 	// Get raw weapon types data map
 	var rawData map[string]WeaponTypeData
 
-	dataPath := awodatagen.GetInputPath(
+	dataPath := utilities.GetInputPath(
 		awodatagen.UnitsDir,
 		awodatagen.WeaponTypesFileName,
 	)
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
-		awodatagen.LogFatalF("Weapon types file path '%s' invalid", dataPath)
+		utilities.LogFatalF("Weapon types file path '%s' invalid", dataPath)
 	}
 
 	genio.AttachJSONData(dataPath, &rawData)
@@ -183,7 +184,7 @@ func getWeaponTypesData() *[WeaponTypeCount]WeaponTypeData {
 		var ok bool
 
 		if wType, ok = WeaponTypeReverseStrings[wTypeStr]; !ok {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Unknown weapon type '%s' found in data",
 				wTypeStr,
 			)

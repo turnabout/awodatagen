@@ -5,6 +5,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/packer"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"io/ioutil"
 	"os"
 	"path"
@@ -28,7 +29,7 @@ func getUnitFrameImgs(frameImgs *[]packer.FrameImage, animations []UnitAnimation
 		// Loop variations
 		for unitVar := ArmyTypeFirst; unitVar <= ArmyTypeLast; unitVar++ {
 
-			varDir := awodatagen.GetInputPath(
+			varDir := utilities.GetInputPath(
 				awodatagen.UnitsDir,
 				unitType.String(),
 				awodatagen.FramesDir,
@@ -63,7 +64,7 @@ func getAnimFrameImgs(
 	frameImgs *[]packer.FrameImage,
 ) {
 	imgFiles, err := ioutil.ReadDir(animDir)
-	awodatagen.LogFatalIfErr(err)
+	utilities.LogFatalIfErr(err)
 
 	// Loop every image of this Animation
 	for index, imgFile := range imgFiles {

@@ -1,8 +1,8 @@
 package autovargen
 
 import (
-	"github.com/turnabout/awodatagen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"unicode"
 	"unicode/utf8"
 )
@@ -37,7 +37,7 @@ func ProcessAdjTileStr(rawString string) uint {
 		}
 
 		if symbolType == SymbolUnknown {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Tile autovar: unknown symbol type '%d' in symbol string '%s' from full raw string string '%s'",
 				symbolType,
 				symbolString,
@@ -67,7 +67,7 @@ func ProcessAdjTileStr(rawString string) uint {
 			appliedVal = uint(autoVarCompoundVals[symbolString])
 			break
 		default:
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"tilesAutoVar: Unknown symbol '%d'\n",
 				symbolType,
 			)

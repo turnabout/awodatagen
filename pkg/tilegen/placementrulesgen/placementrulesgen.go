@@ -5,6 +5,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/tilegen/autovargen"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 )
 
 // Raw placement rule positions and their corresponding X/Y offset values
@@ -26,7 +27,7 @@ func AttachTilesPlacementRulesData(tilesData *tiledata.TileData) {
 	var rawData rawTilePlacementRules
 
 	genio.AttachJSONData(
-		awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.TilesPlacementRulesFileName),
+		utilities.GetInputPath(awodatagen.OtherDir, awodatagen.TilesPlacementRulesFileName),
 		&rawData,
 	)
 

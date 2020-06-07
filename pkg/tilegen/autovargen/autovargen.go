@@ -4,6 +4,7 @@ import (
 	"github.com/turnabout/awodatagen"
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/tilegen/tiledata"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"sort"
 )
 
@@ -12,7 +13,7 @@ func AttachTilesAutoVarData(tilesData *tiledata.TileData) {
 	var rawData rawAutoVarsData
 
 	// Load raw auto var data file into structure
-	genio.AttachJSONData(awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.TilesAutoVarFileName), &rawData)
+	genio.AttachJSONData(utilities.GetInputPath(awodatagen.OtherDir, awodatagen.TilesAutoVarFileName), &rawData)
 
 	// Loop every tile type in the raw data
 	for tileTypeStr, tileTypeAutoVars := range rawData {
@@ -43,7 +44,7 @@ func getAutoVarBitsAmount(autoVarData tiledata.AutoVarData) uint {
 	var totalBits uint = 0
 
 	for i := 0; i < adjacentTileCount; i++ {
-		totalBits += awodatagen.CountBits(uint(autoVarData.AdjacentTiles[i]))
+		totalBits += utilities.CountBits(uint(autoVarData.AdjacentTiles[i]))
 	}
 
 	return totalBits

@@ -12,6 +12,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/tilegen"
 	"github.com/turnabout/awodatagen/pkg/uigen"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"image"
 	"log"
 )
@@ -116,13 +117,13 @@ func attachAdditionalData(gameData *gamedata.GameData) {
 
 	// Adds default stages data
 	genio.AttachJSONData(
-		awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.StagesFileName),
+		utilities.GetInputPath(awodatagen.OtherDir, awodatagen.StagesFileName),
 		&gameData.Stages,
 	)
 
 	// Adds animation clocks data
 	genio.AttachJSONData(
-		awodatagen.GetInputPath(awodatagen.OtherDir, awodatagen.ClocksFileName),
+		utilities.GetInputPath(awodatagen.OtherDir, awodatagen.ClocksFileName),
 		&gameData.Clocks,
 	)
 

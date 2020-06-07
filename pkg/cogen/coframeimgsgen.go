@@ -6,6 +6,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/packer"
 	"github.com/turnabout/awodatagen/pkg/unitgen"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"io/ioutil"
 	"path"
 	"path/filepath"
@@ -18,9 +19,9 @@ func GetCOFrameImgs(frameImgs *[]packer.FrameImage) {
 	for COArmy := unitgen.ArmyTypeFirst; COArmy < unitgen.ArmyTypeCount; COArmy++ {
 
 		// Get directory for COs of this army type & loop contents
-		COArmyDirPath := awodatagen.GetInputPath(awodatagen.CODir, COArmy.String())
+		COArmyDirPath := utilities.GetInputPath(awodatagen.CODir, COArmy.String())
 		subDirs, err := ioutil.ReadDir(COArmyDirPath)
-		awodatagen.LogFatalIfErr(err)
+		utilities.LogFatalIfErr(err)
 
 		// Loop every CO directory in this army type directory
 		for _, subDir := range subDirs {
@@ -45,14 +46,14 @@ func getCOTypeFrameImgs(
 	var ok bool
 
 	if CO, ok = COReverseStrings[CODirName]; !ok {
-		awodatagen.LogFatalF(
+		utilities.LogFatalF(
 			"Found CO at '%s', doesn't match any CO set in CO enumeration\n",
 			COTypePath,
 		)
 	}
 
 	imgs, err := ioutil.ReadDir(COTypePath)
-	awodatagen.LogFatalIfErr(err)
+	utilities.LogFatalIfErr(err)
 
 	// Add all images of this CO to the frame images
 	for _, img := range imgs {
@@ -63,7 +64,7 @@ func getCOTypeFrameImgs(
 		cleanFileName := strings.TrimSuffix(img.Name(), filepath.Ext(img.Name()))
 
 		if frameType, ok = COFrameTypeReverseStrings[cleanFileName]; !ok {
-			awodatagen.LogFatalF(
+			utilities.LogFatalF(
 				"Found CO image at '%s' doesn't match any valid CO frame type\n",
 				path.Join(COTypePath, img.Name()),
 			)

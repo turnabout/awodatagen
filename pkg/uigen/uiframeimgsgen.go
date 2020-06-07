@@ -5,6 +5,7 @@ import (
 	"github.com/turnabout/awodatagen/pkg/framedata"
 	"github.com/turnabout/awodatagen/pkg/genio"
 	"github.com/turnabout/awodatagen/pkg/packer"
+	"github.com/turnabout/awodatagen/pkg/utilities"
 	"io/ioutil"
 	"log"
 	"path"
@@ -16,19 +17,19 @@ import (
 func GetUIFrameImgs(frameImgs *[]packer.FrameImage) {
 
 	// Gather frame images from the elements found in the UI directory
-	UIDirElements, err := ioutil.ReadDir(awodatagen.GetInputPath(awodatagen.UIDir))
-	awodatagen.LogFatalIfErr(err)
+	UIDirElements, err := ioutil.ReadDir(utilities.GetInputPath(awodatagen.UIDir))
+	utilities.LogFatalIfErr(err)
 
 	for _, UIDirElement := range UIDirElements {
 		if UIDirElement.IsDir() {
 			gatherUISubDirFrameImgs(
 				frameImgs,
 				UIDirElement.Name(),
-				awodatagen.GetInputPath(awodatagen.UIDir, UIDirElement.Name()),
+				utilities.GetInputPath(awodatagen.UIDir, UIDirElement.Name()),
 			)
 		} else {
 			appendUIFrameImgs(
-				awodatagen.GetInputPath(awodatagen.UIDir),
+				utilities.GetInputPath(awodatagen.UIDir),
 				UIDirElement.Name(),
 				0,
 				UIElementNone,
